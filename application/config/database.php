@@ -49,9 +49,9 @@ $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'postgres';
-$db['default']['password'] = '123456';
-$db['default']['database'] = 'prueba';
+$db['default']['username'] = 'proyecto_t3';
+$db['default']['password'] = 'proyecto';
+$db['default']['database'] = 'proyecto';
 
 $db['default']['dbdriver'] = 'postgre';
 

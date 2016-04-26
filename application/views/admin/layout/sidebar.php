@@ -3,7 +3,7 @@
 	<!-- cuando se ve en tlfs, abarca todo -->
 	<!-- cuando se ve en 640x480, abarca 1/3 -->
 	<!-- cuando se ve en >800x600, abarca 1/4 -->
-	<div class="col-xs-12 col-sm-4 col-md-3 hidden-print" id="sidebar">
+	<div class="col-xs-12 col-sm-4 col-md-3 hidden-xs hidden-print" id="sidebar">
 		<div class="panel-group" id="sidebar-panel">
 		<?php if ($auth->nivel < 4): ?>
 			<div class="panel <?php echo $_controller == "chofer" ? 'panel-primary' : 'panel-default' ?>">

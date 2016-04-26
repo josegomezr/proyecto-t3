@@ -79,8 +79,8 @@ CREATE TABLE usuario (
     login_usuario character varying(24) NOT NULL,
     password_usuario character varying(255) NOT NULL,
     nivel_usuario integer DEFAULT 0 NOT NULL,
-    nombre varchar(45) not null,
-    apellido varchar(45) not null,
+    nombre_usuario varchar(45) not null,
+    apellido_usuario varchar(45) not null,
     id_usuario serial NOT NULL,
     UNIQUE (login_usuario),
     PRIMARY KEY (id_usuario)

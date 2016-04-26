@@ -40,6 +40,8 @@ class Home extends Front_Controller {
 		$newdata = array(
            'username'  => $usuario->login_usuario,
            'nivel'     => $usuario->nivel_usuario,
+           'nombre'     => $usuario->nombre_usuario,
+           'apellido'     => $usuario->apellido_usuario,
            'logged_in' => TRUE
        	);
 

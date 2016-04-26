@@ -25,3 +25,4 @@ application/logs/*
 public/components/
 user_guide/
 composer.lock
+composer.phar
