@@ -1,0 +1,43 @@
+#membrete {
+	height: 110px;
+}
+
+.no-resize{
+	resize: none;
+}
+
+.required-mark::after{
+	content: " *";
+	color: #600;
+}
+
+/* Oculta los enlaces de fondo en google maps que no permiten leer el link primario.*/
+a[href*="?source=apiv3"]{
+	display: none !important;
+}
+
+a[href*="?source=apiv3"] ::after{
+	display: none;
+}
+
+span.line-red i{
+	color: red;
+}
+
+span.line-blue{
+	color: black;
+}
+
+span.line-blue i{
+	color: blue;
+}
+
+#map-canvas {
+	height: 500px;
+	margin: 0px;
+	padding: 0px
+}
+
+span.map-legend{
+	color: black;	
+}

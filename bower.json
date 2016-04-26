@@ -1,0 +1,29 @@
+{
+  "name": "recursos_humanos",
+  "version": "0.0.0",
+  "authors": [
+    "Jose Gomez <1josegomezr@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "bootstrap-datepicker": "~1.6.0",
+    "bootstrap3-dialog": "bootstrap-dialog#~1.34.9",
+    "footable": "~2.0.3",
+    "jquery-validation": "~1.14.0",
+    "jquery.maskedinput": "jquery-maskedinput#~1.4.1",
+    "lodash": "~3.10.1"
+  }
+}

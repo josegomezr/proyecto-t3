@@ -1,0 +1,32 @@
+.text-danger{
+    color: #a94442;
+}
+
+@page {
+    margin: 2cm 2cm;
+}
+
+#header { position: fixed
+    left: 0px
+    top: -1cm
+    right: 0px
+    height: 0.75cm;
+}
+
+#footer { 
+    position: fixed;
+    left: 0px;
+    bottom: -1cm;
+    right: 0px;
+    height: 1cm;
+}
+
+#footer small{
+    font-family: sans-serif;
+    font-size: 9pt;
+}
+
+/*#footer .page:after {
+    content: counter(page, upper-roman);
+}
+*/
