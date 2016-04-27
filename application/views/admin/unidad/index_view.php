@@ -66,11 +66,13 @@
 	<table>
 
 	<div class="clearfix"></div>
+	<?php if ( count($unidades) > 0 ): ?>
 	<ul class="list-unstyled">
 		<li>
 			<span class="label label-default">N/I</span>: No Instalado
 		</li>
 	</ul>
+	<?php endif; ?>
 </div> <!-- /#main_content -->
 </div> <!-- /.row -->
 
