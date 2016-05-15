@@ -47,13 +47,16 @@
 
 $active_group = 'default';
 $active_record = TRUE;
-
+/*
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'proyecto_t3';
-$db['default']['password'] = 'proyecto';
 $db['default']['database'] = 'proyecto';
+*/
+$db['default']['username'] = 'proyecto';
+$db['default']['password'] = 'clave';
 
-$db['default']['dbdriver'] = 'postgre';
+$db['default']['dsn'] = 'pgsql:host=localhost;dbname=proyecto';
+$db['default']['dbdriver'] = 'pdo';
+
 
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = FALSE;
@@ -65,6 +68,26 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+/*
+$db['test']['hostname'] = 'localhost';
+*/
+
+$db['test']['database'] = ':memory:';
+$db['test']['username'] = 'proyecto';
+$db['test']['password'] = 'clave';
+$db['test']['dsn'] = 'pgsql:host=localhost;dbname=proyecto_testing';
+$db['test']['dbdriver'] = 'pdo';
+
+$db['test']['dbprefix'] = '';
+$db['test']['pconnect'] = FALSE;
+$db['test']['db_debug'] = TRUE;
+$db['test']['cache_on'] = FALSE;
+$db['test']['cachedir'] = '';
+$db['test']['char_set'] = 'utf8';
+$db['test']['dbcollat'] = 'utf8_general_ci';
+$db['test']['swap_pre'] = '';
+$db['test']['autoinit'] = TRUE;
+$db['test']['stricton'] = FALSE;
 
 
 /* End of file database.php */

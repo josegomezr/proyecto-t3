@@ -12,9 +12,9 @@ class Salida_model extends MY_Model {
                 ->select("*")
                 ->select("(select 1 from entrada where entrada.id_salida = salida.id_salida ) as salio", false)
                 ->from("salida")
-                ->join('chofer', 'salida.cedula_chofer = chofer.cedula_chofer')
+                ->join('conductor', 'salida.cedula_conductor = conductor.cedula_conductor')
                 ->join('recorrido', 'salida.id_recorrido = recorrido.id_recorrido')
-                ->join('unidad', 'salida.placa_unidad = unidad.placa_unidad')
+                ->join('unidad', 'salida.id_unidad = unidad.id_unidad')
                 ->get()
                 ->result();
     }
@@ -24,9 +24,9 @@ class Salida_model extends MY_Model {
         return $this->db->query("SELECT *, 
 (select 1 from entrada where entrada.id_salida = salida.id_salida ) as salio
 FROM salida
-LEFT JOIN chofer USING(cedula_chofer)
+LEFT JOIN conductor USING(cedula_conductor)
 LEFT JOIN recorrido USING(id_recorrido)
-LEFT JOIN unidad USING(placa_unidad)
+LEFT JOIN unidad USING(id_unidad)
 WHERE 
 id_salida NOT IN 
 (SELECT id_salida FROM entrada)
@@ -52,9 +52,9 @@ WHERE id_salida NOT IN
         return $this->db->query("SELECT *, 
 (select 1 from entrada where entrada.id_salida = salida.id_salida LIMIT 1 ) as salio 
 FROM salida 
-LEFT JOIN chofer USING(cedula_chofer)
+LEFT JOIN conductor USING(cedula_conductor)
 LEFT JOIN recorrido USING(id_recorrido)
-LEFT JOIN unidad USING(placa_unidad)
+LEFT JOIN unidad USING(id_unidad)
 LEFT JOIN entrada USING(id_salida)
 WHERE id_salida IN 
 (SELECT id_salida FROM entrada)
@@ -70,15 +70,15 @@ OFFSET $inicio
             $sql .= ' WHERE ';
             
             $condiciones = array();
-            if(isset($criteria['cedula_chofer'])){
-                if($criteria['cedula_chofer'] === TRUE)
-                    $condiciones[] = " salida.cedula_chofer <> '' ";
+            if(isset($criteria['cedula_conductor'])){
+                if($criteria['cedula_conductor'] === TRUE)
+                    $condiciones[] = " salida.cedula_conductor <> '' ";
                 else
-                    $condiciones[] = " salida.cedula_chofer = '{$criteria['cedula_chofer']}' ";
+                    $condiciones[] = " salida.cedula_conductor = '{$criteria['cedula_conductor']}' ";
             }
 
-            if(isset($criteria['placa_unidad']))
-                $condiciones[] = " salida.placa_unidad = '{$criteria['placa_unidad']}' ";
+            if(isset($criteria['id_unidad']))
+                $condiciones[] = " salida.id_unidad = '{$criteria['id_unidad']}' ";
 
             if(isset($criteria['id_recorrido']))
                 $condiciones[] = " salida.id_recorrido = '{$criteria['id_recorrido']}'";
@@ -101,22 +101,22 @@ OFFSET $inicio
         $sql = "SELECT *, 
 (select 1 from entrada where entrada.id_salida = salida.id_salida LIMIT 1) as salio 
 FROM salida 
-LEFT JOIN chofer USING(cedula_chofer)
+LEFT JOIN conductor USING(cedula_conductor)
 LEFT JOIN recorrido USING(id_recorrido)
-LEFT JOIN unidad USING(placa_unidad)
+LEFT JOIN unidad USING(id_unidad)
 LEFT JOIN entrada USING(id_salida)
 WHERE id_salida IN 
 (SELECT id_salida FROM entrada) ";
         
-        if(isset($criteria['cedula_chofer'])){
-            if($criteria['cedula_chofer'] === TRUE)
-                $condiciones[] = " salida.cedula_chofer <> '' ";
+        if(isset($criteria['cedula_conductor'])){
+            if($criteria['cedula_conductor'] === TRUE)
+                $condiciones[] = " salida.cedula_conductor <> '' ";
             else
-                $condiciones[] = " salida.cedula_chofer = '{$criteria['cedula_chofer']}' ";
+                $condiciones[] = " salida.cedula_conductor = '{$criteria['cedula_conductor']}' ";
         }
 
-        if(isset($criteria['placa_unidad']))
-            $sql .= " AND salida.placa_unidad = '{$criteria['placa_unidad']}'";
+        if(isset($criteria['id_unidad']))
+            $sql .= " AND salida.id_unidad = '{$criteria['id_unidad']}'";
 
         if(isset($criteria['id_recorrido']))
             $sql .= " AND salida.id_recorrido = '{$criteria['id_recorrido']}'";
@@ -132,27 +132,27 @@ WHERE id_salida IN
     }
 
     public function buscar_incompletas ($criteria) {
-        $sql = "SELECT *, unidad.placa_unidad as placa_unidad
+        $sql = "SELECT *, unidad.id_unidad as id_unidad
 FROM salida 
-LEFT JOIN chofer USING(cedula_chofer)
+LEFT JOIN conductor USING(cedula_conductor)
 LEFT JOIN recorrido USING(id_recorrido)
-LEFT JOIN unidad USING(placa_unidad)
+LEFT JOIN unidad USING(id_unidad)
 LEFT JOIN entrada USING(id_salida)
 WHERE entrada.id_salida is null
  ";
 
-        if(isset($criteria['cedula_chofer'])){
-            if($criteria['cedula_chofer'] === TRUE)
-                $condiciones[] = " salida.cedula_chofer <> '' ";
+        if(isset($criteria['cedula_conductor'])){
+            if($criteria['cedula_conductor'] === TRUE)
+                $condiciones[] = " salida.cedula_conductor <> '' ";
             else
-                $condiciones[] = " salida.cedula_chofer = '{$criteria['cedula_chofer']}' ";
+                $condiciones[] = " salida.cedula_conductor = '{$criteria['cedula_conductor']}' ";
         }
 
         if(isset($criteria['id_recorrido']))
             $sql .= " AND salida.id_recorrido = '{$criteria['id_recorrido']}'";
 
-        if(isset($criteria['placa_unidad']))
-            $sql .= " AND salida.placa_unidad = '{$criteria['placa_unidad']}'";
+        if(isset($criteria['id_unidad']))
+            $sql .= " AND salida.id_unidad = '{$criteria['id_unidad']}'";
 
         if(isset($criteria['fecha_salida_inicio']))
             $sql .= " AND salida.fecha_salida::date > ('{$criteria['fecha_salida_inicio']}'::date - '1 day'::interval)";
@@ -165,18 +165,17 @@ WHERE entrada.id_salida is null
     }
 
     public function crear($data){
-        $this->db->set_protect_identifiers(false); // echamos abajo la proteccion de identificadores
         
         if(!$data['cedula_acompaniante'])
             $data['cedula_acompaniante'] = NULL;
 
         $this->db->set($data);
-        $this->db->set_protect_identifiers(true); // la alzamos
+
         return $this->db->insert('salida');
     }
 
     public function editar($criteria, $value, $data){
-        $this->db->set_protect_identifiers(false); // echamos abajo la proteccion de identificadores
+
         $dbo;
         if(is_array($criteria))
             $dbo = $this->db->where($criteria);
@@ -188,7 +187,6 @@ WHERE entrada.id_salida is null
 
         $dbo->set($data);
         $r = $dbo->update('salida');
-        $this->db->set_protect_identifiers(true); // la alzamos
 
         return $r;
     }

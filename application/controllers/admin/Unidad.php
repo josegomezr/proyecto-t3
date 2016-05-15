@@ -45,11 +45,10 @@ class Unidad extends Admin_Controller
     
     }
     
-    public function get_eliminar ($placa_unidad)
+    public function get_eliminar ($id_unidad)
     {
-        $placa_unidad = urldecode($placa_unidad);
         try {
-            $this->unidad_model->eliminar('placa_unidad', $placa_unidad);
+            $this->unidad_model->eliminar('id_unidad', $id_unidad);
             $this->flash('info', 'success:unidad:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:unidad:in_use');
@@ -57,10 +56,9 @@ class Unidad extends Admin_Controller
         return redirect( site_url("admin/unidad/index") );
     }
 
-    public function get_editar ($placa)
+    public function get_editar ($id_unidad)
     {
-        $placa = urldecode($placa);
-        $result = $this->unidad_model->buscar('placa_unidad', $placa);
+        $result = $this->unidad_model->buscar('id_unidad', $id_unidad);
 
         if($result->num_rows() == 0){
             $this->flash('error', 'error:unidad:not_found');
@@ -70,28 +68,24 @@ class Unidad extends Admin_Controller
         return $this->load->view("admin/unidad/editar_view", $this->data);
     }
         
-    public function post_editar ($placa)
+    public function post_editar ($id_unidad)
     {
-        $placa = urldecode($placa);
+        $this->form_validation->set_rules('placa', 'Placa', 'trim|required|min_length[7]|max_length[12]|xss_clean|regex_match[/([a-z]{3}\s[a-z0-9]{3})?([a-z0-9]+)/i]');
         $this->form_validation->set_rules('modelo', 'Modelo', 'trim|min_length[4]|required');
 
         if ($this->form_validation->run() == FALSE)
         {
             $this->flash_validation_error('error:unidad:validation');
-            redirect(site_url('admin/unidad/editar/' . $placa) );
+            redirect(site_url('admin/unidad/editar/' . $id_unidad) );
             exit;
         }
 
         $registro = array();
         $registro["modelo_unidad"] = $this->input->post("modelo");
 
+        $this->unidad_model->editar('id_unidad', $id_unidad, $registro);
+        $this->flash('success', 'success:unidad:editado');
 
-      try {
-            $this->unidad_model->editar('placa_unidad', $placa, $registro);
-            $this->flash('success', 'success:unidad:editado');
-        } catch (Exception $e) {
-            $this->flash('error', 'error:unidad:duplicated');
-        }
         return redirect( site_url("admin/unidad/index") );
 
     }

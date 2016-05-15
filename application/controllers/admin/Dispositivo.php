@@ -42,7 +42,7 @@ class Dispositivo extends Admin_Controller
     {
 
         $this->form_validation->set_rules('id_dispositivo', 'Dispositivo', 'trim|required|numeric');
-        $this->form_validation->set_rules('placa_unidad', 'Unidad', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('id_unidad', 'Unidad', 'trim|required|xss_clean');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == FALSE)
@@ -54,7 +54,7 @@ class Dispositivo extends Admin_Controller
         
         $registro = array(
             'id_dispositivo' => $this->input->post('id_dispositivo'),
-            'placa_unidad' => $this->input->post('placa_unidad'),
+            'id_unidad' => $this->input->post('id_unidad'),
             'id_recorrido' => $this->input->post('id_recorrido')
         );
         
@@ -98,7 +98,7 @@ class Dispositivo extends Admin_Controller
         
     public function post_editar ($id_dispositivo)
     {
-        $this->form_validation->set_rules('placa_unidad', 'Unidad', 'trim|required|xss_clean');
+        $this->form_validation->set_rules('id_unidad', 'Unidad', 'trim|required|xss_clean');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
 
         if ($this->form_validation->run() == FALSE)
@@ -110,7 +110,7 @@ class Dispositivo extends Admin_Controller
         
         $registro = array(
             'id_dispositivo' => $id_dispositivo,
-            'placa_unidad' => $this->input->post('placa_unidad'),
+            'id_unidad' => $this->input->post('id_unidad'),
             'id_recorrido' => $this->input->post('id_recorrido')
         );
         

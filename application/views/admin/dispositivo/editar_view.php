@@ -23,11 +23,11 @@
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label required-mark " for="placa_unidad">Unidad</label>
-                        <select name="placa_unidad" required class="form-control" id="placa_unidad">
+                        <label class="control-label required-mark " for="id_unidad">Unidad</label>
+                        <select name="id_unidad" required class="form-control" id="id_unidad">
                             <option value="">Seleccione Unidad</option>
                             <?php foreach ($unidades as $unidad): ?>
-                                <option value="<?php echo $unidad->placa_unidad ?>" <?php echo ($unidad->placa_unidad == $dispositivo->placa_unidad) ? 'selected="selected"' : '' ?>><?php echo $unidad->modelo_unidad ?> (<?php echo $unidad->placa_unidad ?>)</option>
+                                <option value="<?php echo $unidad->id_unidad ?>" <?php echo ($unidad->id_unidad == $dispositivo->id_unidad) ? 'selected="selected"' : '' ?>><?php echo $unidad->modelo_unidad ?> (<?php echo $unidad->placa_unidad ?>)</option>
                             <?php endforeach ?>
                         </select>
                     </div>

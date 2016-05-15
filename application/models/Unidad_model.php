@@ -8,21 +8,26 @@ class Unidad_model extends MY_Model {
     }
 
     public function listar(){
-        return $this->db->select('*, unidad.placa_unidad')->join('dispositivo', 'dispositivo.placa_unidad = unidad.placa_unidad', 'left')->get('unidad')->result();
+        return $this->db->select('*, unidad.id_unidad')->join('dispositivo', 'dispositivo.id_unidad = unidad.id_unidad', 'left')->get('unidad')->result();
     }
 
     public function listar_sin_salir(){
         return $this->db->query("SELECT * FROM unidad 
-WHERE placa_unidad NOT IN 
-(SELECT salida.placa_unidad FROM salida 
+WHERE id_unidad NOT IN 
+(SELECT salida.id_unidad FROM salida 
 LEFT JOIN entrada USING (id_salida) 
 WHERE entrada.id_salida IS NULL) ")->result();
 
     }
 
-    public function listar_sin_dispositivo(){
-        return $this->db->query("SELECT * FROM unidad LEFT JOIN dispositivo USING(placa_unidad)
-WHERE dispositivo.placa_unidad IS NULL")->result();
+    public function listar_sin_dispositivo($id_dispositivo = NULL){
+        $sql = "SELECT * FROM unidad
+        LEFT JOIN dispositivo USING(id_unidad)
+        WHERE dispositivo.id_unidad IS NULL";
+        if ($id_dispositivo) {
+            $sql .= " OR id_dispositivo = $id_dispositivo";
+        }
+        return $this->db->query($sql)->result();
 
     }
 

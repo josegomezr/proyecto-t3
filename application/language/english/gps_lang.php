@@ -6,13 +6,13 @@ $lang['min_length'] = "No cumple con la longitud minima";
 $lang['max_length'] = "No cumple con la longitud maxima";
 $lang['matches'] = "El campo no concuerda";
 
-//Chofer
-$lang['success:chofer:create'] = "Conductor creado exitosamente.";
-$lang['success:chofer:editado'] ="Conductor editado exitosamente";
-$lang['error:chofer:duplicated'] = "Error La Cedula ya ha sido usada para registrar un conductor.";
-$lang['error:chofer:empty'] = "No hay conductores registrados.";
-$lang['error:chofer:using'] = "Error este conductor ya ha participado en una salida por lo tanto no puede ser eliminado.";
-$lang['success:chofer:deleted'] = "Conductor eliminado exitosamente.";
+//conductor
+$lang['success:conductor:create'] = "Conductor creado exitosamente.";
+$lang['success:conductor:editado'] ="Conductor editado exitosamente";
+$lang['error:conductor:duplicated'] = "Error La Cedula ya ha sido usada para registrar un conductor.";
+$lang['error:conductor:empty'] = "No hay conductores registrados.";
+$lang['error:conductor:using'] = "Error este conductor ya ha participado en una salida por lo tanto no puede ser eliminado.";
+$lang['success:conductor:deleted'] = "Conductor eliminado exitosamente.";
 
 //Unidad
 $lang['success:unidad:create'] = "Unidad registrada exitosamente";
@@ -39,7 +39,7 @@ $lang['error:dispositivo:using'] ="Dispositivo en uso";
 $lang['sucesss:dispositivo:deleted'] ="Dispositivo eliminado con exito";
 $lang['error:salida:validation'] ="Error Los Campos Marcados Con * deben ser llenados";
 $lang['error:entrada:not_found'] ="Entrada/Salida no encontrada.";
-$lang['error:chofer:validation'] ="Error Los Campos Marcados Con * deben ser llenados";
+$lang['error:conductor:validation'] ="Error Los Campos Marcados Con * deben ser llenados";
 
 $lang['success:salida:created'] ="Salida Con Exito";
 
@@ -48,6 +48,7 @@ $lang['user:bad:login'] ="El Nombre de Usuario no existe en El Sistema";
 $lang['user:bad:password'] ="La Contrase&ntilde;a no es correcta";
 
 $lang['error:salida:no_unidades'] ="No hay unidades disponibles para salir.";
+$lang['error:salida:no_conductores'] ="No hay conductores disponibles para salir.";
 $lang['error:salidas:no-match'] ="No hay salidas que concuerden con su criterio de b&uacute;squeda.";
 $lang['error:salidas:empty'] ="No hay salidas registradas en el sistema.";
 

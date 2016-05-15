@@ -18,11 +18,11 @@
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label required-mark" for="cedula_chofer">Chofer</label>
-                        <select name="cedula_chofer" id="cedula_chofer" autofocus class="form-control" required>
+                        <label class="control-label required-mark" for="cedula_conductor">Conductor</label>
+                        <select name="cedula_conductor" id="cedula_conductor" autofocus class="form-control" required>
                             <option value="">Seleccione</option>
-                            <?php foreach ($choferes as $chofer): ?>
-                                <option value="<?php echo $chofer->cedula_chofer ?>"><?php echo $chofer->nombre_chofer ?> <?php echo $chofer->apellido_chofer ?></option>
+                            <?php foreach ($conductores as $conductor): ?>
+                                <option value="<?php echo $conductor->cedula_conductor ?>"><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -31,10 +31,10 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         <label class="control-label" for="cedula_acompaniante">Acompa&ntilde;ante</label>
-                        <select name="cedula_acompaniante" id="cedula_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del chofer.">
+                        <select name="cedula_acompaniante" id="cedula_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del conductor.">
                             <option value="">Seleccione</option>
-                            <?php foreach ($choferes as $chofer): ?>
-                                <option value="<?php echo $chofer->cedula_chofer ?>"><?php echo $chofer->nombre_chofer ?> <?php echo $chofer->apellido_chofer ?></option>
+                            <?php foreach ($conductores as $conductor): ?>
+                                <option value="<?php echo $conductor->cedula_conductor ?>"><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -53,11 +53,11 @@
                 </div>
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
-                        <label class="control-label required-mark" for="placa_unidad">Unidades</label>
-                        <select name="placa_unidad" id="placa_unidad" autofocus class="form-control" required>
+                        <label class="control-label required-mark" for="id_unidad">Unidades</label>
+                        <select name="id_unidad" id="id_unidad" autofocus class="form-control" required>
                             <option value="">Seleccione</option>
                             <?php foreach ($unidades as $unidad): ?>
-                                <option value="<?php echo $unidad->placa_unidad ?>"><?php echo $unidad->modelo_unidad ?>(<?php echo $unidad->placa_unidad ?>)</option>
+                                <option value="<?php echo $unidad->id_unidad ?>"><?php echo $unidad->modelo_unidad ?>(<?php echo $unidad->placa_unidad ?>)</option>
                             <?php endforeach ?>
                         </select>
                     </div>
@@ -87,7 +87,7 @@ jQuery(function($) {
             cedula_acompaniante: {
                 distinto: {
                     param : function () {
-                        return $("#cedula_chofer").val();
+                        return $("#cedula_conductor").val();
                     }
                 }
             }

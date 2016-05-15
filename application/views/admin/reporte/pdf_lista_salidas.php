@@ -7,7 +7,7 @@
 		<table width="100%" border="1" cellspacing="0" cellpadding="2">
 	    <tr>
 			<th align="left">No.</th>
-			<th align="left">Chofer</th>
+			<th align="left">conductor</th>
 			<th align="left">Recorrido</th>
 			<th align="left">Unidad</th>
 			<th align="left">Fecha Salida</th>
@@ -22,8 +22,8 @@
 		 ?>
 		    <td><?php echo $salida->id_salida;?></td>	
 			<td>
-				<?php if ($salida->cedula_chofer): ?>
-					<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+				<?php if ($salida->cedula_conductor): ?>
+					<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 				<?php else: ?>
 					<strong class="text-danger">NO NOTIFICADA</strong>
 				<?php endif ?>
@@ -42,7 +42,7 @@
 		<table width="100%" border="1" cellspacing="0" cellpadding="2">
 	    <tr>
 			<th align="left">No.</th>
-			<th align="left">Chofer</th>
+			<th align="left">conductor</th>
 			<th align="left">Recorrido</th>
 			<th align="left">Unidad</th>
 			<th align="left">Fecha Salida</th>
@@ -60,8 +60,8 @@
 		 ?>
 		    <td><?php echo $salida->id_salida;?></td>	
 			<td>
-				<?php if ($salida->cedula_chofer): ?>
-					<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+				<?php if ($salida->cedula_conductor): ?>
+					<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 				<?php else: ?>
 					<strong class="text-danger">NO NOTIFICADA</strong>
 				<?php endif ?>

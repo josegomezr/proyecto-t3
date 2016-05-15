@@ -114,7 +114,7 @@ class Recorrido extends Admin_Controller
         foreach ($raw_points as $coords) {
             $points[] = explode(',', $coords);
         }
-
+        
         $this->recorrido_model->guardar_trazado($id_recorrido, $points);
         $this->flash('success', 'success:recorrido:trazado:stored');
         return redirect( site_url("admin/recorrido/index") );

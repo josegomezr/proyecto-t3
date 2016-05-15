@@ -35,22 +35,28 @@ class Recorrido_model extends MY_Model {
 
     public function guardar_trazado($id_recorrido, $puntos)
     {
-        $rows = array();
+        $pks = array();
         foreach ($puntos as $punto) {
-            $rows[] = array(
+            $registro = array(
                 'latitud' => $punto[0],
-                'longitud' => $punto[1],
+                'longitud' => $punto[1]
+            );
+            $this->db->insert('punto', $registro);
+            $pk = $this->db->insert_id();
+            
+            $pks[] = array(
+                'id_punto' => $pk,
                 'id_recorrido' => $id_recorrido
             );
         }
 
         $this->db->where('id_recorrido', $id_recorrido)->delete('punto_recorrido');
-        $this->db->insert_batch('punto_recorrido', $rows);
+        $this->db->insert_batch('punto_recorrido', $pks);
     }
     
     public function obtener_trazado($id_recorrido)
     {
-        return $this->db->where('id_recorrido', $id_recorrido)->get('punto_recorrido');
+        return $this->db->query("SELECT * FROM punto_recorrido LEFT JOIN punto USING(id_punto) WHERE id_recorrido = ?", array($id_recorrido));
     }
 
 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CodeIgniter Application Test Suite" tests="9" assertions="23" failures="0" errors="0" time="0.544335">
+    <testsuite name="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" tests="3" assertions="6" failures="0" errors="0" time="0.215575">
+      <testcase name="test_Login_con_malas_credenciales" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="28" assertions="2" time="0.127096"/>
+      <testcase name="test_Login_vacio" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="40" assertions="2" time="0.044156"/>
+      <testcase name="test_Login_con_usuario_bueno_pero_clave_mala" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="50" assertions="2" time="0.044323"/>
+    </testsuite>
+    <testsuite name="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" tests="6" assertions="17" failures="0" errors="0" time="0.328760">
+      <testcase name="test_Listar_Funciona_Correctamente" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="19" assertions="5" time="0.042228"/>
+      <testcase name="test_Buscar_Funciona_Correctamente_con_2_parametros" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="64" assertions="2" time="0.043889"/>
+      <testcase name="test_Buscar_Funciona_Correctamente_con_1_parametro" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="82" assertions="2" time="0.043917"/>
+      <testcase name="test_Crear_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="101" assertions="6" time="0.066337"/>
+      <testcase name="test_Editar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="158" assertions="1" time="0.066159"/>
+      <testcase name="test_Eliminar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="178" assertions="1" time="0.066230"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

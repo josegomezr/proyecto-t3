@@ -7,11 +7,11 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-md-6">
                 <div class="form-group">
-                    <label class="control-label" for="cedula_chofer">Chofer</label>
-                    <select name="cedula_chofer" id="cedula_chofer" class="form-control">
+                    <label class="control-label" for="cedula_conductor">Conductor</label>
+                    <select name="cedula_conductor" id="cedula_conductor" class="form-control">
                         <option value="">Seleccione</option>
-                        <?php foreach ($choferes as $chofer): ?>
-                            <option value="<?php echo $chofer->cedula_chofer ?>" <?php echo ($chofer->cedula_chofer == $salida->cedula_chofer) ? 'selected="selected"' : '' ?>><?php echo $chofer->nombre_chofer ?> <?php echo $chofer->apellido_chofer ?></option>
+                        <?php foreach ($conductores as $conductor): ?>
+                            <option value="<?php echo $conductor->cedula_conductor ?>" <?php echo ($conductor->cedula_conductor == $salida->cedula_conductor) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -20,10 +20,10 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
                     <label class="control-label" for="cedula_acompaniante">Acompa&ntilde;ante</label>
-                    <select name="cedula_acompaniante" id="cedula_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del chofer.">
+                    <select name="cedula_acompaniante" id="cedula_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del conductor.">
                         <option value="">Seleccione</option>
-                        <?php foreach ($choferes as $chofer): ?>
-                            <option value="<?php echo $chofer->cedula_chofer ?>" <?php echo ($chofer->cedula_chofer == $salida->cedula_acompaniante) ? 'selected="selected"' : '' ?>><?php echo $chofer->nombre_chofer ?> <?php echo $chofer->apellido_chofer ?></option>
+                        <?php foreach ($conductores as $conductor): ?>
+                            <option value="<?php echo $conductor->cedula_conductor ?>" <?php echo ($conductor->cedula_conductor == $salida->cedula_acompaniante) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -43,11 +43,11 @@
         
             <div class="col-xs-12 col-md-6">
                 <div class="form-group">
-                    <label class="control-label" for="placa_unidad">Unidades</label>
-                    <select name="placa_unidad" id="placa_unidad" class="form-control">
+                    <label class="control-label" for="id_unidad">Unidades</label>
+                    <select name="id_unidad" id="id_unidad" class="form-control">
                         <option value="">Seleccione</option>
                         <?php foreach ($unidades as $unidad): ?>
-                            <option value="<?php echo $unidad->placa_unidad ?>" <?php echo ($unidad->placa_unidad == $salida->placa_unidad) ? 'selected="selected"' : '' ?>> <?php echo $unidad->modelo_unidad ?>(<?php echo $unidad->placa_unidad ?>)</option>
+                            <option value="<?php echo $unidad->id_unidad ?>" <?php echo ($unidad->id_unidad == $salida->id_unidad) ? 'selected="selected"' : '' ?>> <?php echo $unidad->modelo_unidad ?>(<?php echo $unidad->placa_unidad ?>)</option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -68,6 +68,6 @@
 </div> <!-- /#main_content -->
 </div> <!-- /.row -->
 <script>
-    $("#cedula_chofer").focus();
+    $("#cedula_conductor").focus();
 </script>
 <?php $this->load->view('admin/layout/footer') ?>

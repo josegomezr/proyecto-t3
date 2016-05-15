@@ -10,7 +10,7 @@ class Dispositivo_model extends MY_Model {
     public function listar(){
         return $this->db->query("SELECT * 
 FROM dispositivo
-LEFT JOIN unidad USING (placa_unidad)
+LEFT JOIN unidad USING (id_unidad)
 LEFT JOIN recorrido USING (id_recorrido)
 ");
     }

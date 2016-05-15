@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label class="control-label" for="placa">Placa</label>
-            <input type="text" name="placa" id="placa" maxlength="8" class="form-control" value="<?php echo $unidad->placa_unidad; ?>" disabled>
+            <input type="text" name="placa" id="placa" maxlength="8" class="form-control" value="<?php echo $unidad->placa_unidad; ?>">
         </div>
         <div class="form-group">
             <label class="control-label" for="modelo">Descripci&oacute;n</label>

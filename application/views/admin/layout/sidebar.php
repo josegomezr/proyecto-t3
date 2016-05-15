@@ -6,23 +6,23 @@
 	<div class="col-xs-12 col-sm-4 col-md-3 hidden-xs hidden-print" id="sidebar">
 		<div class="panel-group" id="sidebar-panel">
 		<?php if ($auth->nivel < 4): ?>
-			<div class="panel <?php echo $_controller == "chofer" ? 'panel-primary' : 'panel-default' ?>">
+			<div class="panel <?php echo $_controller == "conductor" ? 'panel-primary' : 'panel-default' ?>">
 				<div class="panel-heading">
 					<h4 class="panel-title">
-						<a data-toggle="collapse" data-parent="#sidebar-panel" href="#chofer-collapse">
+						<a data-toggle="collapse" data-parent="#sidebar-panel" href="#conductor-collapse">
 							<i class="fa fa-group"></i> Conductores
 						</a>
 					</h4>
 				</div>
-				<div id="chofer-collapse" class="panel-collapse collapse <?php echo $_controller == "chofer" ? 'in' : '' ?>">
+				<div id="conductor-collapse" class="panel-collapse collapse <?php echo $_controller == "conductor" ? 'in' : '' ?>">
 					<div class="panel-body">
 						<ul class="list-unstyled">
 							<li>
-								<a href="<?php echo site_url('admin/chofer') ?>">Listar</a>
+								<a href="<?php echo site_url('admin/conductor') ?>">Listar</a>
 							</li>
 							<?php if ($auth->nivel == 1): ?>
 								<li>
-									<a href="<?php echo site_url('admin/chofer/crear') ?>">Registrar Conductor</a>
+									<a href="<?php echo site_url('admin/conductor/crear') ?>">Registrar Conductor</a>
 								</li>
 							<?php endif ?>
 						</ul>
@@ -159,7 +159,7 @@
 								<a target="_blank" href="<?php echo site_url("admin/home/test_map");?>">DEMO MAPA RUTA</a>
 							</li> -->
 							<li>
-								<a href="<?php echo site_url('admin/reporte/lista_choferes') ?>" target="_blank">Imprimir Listado de Conductores</a>
+								<a href="<?php echo site_url('admin/reporte/lista_conductores') ?>" target="_blank">Imprimir Listado de Conductores</a>
 							</li>
 							<li>
 								<a href="<?php echo site_url('admin/reporte/lista_unidades') ?>" target="_blank">Imprimir Listado de Unidades</a>

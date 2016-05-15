@@ -1,15 +1,16 @@
 <?php
-include 'dompdf/vendor/autoload.php';
-define('DOMPDF_ENABLE_AUTOLOAD', false);
+require_once 'dompdf/autoload.inc.php';
+/*define('DOMPDF_ENABLE_AUTOLOAD', false);
 define('DOMPDF_ENABLE_REMOTE', true);
-require_once 'dompdf/dompdf_config.inc.php';
+require_once 'dompdf/dompdf_config.inc.php';*/
 
 class Dom_pdf 
 {
     private $instance;
 
     function __construct($config = array()){
-        $this->instance = new DOMPDF();
+        $this->instance = new Dompdf\Dompdf();
+        $this->instance->getOptions()->setIsRemoteEnabled(true);
     }
 
     function armar_pdf($html){

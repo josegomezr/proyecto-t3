@@ -2,9 +2,14 @@
 
 class Home extends Front_Controller {
 
-	public function get_index()
+	public function get_login()
 	{
 		$this->load->view('front/home/index_view');
+	}
+
+	public function get_index()
+	{
+		return redirect(site_url('home/login'));
 	}
 
 	public function post_login(){
@@ -13,6 +18,7 @@ class Home extends Front_Controller {
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
 		$result = $this->usuario_model->buscar('login_usuario', $username);
+		
 		if($result->num_rows() == 0){
 			// esto es para que el formulario se vuelva a completar
 			$this->session->set_flashdata('error', 'user:bad:login');
@@ -36,7 +42,7 @@ class Home extends Front_Controller {
 			$this->session->set_flashdata('error', 'user:not_allowed');
 			redirect(site_url('home/index'));
 		}
-		var_dump($usuario);
+
 		$newdata = array(
            'username'  => $usuario->login_usuario,
            'nivel'     => $usuario->nivel_usuario,

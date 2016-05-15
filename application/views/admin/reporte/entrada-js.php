@@ -8,18 +8,18 @@
 			<tr>
 				<td>
 					<p>
-						<?php if ($entrada->cedula_chofer): ?>
+						<?php if ($entrada->cedula_conductor): ?>
 							<?php if(isset($acompaniante)): ?>
-								<strong>Choferes: </strong>
+								<strong>Conductores: </strong>
 							<?php else: ?>
-								<strong>Chofer: </strong>
+								<strong>Conductor: </strong>
 							<?php endif; ?>
-							<span><?php echo $chofer->nombre_chofer ?> <?php echo $chofer->apellido_chofer ?></span>
+							<span><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></span>
 							<?php if(isset($acompaniante)): ?>
-								<span>y <?php echo $acompaniante->nombre_chofer ?> <?php echo $acompaniante->apellido_chofer ?></span>
+								<span>y <?php echo $acompaniante->nombre_conductor ?> <?php echo $acompaniante->apellido_conductor ?></span>
 							<?php endif; ?>
 						<?php else: ?>
-							<strong>Chofer:</strong> N/A <strong class="text-danger">¡SALIDA NO NOTIFICADA!</strong>
+							<strong>Conductor:</strong> N/A <strong class="text-danger">¡SALIDA NO NOTIFICADA!</strong>
 						<?php endif ?>
 					</p>
 					<p>
@@ -40,10 +40,11 @@ $entradaDate = DateTime::createFromFormat('Y-m-d H:i:s', $entrada->fecha_entrada
 						<strong>Llegada: </strong> <span><?php echo $entradaDate->format('d/m/Y - H:i A')  ?></span>
 					</p>
 					<p>
-						<strong>Duración del Recorrido: </strong> <span><?php echo prettyDateDiff($entradaDate->diff($salidaDate));  ?></span>
+						<strong>Duración del Recorrido: </strong> <span><?php echo $entradaDate->diff($salidaDate)->format('%D %H:%I');  ?></span>
 					</p>
 				</td>
 				<td>
+				<!--
 					<p>
 						<strong>Observaciones al partir:</strong><br>
 						<?php echo $entrada->observacion_salida == "" ? 'N/A' : $entrada->observacion_salida; ?>
@@ -53,6 +54,7 @@ $entradaDate = DateTime::createFromFormat('Y-m-d H:i:s', $entrada->fecha_entrada
 						<?php echo $entrada->observacion_entrada == "" ? 'N/A' : $entrada->observacion_entrada; ?>
 					</p>
 				</td>
+				-->
 			</tr>
 		</table>
 		

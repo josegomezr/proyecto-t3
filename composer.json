@@ -2,7 +2,8 @@
 	"description": "StockCIApp",
 	"name": "josegomezr/StockCIApp",
 	"require": {
-		"php": ">=5.2.4"
+		"php": ">=5.2.4",
+		"kenjis/ci-phpunit-test": "^0.12.0"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "1.1.*",

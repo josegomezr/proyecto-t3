@@ -6,8 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo isset($title) ? '- ' . $title : '' ?> UPTOS GPS</title>
 
-	<!-- <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet"> -->
-	<link href="http://bootswatch.com/cosmo/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo base_url('assets/css/cosmo.min.css') ?>" rel="stylesheet">
+
 	<link href="<?php echo base_url('assets/css/font-awesome.min.css') ?>" rel="stylesheet">
 
 	<link href="" rel="stylesheet" id="theme-switcher">
@@ -41,7 +41,7 @@
 				<ul class="nav navbar-nav">
 				<?php if ($auth->nivel < 4): ?>
 					<li class="<?php echo $_controller == "home" ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/home/') ?>">Inicio</a></li>
-					<li class="<?php echo $_controller == "chofer" ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/chofer/') ?>">Choferes</a></li>
+					<li class="<?php echo $_controller == "conductor" ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/conductor/') ?>">Conductores</a></li>
 					<?php if ($auth->nivel == 1): ?>
 					<li class="<?php echo $_controller == "dispositivo" ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/dispositivo/') ?>">Dispositivos</a></li>
 					<?php endif ?>
@@ -55,7 +55,7 @@
 						<a href="#" data-toggle="dropdown">Reportes <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-								<a href="<?php echo site_url('admin/reporte/lista_choferes') ?>" target="_blank">Imprimir Listado de Choferes</a>
+								<a href="<?php echo site_url('admin/reporte/lista_conductores') ?>" target="_blank">Imprimir Listado de Conductores</a>
 							</li>
 							<li>
 								<a href="<?php echo site_url('admin/reporte/lista_unidades') ?>" target="_blank">Imprimir Listado de Unidades</a>

@@ -8,7 +8,7 @@ class Entrada extends Admin_Controller {
         $this->load->library('form_validation');
         $this->load->model('salida_model');
         $this->load->model('entrada_model');
-        $this->load->model('chofer_model');
+        $this->load->model('conductor_model');
         $this->load->model('recorrido_model');
         $this->load->model('unidad_model');
         
@@ -34,7 +34,7 @@ class Entrada extends Admin_Controller {
         $registro['id_salida'] = $result->row()->id_salida;
         $registro['fecha_entrada'] = date('Y-m-d');
         $registro['hora_entrada'] = date('H:i');
-        $registro['observacion_entrada'] = $observacion;
+        // $registro['observacion_entrada'] = $observacion;
         $this->entrada_model->crear($registro);
         $this->flash('success', 'success:entrada:created');
         return redirect( site_url("admin/salida/index") );
@@ -52,10 +52,10 @@ class Entrada extends Admin_Controller {
 
         $this->data["entrada"] = $entrada;
 
-        $this->data['chofer'] = $this->chofer_model->buscar('cedula_chofer', $salida->cedula_chofer)->row();
+        $this->data['chofer'] = $this->conductor_model->buscar('cedula_chofer', $salida->cedula_chofer)->row();
         
         if($salida->cedula_acompaniante)
-            $this->data['acompaniante'] = $this->chofer_model->buscar('cedula_chofer', $salida->cedula_acompaniante)->row();
+            $this->data['acompaniante'] = $this->conductor_model->buscar('cedula_chofer', $salida->cedula_acompaniante)->row();
 
         $this->data['recorrido'] = $this->recorrido_model->buscar('id_recorrido', $salida->id_recorrido)->row();
         $this->data['unidad'] = $this->unidad_model->buscar('placa_unidad', $salida->placa_unidad)->row();
@@ -75,7 +75,7 @@ class Entrada extends Admin_Controller {
         }
 
         $registro = array();
-        $registro["observacion_entrada"] = $this->input->post("observacion");
+        // $registro["observacion_entrada"] = $this->input->post("observacion");
         $this->entrada_model->editar('id_entrada', $id_entrada, $registro);
         $this->flash('success', 'success:entrada:updated');
         return redirect( site_url("admin/salida/index") );

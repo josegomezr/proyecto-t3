@@ -13,10 +13,10 @@
 			<label for="" class="control-label">Filtro: </label>
 		</div>
 		<div class="form-group">
-			<select name="cedula_chofer" id="cedula_chofer" class="form-control">
-				<option value="">Seleccione Chofer</option>
-				<?php foreach ($choferes as $chofer): ?>
-					<option value="<?php echo $chofer->cedula_chofer ?>" <?php echo $chofer_seleccionado == $chofer->cedula_chofer ? 'selected="selected"' : '' ?>><?php echo $chofer->nombre_chofer; ?> <?php echo $chofer->apellido_chofer; ?></option>
+			<select name="cedula_conductor" id="cedula_conductor" class="form-control">
+				<option value="">Seleccione conductor</option>
+				<?php foreach ($conductores as $conductor): ?>
+					<option value="<?php echo $conductor->cedula_conductor ?>" <?php echo $conductor_seleccionado == $conductor->cedula_conductor ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor; ?> <?php echo $conductor->apellido_conductor; ?></option>
 				<?php endforeach ?>
 			</select>
 		</div>
@@ -48,7 +48,7 @@
 	<thead>
     <tr>
 		<th>No.</th>
-		<th>Chofer</th>
+		<th>conductor</th>
 		<th>Recorrido</th>
 		<th>Unidad</th>
 		<th>Fecha Salida</th>
@@ -63,8 +63,8 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_chofer): ?>
-				<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+			<?php if ($salida->cedula_conductor): ?>
+				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>
 			<?php endif ?>
@@ -91,7 +91,7 @@
 	<thead>
     <tr>
 		<th>No.</th>
-		<th>Chofer</th>
+		<th>conductor</th>
 		<th>Recorrido</th>
 		<th>Unidad</th>
 		<th>Fecha Salida</th>
@@ -110,8 +110,8 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_chofer): ?>
-				<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+			<?php if ($salida->cedula_conductor): ?>
+				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>
 			<?php endif ?>

@@ -21,7 +21,7 @@
 	<thead>
     <tr>
 		<th>No.</th>
-		<th>Chofer</th>
+		<th>Conductor</th>
 		<th>Recorrido</th>
 		<th>Unidad</th>
 		<th>Fecha Salida</th>
@@ -37,8 +37,8 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_chofer): ?>
-				<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+			<?php if ($salida->cedula_conductor): ?>
+				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>
 			<?php endif ?>
@@ -106,7 +106,7 @@
 	<thead>
     <tr>
 		<th>No.</th>
-		<th>Chofer</th>
+		<th>Conductor</th>
 		<th>Recorrido</th>
 		<th>Unidad</th>
 		<th>Fecha Salida</th>
@@ -126,8 +126,8 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_chofer): ?>
-				<?php echo $salida->nombre_chofer; ?> <?php echo $salida->apellido_chofer; ?>
+			<?php if ($salida->cedula_conductor): ?>
+				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>
 			<?php endif ?>

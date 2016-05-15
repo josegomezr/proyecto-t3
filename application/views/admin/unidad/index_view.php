@@ -47,8 +47,8 @@
 		</td>
 		<?php if ($auth->nivel == 1): ?>
 		<td>
-	        <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/unidad/editar/' . $unidad->placa_unidad); ?>"><i class="glyphicon glyphicon-edit"></i></a>
-	        <a class="btn btn-xs btn-danger" href="<?php echo site_url('admin/unidad/eliminar/' . $unidad->placa_unidad); ?>"><i class="glyphicon glyphicon-remove"></i></a>
+	        <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/unidad/editar/' . $unidad->id_unidad); ?>"><i class="glyphicon glyphicon-edit"></i></a>
+	        <a class="btn btn-xs btn-danger" href="<?php echo site_url('admin/unidad/eliminar/' . $unidad->id_unidad); ?>"><i class="glyphicon glyphicon-remove"></i></a>
 		</td>
 		<?php endif ?>
 	    </tr>
