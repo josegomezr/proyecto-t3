@@ -132,14 +132,9 @@ class CIPHPUnitTestRequest
 		try {
 			if (is_array($argv))
 			{
-				return $this->callControllerMethod(
-					$http_method, $argv, $params
-				);
+				$argv = implode('/', $argv);
 			}
-			else
-			{
-				return $this->requestUri($http_method, $argv, $params);
-			}
+			return $this->requestUri($http_method, $argv, $params);
 		}
 		// redirect()
 		catch (CIPHPUnitTestRedirectException $e)
@@ -248,7 +243,6 @@ class CIPHPUnitTestRequest
 
 		// Get route
 		list($class, $method, $params) = $this->router->getRoute();
-
 		// Restore cli mode
 		set_is_cli($cli);
 

@@ -27,7 +27,7 @@ class Home_test extends TestCase
     
     public function test_Login_con_malas_credenciales()
     {
-        $output = $this->request('POST', ['Home', 'post_login'], array(
+        $output = $this->request('POST', ['Home', 'login'], array(
             'username' => 'prueba',
             'password' => '123123'
         ));
@@ -40,7 +40,7 @@ class Home_test extends TestCase
     public function test_Login_vacio()
     {
 
-        $output = $this->request('POST', ['Home', 'post_login']);
+        $output = $this->request('POST', ['Home', 'login']);
         
         $ci = &get_instance();
         $this->assertResponseCode(302);
@@ -49,7 +49,7 @@ class Home_test extends TestCase
 
     public function test_Login_con_usuario_bueno_pero_clave_mala()
     {
-        $output = $this->request('POST', ['Home', 'post_login'], array(
+        $output = $this->request('POST', ['Home', 'login'], array(
             'username' => 'administrador',
             'password' => '123123'
         ));
@@ -58,24 +58,4 @@ class Home_test extends TestCase
         $this->assertResponseCode(302);
         $this->assertEquals($ci->session->flashdata('error'), "user:bad:password");
     }
-
-/*
-    public function test_method_404()
-    {
-        $this->request('GET', ['Welcome', 'method_not_exist']);
-        $this->assertResponseCode(404);
-    }
-
-    public function test_APPPATH()
-    {
-        $actual = realpath(APPPATH);
-        $expected = realpath(__DIR__ . '/../..');
-        $this->assertEquals(
-            $expected,
-            $actual,
-            'Your APPPATH seems to be wrong. Check your $application_folder in tests/Bootstrap.php'
-        );
-    }
-*/
-
 }
