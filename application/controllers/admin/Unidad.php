@@ -10,7 +10,7 @@ class Unidad extends Admin_Controller
     }
     public function get_index()
     {
-        $this->data['unidades'] = $this->unidad_model->listar();
+        $this->data['unidades'] = $this->unidad_model->listar()->result();
         return $this->load->view("admin/unidad/index_view", $this->data);
     }
     public function get_crear()

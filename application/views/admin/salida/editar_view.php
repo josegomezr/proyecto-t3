@@ -7,11 +7,11 @@
         <div class="row clearfix">
             <div class="col-xs-12 col-md-6">
                 <div class="form-group">
-                    <label class="control-label" for="cedula_conductor">Conductor</label>
-                    <select name="cedula_conductor" id="cedula_conductor" class="form-control">
+                    <label class="control-label" for="id_conductor">Conductor</label>
+                    <select name="id_conductor" id="id_conductor" class="form-control">
                         <option value="">Seleccione</option>
                         <?php foreach ($conductores as $conductor): ?>
-                            <option value="<?php echo $conductor->cedula_conductor ?>" <?php echo ($conductor->cedula_conductor == $salida->cedula_conductor) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
+                            <option value="<?php echo $conductor->id_conductor ?>" <?php echo ($conductor->id_conductor == $salida->id_conductor) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -19,11 +19,11 @@
             <?php if ($auth->nivel < 3): ?>
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                    <label class="control-label" for="cedula_acompaniante">Acompa&ntilde;ante</label>
-                    <select name="cedula_acompaniante" id="cedula_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del conductor.">
+                    <label class="control-label" for="id_acompaniante">Acompa&ntilde;ante</label>
+                    <select name="id_acompaniante" id="id_acompaniante" class="form-control" data-msg-distinto="El acompa&ntilde;ante debe ser distinto del conductor.">
                         <option value="">Seleccione</option>
                         <?php foreach ($conductores as $conductor): ?>
-                            <option value="<?php echo $conductor->cedula_conductor ?>" <?php echo ($conductor->cedula_conductor == $salida->cedula_acompaniante) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
+                            <option value="<?php echo $conductor->id_conductor ?>" <?php echo ($conductor->id_conductor == $salida->id_acompaniante) ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor ?> <?php echo $conductor->apellido_conductor ?></option>
                         <?php endforeach ?>
                     </select>
                 </div>
@@ -52,12 +52,31 @@
                     </select>
                 </div>
             </div>
-            <div class="col-xs-12 col-md-6">
+
+            <div class="col-xs-12 col-sm-6">
                 <div class="form-group">
-                    <label class="control-label" for="observacion">Observaci&oacute;n</label>
-                    <textarea name="observacion" id="observacion" class="form-control" rows="5"><?php echo $salida->observacion_salida ?></textarea>
+                    <label class="control-label" for="id_tipo_incidencia">Tipo</label>
+                    <select name="id_tipo_incidencia" id="id_tipo_incidencia" class="form-control" required>
+                        <option value="">Seleccione</option>
+                        <?php foreach ($tipos_incidencia as $tipo_incidencia): ?>
+                            <option value="<?php echo $tipo_incidencia->id_tipo_incidencia ?>" <?php echo $salida->id_tipo_incidencia == $tipo_incidencia->id_tipo_incidencia ? 'selected="selected"' : '' ?>><?php echo $tipo_incidencia->descripcion_tipo_incidencia ?></option>
+                        <?php endforeach ?>
+                    </select>
                 </div>
             </div>
+
+            <div class="col-xs-12 col-sm-6">
+                <div class="form-group">
+                    <label class="control-label" for="id_incidencia">Incidencia</label>
+                    <select name="id_incidencia" id="id_incidencia" class="form-control" required>
+                        <option value="">Seleccione</option>
+                        <?php foreach ($incidencias as $incidencia): ?>
+                            <option data-parent="<?php echo $incidencia->id_tipo_incidencia ?>" value="<?php echo $incidencia->id_incidencia ?>" <?php echo $salida->id_incidencia == $incidencia->id_incidencia ? 'selected="selected"' : '' ?>><?php echo $incidencia->descripcion_incidencia ?></option>
+                        <?php endforeach ?>
+                    </select>
+                </div>
+            </div>
+
         </div>
 
             <div class="form-group">
@@ -68,6 +87,37 @@
 </div> <!-- /#main_content -->
 </div> <!-- /.row -->
 <script>
-    $("#cedula_conductor").focus();
+jQuery(function($) {
+    $('#id_incidencia').find('option').slice(1).not(':selected').addClass('hidden');
+    $("form").validate({
+        rules: {
+            id_acompaniante: {
+                distinto: {
+                    param : function () {
+                        return $("#id_conductor").val();
+                    }
+                }
+            }
+        }
+    });
+
+    $('#id_tipo_incidencia').on('change', function (e) {
+        var $incidencia = $('#id_incidencia')
+        if (!e.target.value) {
+            $incidencia.attr('disabled', 'disabled');
+        }else{
+            $incidencia.removeAttr('disabled');
+        }
+
+        $incidencia
+            .val('')
+            .find('option[data-parent]')
+            .addClass('hidden')
+            .filter('[data-parent='+e.target.value+']')
+            .removeClass('hidden')
+
+
+    })
+});
 </script>
 <?php $this->load->view('admin/layout/footer') ?>

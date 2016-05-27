@@ -8,23 +8,27 @@ class Conductor_model extends MY_Model {
     }
 
     public function listar(){
-        return $this->db->order_by('cedula_conductor', 'asc')->get('conductor')->result();
+        return $this->db
+            ->order_by('apellido_conductor', 'asc')
+            ->order_by('nombre_conductor', 'asc')
+            ->get('conductor')
+            ;
     }
 
     public function listar_disponibles(){
         return $this->db->query("SELECT * FROM conductor 
-WHERE cedula_conductor NOT IN 
-(SELECT salida.cedula_conductor FROM salida 
+WHERE id_conductor NOT IN 
+(SELECT salida.id_conductor FROM salida 
 LEFT JOIN entrada USING (id_salida) 
-WHERE entrada.id_salida IS NULL)")->result();
+WHERE entrada.id_salida IS NULL)");
     }
 
     public function listar_ocupados(){
         return $this->db->query("SELECT * FROM conductor 
-WHERE cedula_conductor IN 
-(SELECT salida.cedula_conductor FROM salida 
+WHERE id_conductor IN 
+(SELECT salida.id_conductor FROM salida 
 LEFT JOIN entrada USING (id_salida) 
-WHERE entrada.id_salida IS NULL)")->result();
+WHERE entrada.id_salida IS NULL)");
     }
 
     public function buscar($criteria, $value){

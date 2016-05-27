@@ -15,7 +15,7 @@ class Reporte extends Admin_Controller
 
     public function get_lista_conductores()
     {
-        $conductores = $this->conductor_model->listar();
+        $conductores = $this->conductor_model->listar()->result();
         $this->data['conductores'] = $conductores;
 
         if(count($conductores) == 0){
@@ -32,7 +32,7 @@ class Reporte extends Admin_Controller
     }
     public function get_lista_unidades()
     {
-        $unidades = $this->unidad_model->listar();
+        $unidades = $this->unidad_model->listar()->result();
         $this->data['unidades'] = $unidades;
 
         if(count($unidades) == 0){
@@ -49,8 +49,8 @@ class Reporte extends Admin_Controller
     }
     public function get_lista_recorridos()
     {
-        $recorridos = $this->recorrido_model->listar();
-        $this->data['recorridos'] = $this->recorrido_model->listar();
+        $recorridos = $this->recorrido_model->listar()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
 
         if(count($recorridos) == 0){
             $this->flash('error', 'error:recorrido:empty');
@@ -68,7 +68,7 @@ class Reporte extends Admin_Controller
     public function get_lista_salidas()
     {
         
-        $conductor = $this->input->get('cedula_conductor', FALSE);
+        $conductor = $this->input->get('id_conductor', FALSE);
         $recorrido = $this->input->get('id_recorrido', FALSE);
         $fecha_inicio = $this->input->get('fecha_inicio', FALSE);
         $fecha_final = $this->input->get('fecha_final', FALSE);
@@ -85,7 +85,7 @@ class Reporte extends Admin_Controller
         $criteria = array();
 
         if($conductor)
-            $criteria['cedula_conductor'] = $conductor;
+            $criteria['id_conductor'] = $conductor;
         if($recorrido)
             $criteria['id_recorrido'] = $recorrido;
         if($fecha_inicio_parseada)
@@ -108,8 +108,8 @@ class Reporte extends Admin_Controller
         $this->data['salidas_incompletas'] = $salidas_incompletas;
         $this->data['salidas_completas'] = $salidas_completas;
 
-        $this->data['conductores'] = $this->conductor_model->listar();
-        $this->data['recorridos'] = $this->recorrido_model->listar();
+        $this->data['conductores'] = $this->conductor_model->listar()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         
         $this->data['conductor_seleccionado'] = $conductor;
         $this->data['recorrido_seleccionado'] = $recorrido;
@@ -121,7 +121,7 @@ class Reporte extends Admin_Controller
 
     public function get_pdf_lista_salida()
     {
-        $conductor = $this->input->get('cedula_conductor', FALSE);
+        $conductor = $this->input->get('id_conductor', FALSE);
         $recorrido = $this->input->get('id_recorrido', FALSE);
 
         $salidas_incompletas = $this->salida_model->buscar_incompletas($conductor, $recorrido)->result();
@@ -135,8 +135,8 @@ class Reporte extends Admin_Controller
         $this->data['salidas_incompletas'] = $salidas_incompletas;
         $this->data['salidas_completas'] = $salidas_completas;
 
-        $this->data['conductores'] = $this->conductor_model->listar();
-        $this->data['recorridos'] = $this->recorrido_model->listar();
+        $this->data['conductores'] = $this->conductor_model->listar()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data['conductor_seleccionado'] = $conductor;
         $this->data['recorrido_seleccionado'] = $recorrido;
 
@@ -154,28 +154,38 @@ class Reporte extends Admin_Controller
     {
 
         $this->load->library('gmap_lib');
+        $this->load->model('incidencia_model');
         $entrada_result = $this->entrada_model->reporte($id_salida);
-
         if($entrada_result->num_rows() == 0){
             $this->flash('error', 'error:entrada:not_found');
             redirect(site_url('admin/salida'));
         }
 
         $entrada = $entrada_result->row();
+
+        $incidencia_entrada = $this->incidencia_model->buscar('incidencia.id_incidencia', $entrada->id_incidencia_entrada)->row();
+
+        $incidencia_salida = $this->incidencia_model->buscar('"incidencia".id_incidencia', $entrada->id_incidencia_salida)->row();
+
+        $conductor = $this->conductor_model->buscar('id_conductor', $entrada->id_conductor)->row();
         
-        $conductor = $this->conductor_model->buscar('cedula_conductor', $entrada->cedula_conductor)->row();
-        
-        if($entrada->cedula_acompaniante)
-            $acompaniante = $this->conductor_model->buscar('cedula_conductor', $entrada->cedula_acompaniante)->row();
+        if($entrada->id_acompaniante)
+            $acompaniante = $this->conductor_model->buscar('id_conductor', $entrada->id_acompaniante)->row();
 
         $puntos_result = $this->salida_model->buscar_recorrido($entrada->id_salida, $entrada->id_recorrido);
         $trazado_result = $this->recorrido_model->obtener_trazado($entrada->id_recorrido);
 
         $puntos = $puntos_result->result();
         $trazado = $trazado_result->result();
+        
         $this->data["entrada"] = $entrada;
         $this->data["conductor"] = $conductor;
-        if($entrada->cedula_acompaniante)
+        
+
+        $this->data['incidencia_entrada'] = $incidencia_entrada;
+        $this->data['incidencia_salida'] = $incidencia_salida;
+
+        if($entrada->id_acompaniante)
             $this->data["acompaniante"] = $acompaniante;
         $this->data['puntos'] = $puntos;
 

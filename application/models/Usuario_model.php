@@ -8,7 +8,7 @@ class Usuario_model extends MY_Model {
     }
 
     public function listar(){
-        return $this->db->get('usuario')->result();
+        return $this->db->get('usuario');
     }
 
     public function buscar($criteria, $value = NULL){

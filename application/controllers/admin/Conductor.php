@@ -10,7 +10,7 @@ class Conductor extends Admin_Controller
     }
     public function get_index()
     {
-    	$this->data['conductores'] = $this->conductor_model->listar();
+    	$this->data['conductores'] = $this->conductor_model->listar()->result();
         return $this->load->view("admin/conductor/index_view", $this->data);
     }
     public function get_crear()

@@ -8,7 +8,7 @@ class Recorrido_model extends MY_Model {
     }
 
     public function listar(){
-        return $this->db->order_by('id_recorrido', 'asc')->get('recorrido')->result();
+        return $this->db->order_by('id_recorrido', 'asc')->get('recorrido');
     }
 
     public function buscar($criteria, $value){

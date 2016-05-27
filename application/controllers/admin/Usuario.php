@@ -21,7 +21,7 @@ class Usuario extends Admin_Controller
     }
     public function get_index()
     {
-    	$this->data['usuarios'] = $this->usuario_model->listar();
+    	$this->data['usuarios'] = $this->usuario_model->listar()->result();
         return $this->load->view("admin/usuario/index_view", $this->data);
     }
     public function get_crear()

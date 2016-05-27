@@ -12,10 +12,17 @@ class Salida extends Admin_Controller {
         $this->load->model('conductor_model');
         $this->load->model('recorrido_model');
         $this->load->model('unidad_model');
+        $this->load->model('tipo_incidencia_model');
+        $this->load->model('incidencia_model');
+        $this->load->helper('debug_helper');
+
+        $this->data['tipos_incidencia'] = $this->tipo_incidencia_model->listar()->result();
+        $this->data['incidencias'] = $this->incidencia_model->listar()->result();
+        
     }
     public function get_index($page_incompletas = 1, $page_completas = 1)
     {
-        $this->data['salidas_incompletas'] = $this->salida_model->listar_en_proceso((int)$page_incompletas, $this->registros_per_pagina);
+        $this->data['salidas_incompletas'] = $this->salida_model->listar_en_proceso((int)$page_incompletas, $this->registros_per_pagina)->result();
         $total_salidas_incompletas = $this->salida_model->contar_en_proceso();
         $this->data['total_salidas_incompletas'] = $total_salidas_incompletas;
         $this->data['pagina_salida_incompleta'] = $page_incompletas;
@@ -23,7 +30,7 @@ class Salida extends Admin_Controller {
         $this->data['total_paginas_incompleta'] = ceil($total_salidas_incompletas/$this->registros_per_pagina);
 
         
-        $this->data['salidas_completas'] = $this->salida_model->listar_completas((int)$page_completas, $this->registros_per_pagina);
+        $this->data['salidas_completas'] = $this->salida_model->listar_completas((int)$page_completas, $this->registros_per_pagina)->result();
         $total_salidas_completas = $this->salida_model->contar_completas();
         $this->data['total_salidas_completas'] = $total_salidas_completas;
         $this->data['pagina_salida_completa'] = $page_completas;
@@ -40,9 +47,11 @@ class Salida extends Admin_Controller {
 
     public function get_crear()
     {
-        $this->data['conductores'] = $this->conductor_model->listar_disponibles();
-        $this->data['recorridos'] = $this->recorrido_model->listar();
-        $this->data['unidades'] = $this->unidad_model->listar_sin_salir();
+        $this->data['conductores'] = $this->conductor_model->listar_disponibles()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
+        $this->data['unidades'] = $this->unidad_model->listar_sin_salir()->result();
+
+        
 
         if(count($this->data['unidades']) == 0){
             $this->flash('error', 'error:salida:no_unidades');
@@ -63,11 +72,12 @@ class Salida extends Admin_Controller {
 
     public function post_crear()
     {
-
-        $this->form_validation->set_rules('cedula_conductor', 'Conductor', 'trim|required');
-        $this->form_validation->set_rules('cedula_acompaniante', 'Conductor', 'trim');
+        $this->form_validation->set_rules('id_conductor', 'Conductor', 'trim|required');
+        $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
         $this->form_validation->set_rules('id_unidad', 'Unidad', 'trim|required');
+        $this->form_validation->set_rules('id_incidencia', 'Incidencia', 'trim');
+        $this->form_validation->set_rules('id_tipo_incidencia', 'Tipo de Incidencia', 'trim');
 
         if ($this->form_validation->run() == FALSE)
         {
@@ -75,12 +85,14 @@ class Salida extends Admin_Controller {
             redirect(site_url('admin/salida/crear'));
             exit;
         }
+
         
-        $registro["cedula_conductor"] = $this->input->post("cedula_conductor");
-        $registro["cedula_acompaniante"] = $this->input->post("cedula_acompaniante");
+        $registro["id_conductor"] = $this->input->post("id_conductor");
+        $registro["id_acompaniante"] = $this->input->post("id_acompaniante");
         $registro["id_recorrido"] = $this->input->post("id_recorrido");
         $registro["id_unidad"] = $this->input->post("id_unidad");
-        // $registro["observacion_salida"] = $this->input->post("observacion");
+        $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
+        $registro["id_incidencia"] = $this->input->post("id_incidencia");
         
         $registro["hora_salida"] = date('H:i');
         $registro["fecha_salida"] = date('Y-m-d');
@@ -111,18 +123,21 @@ class Salida extends Admin_Controller {
             redirect(site_url('admin/salida/'));
         }
         $this->data["salida"] = $result->row();
-        $this->data['conductores'] = $this->conductor_model->listar();
-        $this->data['recorridos'] = $this->recorrido_model->listar();
-        $this->data['unidades'] = $this->unidad_model->listar();
+        $this->data['conductores'] = $this->conductor_model->listar()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
+        $this->data['unidades'] = $this->unidad_model->listar()->result();
+
         return $this->load->view("admin/salida/editar_view", $this->data);
     }
         
     public function post_editar ($id_salida)
     {
-        $this->form_validation->set_rules('cedula_conductor', 'Conductor', 'trim|required');
-        $this->form_validation->set_rules('cedula_acompaniante', 'Conductor', 'trim');
+        $this->form_validation->set_rules('id_conductor', 'Conductor', 'trim|required');
+        $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
         $this->form_validation->set_rules('id_unidad', 'Unidad', 'trim|required');
+        $this->form_validation->set_rules('id_incidencia', 'Incidencia', 'trim');
+        $this->form_validation->set_rules('id_tipo_incidencia', 'Tipo de Incidencia', 'trim');
 
         if ($this->form_validation->run() == FALSE)
         {
@@ -132,11 +147,14 @@ class Salida extends Admin_Controller {
         }
 
         $registro = array();
-        $registro["cedula_conductor"] = $this->input->post("cedula_conductor");
-        $registro["cedula_acompaniante"] = $this->input->post("cedula_acompaniante");
+        
+        $registro["id_conductor"] = $this->input->post("id_conductor");
+        $registro["id_acompaniante"] = $this->input->post("id_acompaniante");
         $registro["id_recorrido"] = $this->input->post("id_recorrido");
         $registro["id_unidad"] = $this->input->post("id_unidad");
-        // $registro["observacion_salida"] = $this->input->post("observacion");
+        $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
+        $registro["id_incidencia"] = $this->input->post("id_incidencia");
+
         $this->salida_model->editar('id_salida', $id_salida, $registro);
         return redirect( site_url("admin/salida/index") );
 

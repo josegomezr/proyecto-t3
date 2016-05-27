@@ -12,14 +12,14 @@ class Dispositivo extends Admin_Controller
     }
     public function get_index()
     {
-    	$this->data['dispositivos'] = $this->dispositivo_model->listar()->result();
+    	$this->data['dispositivos'] = $this->dispositivo_model->listar()->result()->result();
         
         return $this->load->view("admin/dispositivo/index_view", $this->data);
     }
     public function get_crear()
     {
         $unidades = $this->unidad_model->listar_sin_dispositivo();
-        $recorridos = $this->recorrido_model->listar();
+        $recorridos = $this->recorrido_model->listar()->result();
         
         if(count($unidades) == 0){
             $this->flash('error', 'error:dispositivo:no-unidades');
@@ -91,7 +91,7 @@ class Dispositivo extends Admin_Controller
         }
 
         $this->data['unidades'] = $this->unidad_model->listar_sin_dispositivo($id_dispositivo);
-        $this->data['recorridos'] = $this->recorrido_model->listar();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data["dispositivo"] = $result->row();
         return $this->load->view("admin/dispositivo/editar_view", $this->data);
     }

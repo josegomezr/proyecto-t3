@@ -10,7 +10,7 @@ class Recorrido extends Admin_Controller
     }
     public function get_index()
     {
-        $this->data['recorridos'] = $this->recorrido_model->listar();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         return $this->load->view("admin/recorrido/index_view", $this->data);
     }
     public function get_crear()

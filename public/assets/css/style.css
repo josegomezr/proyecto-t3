@@ -41,3 +41,7 @@ span.line-blue i{
 span.map-legend{
 	color: black;	
 }
+
+#sidebar .panel ul li.active{
+	font-weight: bold;
+}

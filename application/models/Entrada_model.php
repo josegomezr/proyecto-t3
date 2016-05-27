@@ -13,11 +13,13 @@ class Entrada_model extends MY_Model {
     }
 
     public function reporte($id_entrada){
-        return $this->db->query("SELECT *, salida.cedula_conductor
+        return $this->db->query("SELECT *, salida.id_conductor, entrada_incidencia.id_incidencia as id_incidencia_entrada, salida_incidencia.id_incidencia as id_incidencia_salida
 FROM entrada
 LEFT JOIN salida USING(id_salida)
 LEFT JOIN recorrido USING(id_recorrido)
 LEFT JOIN unidad USING(id_unidad)
+LEFT JOIN entrada_incidencia USING(id_entrada)
+LEFT JOIN salida_incidencia USING(id_salida)
 WHERE id_entrada = '$id_entrada'");
     }
 
