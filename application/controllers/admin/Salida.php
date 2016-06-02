@@ -95,7 +95,9 @@ class Salida extends Admin_Controller
         $registro["id_acompaniante"] = $this->input->post("id_acompaniante");
         $registro["id_recorrido"] = $this->input->post("id_recorrido");
         $registro["id_unidad"] = $this->input->post("id_unidad");
+        
         $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
+        $registro["comentario_salida_incidencia"] = $this->input->post("comentario_salida_incidencia");
         $registro["id_incidencia"] = $this->input->post("id_incidencia");
         
         $registro["hora_salida"] = date('H:i');

@@ -113,8 +113,9 @@ class Salida_model extends MY_Model
         
         $tipo_incidencia = $data['id_tipo_incidencia'];
         $incidencia = $data['id_incidencia'];
+        $comentario_salida_incidencia = $data['comentario_salida_incidencia'];
         
-        unset($data['id_tipo_incidencia'], $data['id_incidencia']);
+        unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_salida_incidencia']);
 
         $this->db->set($data)->insert('salida');
 
@@ -122,7 +123,8 @@ class Salida_model extends MY_Model
         if ($incidencia) {
             $this->db->set(array(
                 'id_salida' => $id_salida,
-                'id_incidencia' => $incidencia
+                'id_incidencia' => $incidencia,
+                'comentario_salida_incidencia' => $comentario_salida_incidencia
             ))->insert('salida_incidencia');
         }
     }
@@ -132,8 +134,9 @@ class Salida_model extends MY_Model
 
         $tipo_incidencia = $data['id_tipo_incidencia'];
         $incidencia = $data['id_incidencia'];
+        $comentario_salida_incidencia = $data['comentario_salida_incidencia'];
         
-        unset($data['id_tipo_incidencia'], $data['id_incidencia']);
+        unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_salida_incidencia']);
 
         
         if (!$data['id_acompaniante']) {
@@ -149,8 +152,9 @@ class Salida_model extends MY_Model
 
         if ($incidencia) {
             $this->db->set(array(
-            'id_incidencia' => $incidencia,
-            'id_salida' => $value
+                'id_salida' => $id_salida,
+                'id_incidencia' => $incidencia,
+                'comentario_salida_incidencia' => $comentario_salida_incidencia
             ))->insert('salida_incidencia');
         }
     }

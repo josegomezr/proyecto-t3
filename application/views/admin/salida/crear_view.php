@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12">
-                    <strong>Observaciones o Incidencia de Salida</strong>
+                    <h4>Observaciones o Incidencia de Salida</h4>
                 </div>
 
                 <div class="col-xs-12 col-sm-6">
@@ -87,6 +87,12 @@
                                 <option data-parent="<?php echo $incidencia->id_tipo_incidencia ?>" value="<?php echo $incidencia->id_incidencia ?>"><?php echo $incidencia->descripcion_incidencia ?></option>
                             <?php endforeach ?>
                         </select>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="control-label" for="comentario_salida_incidencia">Detalles Adicionales</label>
+                        <textarea name="comentario_salida_incidencia" id="comentario_salida_incidencia" rows="3" class="form-control"></textarea>
                     </div>
                 </div>
                 
