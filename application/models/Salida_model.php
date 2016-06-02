@@ -36,7 +36,7 @@ class Salida_model extends MY_Model
             ->from('entrada')
             ->get_compiled_select();
 
-        $this->db
+        return $this->db
             ->select('count(*) as cuenta', false)
             ->where("id_salida IN ({$idSalidaSQL})", null, false)
             ->get('salida')->row()->cuenta;
@@ -48,13 +48,13 @@ class Salida_model extends MY_Model
             ->from('entrada')
             ->get_compiled_select();
 
-        $this->db
+        return $this->db
             ->select('count(*) as cuenta', false)
             ->where("id_salida NOT IN ({$idSalidaSQL})", null, false)
             ->get('salida')->row()->cuenta;
     }
 
-    public function buscar($criteria = array()) {
+    private function _buscar($criteria = array()) {
         return $this->db
             ->select('*')
             ->select('unidad.id_unidad as id_unidad')
@@ -70,6 +70,9 @@ class Salida_model extends MY_Model
             ->where($criteria)
             ;
     }
+    public function buscar($criteria = array()) {
+        return $this->_buscar($criteria)->get();
+    }
 
     private function _buscar_completas($criteria = array()) {
         $salioSQL = $this->db
@@ -84,13 +87,13 @@ class Salida_model extends MY_Model
             ->from('entrada')
             ->get_compiled_select();
 
-        return $this->buscar($criteria)
+        return $this->_buscar($criteria)
                 ->select("(${salioSQL}) as salio")
                 ->where('id_salida IN', "($idSalidaSQL)", false);
     }
 
     private function _buscar_en_proceso($criteria = array()) {
-        return $this->buscar($criteria)
+        return $this->_buscar($criteria)
                 ->where('id_entrada IS NULL', null, false);
     }
 
@@ -125,6 +128,8 @@ class Salida_model extends MY_Model
     }
 
     public function editar($criteria, $data) {
+        print_r($data);
+
         $tipo_incidencia = $data['id_tipo_incidencia'];
         $incidencia = $data['id_incidencia'];
         
@@ -151,6 +156,10 @@ class Salida_model extends MY_Model
     }
 
     public function eliminar($criteria) {
+        $this->db->where(
+            array('id_salida' => $criteria['id_salida']
+            )
+        )->delete('salida_incidencia');
         return $this->db->where($criteria)->delete('salida');
     }
 

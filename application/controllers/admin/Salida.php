@@ -27,7 +27,7 @@ class Salida extends Admin_Controller
     
         $this->data['salidas_incompletas'] = $this->salida_model->listar_en_proceso((int)$page_incompletas, $this->registros_per_pagina)->result();
 
-        $total_salidas_incompletas = $this->salida_model->contar_en_proceso();
+        $total_salidas_incompletas = (int)$this->salida_model->contar_en_proceso();
         
         $this->data['total_salidas_incompletas'] = $total_salidas_incompletas;
         $this->data['pagina_salida_incompleta'] = $page_incompletas;
@@ -36,7 +36,7 @@ class Salida extends Admin_Controller
 
         
         $this->data['salidas_completas'] = $this->salida_model->listar_completas((int)$page_completas, $this->registros_per_pagina)->result();
-        $total_salidas_completas = $this->salida_model->contar_completas();
+        $total_salidas_completas = (int)$this->salida_model->contar_completas();
         $this->data['total_salidas_completas'] = $total_salidas_completas;
         $this->data['pagina_salida_completa'] = $page_completas;
 
@@ -116,7 +116,7 @@ class Salida extends Admin_Controller
     
     public function get_eliminar($id_salida) {
     
-        $this->salida_model->eliminar('id_salida', $id_salida);
+        $this->salida_model->eliminar(array('id_salida' => $id_salida));
         $this->flash('success', 'success:salida:deleted');
         return redirect(site_url("admin/salida/index"));
     }
@@ -131,7 +131,6 @@ class Salida extends Admin_Controller
             redirect(site_url('admin/salida/'));
         }
         $this->data["salida"] = $result->row();
-        print_r($this->data['salida']);
         $this->data['conductores'] = $this->conductor_model->listar()->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data['unidades'] = $this->unidad_model->listar()->result();
@@ -163,7 +162,10 @@ class Salida extends Admin_Controller
         $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
         $registro["id_incidencia"] = $this->input->post("id_incidencia");
 
-        $this->salida_model->editar('id_salida', $id_salida, $registro);
+        $this->salida_model->editar(array(
+            'id_salida' => $id_salida
+            )
+        , $registro);
 
         $this->flash('success', 'success:salida:updated');
 
