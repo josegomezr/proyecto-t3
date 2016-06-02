@@ -80,7 +80,7 @@
                                 <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>" target="_blank">Imprimir Listado de Recorridos</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_salidas') ?>">Listar Salidas</a>
+                                <a href="<?php echo site_url('admin/reporte/listar_salidas') ?>">Listar Salidas</a>
                             </li>
                         </ul>
 

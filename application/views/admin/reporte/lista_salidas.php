@@ -8,15 +8,15 @@
 		</div>
 	<?php endif ?>
 	<div class="clearfix"></div>
-	<form action="<?php echo site_url('admin/reporte/lista_salidas') ?>" class="form-inline">
+	<form action="<?php echo site_url('admin/reporte/listar_salidas') ?>" class="form-inline">
 		<div class="form-group">
 			<label for="" class="control-label">Filtro: </label>
 		</div>
 		<div class="form-group">
-			<select name="cedula_conductor" id="cedula_conductor" class="form-control">
+			<select name="id_conductor" id="id_conductor" class="form-control">
 				<option value="">Seleccione conductor</option>
 				<?php foreach ($conductores as $conductor): ?>
-					<option value="<?php echo $conductor->cedula_conductor ?>" <?php echo $conductor_seleccionado == $conductor->cedula_conductor ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor; ?> <?php echo $conductor->apellido_conductor; ?></option>
+					<option value="<?php echo $conductor->id_conductor ?>" <?php echo $conductor_seleccionado == $conductor->id_conductor ? 'selected="selected"' : '' ?>><?php echo $conductor->nombre_conductor; ?> <?php echo $conductor->apellido_conductor; ?></option>
 				<?php endforeach ?>
 			</select>
 		</div>
@@ -63,7 +63,7 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_conductor): ?>
+			<?php if ($salida->id_conductor): ?>
 				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>
@@ -110,7 +110,7 @@
 	 ?>
 	    <td><?php echo $salida->id_salida;?></td>	
 		<td>
-			<?php if ($salida->cedula_conductor): ?>
+			<?php if ($salida->id_conductor): ?>
 				<?php echo $salida->nombre_conductor; ?> <?php echo $salida->apellido_conductor; ?>
 			<?php else: ?>
 				<strong class="text-danger">NO NOTIFICADA</strong>

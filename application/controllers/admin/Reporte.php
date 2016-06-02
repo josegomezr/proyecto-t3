@@ -65,13 +65,12 @@ class Reporte extends Admin_Controller
         $this->dom_pdf->mostrar();
     }
 
-    public function get_lista_salidas() {
-    
-        
-        $conductor = $this->input->get('id_conductor', false);
-        $recorrido = $this->input->get('id_recorrido', false);
-        $fecha_inicio = $this->input->get('fecha_inicio', false);
-        $fecha_final = $this->input->get('fecha_final', false);
+    public function get_listar_salidas() {
+      
+        $conductor = $this->input->get('id_conductor', true);
+        $recorrido = $this->input->get('id_recorrido', true);
+        $fecha_inicio = $this->input->get('fecha_inicio', true);
+        $fecha_final = $this->input->get('fecha_final', true);
         
         $fecha_inicio_parseada = null;
         $fecha_final_parseada = null;
@@ -87,19 +86,19 @@ class Reporte extends Admin_Controller
         $criteria = array();
 
         if ($conductor) {
-            $criteria['id_conductor'] = $conductor;
+            $criteria['salida.id_conductor'] = $conductor;
         }
         if ($recorrido) {
-            $criteria['id_recorrido'] = $recorrido;
+            $criteria['salida.id_recorrido'] = $recorrido;
         }
         if ($fecha_inicio_parseada) {
-            $criteria['fecha_salida_inicio'] = $fecha_inicio_parseada;
+            $criteria['salida.fecha_salida >='] = $fecha_inicio_parseada;
         }
         if ($fecha_final_parseada) {
-            $criteria['fecha_salida_final'] = $fecha_final_parseada;
+            $criteria['salida.fecha_salida <='] = $fecha_final_parseada;
         }
 
-        $salidas_incompletas = $this->salida_model->buscar_incompletas($criteria)->result();
+        $salidas_incompletas = $this->salida_model->buscar_en_proceso($criteria)->result();
         $salidas_completas = $this->salida_model->buscar_completas($criteria)->result();
 
         if (count($salidas_incompletas) == 0 && count($salidas_completas) == 0) {
