@@ -87,7 +87,7 @@
                     </li>
                 </ul>
                 
-                <a href="<?php echo site_url('admin/home/logout') ?>" class="btn btn-default navbar-btn navbar-right">Salir</a>
+                <a href="<?php echo site_url('admin/home/logout') ?>" id="logout" class="btn btn-default navbar-btn navbar-right">Salir</a>
             </div><!--/.nav-collapse -->
         </div>
     </div>

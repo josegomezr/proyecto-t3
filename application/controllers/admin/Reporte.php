@@ -2,9 +2,9 @@
 class Reporte extends Admin_Controller
 {
 
-    public function __construct()
-    {
-	   parent::__construct();
+    public function __construct() {
+    
+        parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('conductor_model');
         $this->load->model('unidad_model');
@@ -13,12 +13,12 @@ class Reporte extends Admin_Controller
         $this->load->model('entrada_model');
     }
 
-    public function get_lista_conductores()
-    {
+    public function get_lista_conductores() {
+    
         $conductores = $this->conductor_model->listar()->result();
         $this->data['conductores'] = $conductores;
 
-        if(count($conductores) == 0){
+        if (count($conductores) == 0) {
             $this->flash('error', 'error:conductor:empty');
             redirect('admin/home');
         }
@@ -30,12 +30,12 @@ class Reporte extends Admin_Controller
         $this->dom_pdf->establecer_papel('Letter', 'Portrait');
         $this->dom_pdf->mostrar();
     }
-    public function get_lista_unidades()
-    {
+    public function get_lista_unidades() {
+    
         $unidades = $this->unidad_model->listar()->result();
         $this->data['unidades'] = $unidades;
 
-        if(count($unidades) == 0){
+        if (count($unidades) == 0) {
             $this->flash('error', 'error:unidad:empty');
             redirect('admin/home');
         }
@@ -47,12 +47,12 @@ class Reporte extends Admin_Controller
         $this->dom_pdf->establecer_papel('Letter', 'Portrait');
         $this->dom_pdf->mostrar();
     }
-    public function get_lista_recorridos()
-    {
+    public function get_lista_recorridos() {
+    
         $recorridos = $this->recorrido_model->listar()->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
 
-        if(count($recorridos) == 0){
+        if (count($recorridos) == 0) {
             $this->flash('error', 'error:recorrido:empty');
             redirect('admin/home');
         }
@@ -65,41 +65,47 @@ class Reporte extends Admin_Controller
         $this->dom_pdf->mostrar();
     }
 
-    public function get_lista_salidas()
-    {
+    public function get_lista_salidas() {
+    
         
-        $conductor = $this->input->get('id_conductor', FALSE);
-        $recorrido = $this->input->get('id_recorrido', FALSE);
-        $fecha_inicio = $this->input->get('fecha_inicio', FALSE);
-        $fecha_final = $this->input->get('fecha_final', FALSE);
+        $conductor = $this->input->get('id_conductor', false);
+        $recorrido = $this->input->get('id_recorrido', false);
+        $fecha_inicio = $this->input->get('fecha_inicio', false);
+        $fecha_final = $this->input->get('fecha_final', false);
         
-        $fecha_inicio_parseada = NULL;
-        $fecha_final_parseada = NULL;
+        $fecha_inicio_parseada = null;
+        $fecha_final_parseada = null;
 
-        if($fecha_final)
+        if ($fecha_final) {
             $fecha_final_parseada = implode('-', array_reverse(explode('/', $fecha_final)));
+        }
 
-        if($fecha_inicio)
+        if ($fecha_inicio) {
             $fecha_inicio_parseada = implode('-', array_reverse(explode('/', $fecha_inicio)));
+        }
 
         $criteria = array();
 
-        if($conductor)
+        if ($conductor) {
             $criteria['id_conductor'] = $conductor;
-        if($recorrido)
+        }
+        if ($recorrido) {
             $criteria['id_recorrido'] = $recorrido;
-        if($fecha_inicio_parseada)
+        }
+        if ($fecha_inicio_parseada) {
             $criteria['fecha_salida_inicio'] = $fecha_inicio_parseada;
-        if($fecha_final_parseada)
+        }
+        if ($fecha_final_parseada) {
             $criteria['fecha_salida_final'] = $fecha_final_parseada;
+        }
 
         $salidas_incompletas = $this->salida_model->buscar_incompletas($criteria)->result();
         $salidas_completas = $this->salida_model->buscar_completas($criteria)->result();
 
-        if(count($salidas_incompletas) == 0 && count($salidas_completas) == 0){
+        if (count($salidas_incompletas) == 0 && count($salidas_completas) == 0) {
             if (count($criteria) > 0) {
                 $this->flash('error', 'error:salidas:no-match');
-            }else{
+            } else {
                 $this->flash('error', 'error:salidas:empty');
             }
             redirect('admin/home');
@@ -119,15 +125,15 @@ class Reporte extends Admin_Controller
         return $this->load->view("admin/reporte/lista_salidas", $this->data);
     }
 
-    public function get_pdf_lista_salida()
-    {
-        $conductor = $this->input->get('id_conductor', FALSE);
-        $recorrido = $this->input->get('id_recorrido', FALSE);
+    public function get_pdf_lista_salida() {
+    
+        $conductor = $this->input->get('id_conductor', false);
+        $recorrido = $this->input->get('id_recorrido', false);
 
         $salidas_incompletas = $this->salida_model->buscar_incompletas($conductor, $recorrido)->result();
         $salidas_completas = $this->salida_model->buscar_completas($conductor, $recorrido)->result();
         
-        if(count($salidas_incompletas) == 0 && count($salidas_completas) == 0){
+        if (count($salidas_incompletas) == 0 && count($salidas_completas) == 0) {
             $this->flash('error', 'error:salidas:no-match');
             redirect('admin/reporte/lista_salidas');
         }
@@ -150,13 +156,13 @@ class Reporte extends Admin_Controller
     }
 
     
-    public function get_entrada($id_salida)
-    {
+    public function get_entrada($id_salida) {
+    
 
         $this->load->library('gmap_lib');
         $this->load->model('incidencia_model');
         $entrada_result = $this->entrada_model->reporte($id_salida);
-        if($entrada_result->num_rows() == 0){
+        if ($entrada_result->num_rows() == 0) {
             $this->flash('error', 'error:entrada:not_found');
             redirect(site_url('admin/salida'));
         }
@@ -169,8 +175,9 @@ class Reporte extends Admin_Controller
 
         $conductor = $this->conductor_model->buscar('id_conductor', $entrada->id_conductor)->row();
         
-        if($entrada->id_acompaniante)
+        if ($entrada->id_acompaniante) {
             $acompaniante = $this->conductor_model->buscar('id_conductor', $entrada->id_acompaniante)->row();
+        }
 
         $puntos_result = $this->salida_model->buscar_recorrido($entrada->id_salida, $entrada->id_recorrido);
         $trazado_result = $this->recorrido_model->obtener_trazado($entrada->id_recorrido);
@@ -185,8 +192,9 @@ class Reporte extends Admin_Controller
         $this->data['incidencia_entrada'] = $incidencia_entrada;
         $this->data['incidencia_salida'] = $incidencia_salida;
 
-        if($entrada->id_acompaniante)
+        if ($entrada->id_acompaniante) {
             $this->data["acompaniante"] = $acompaniante;
+        }
         $this->data['puntos'] = $puntos;
 
         $bounds = $this->gmap_lib->get_bounds($puntos);

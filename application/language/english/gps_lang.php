@@ -38,10 +38,13 @@ $lang['error:recorrido:in_use'] ="Recorrido en uso";
 $lang['error:dispositivo:using'] ="Dispositivo en uso";
 $lang['sucesss:dispositivo:deleted'] ="Dispositivo eliminado con exito";
 $lang['error:salida:validation'] ="Error Los Campos Marcados Con * deben ser llenados";
+$lang['error:salida:not_found'] ="Entrada/Salida no encontrada.";
 $lang['error:entrada:not_found'] ="Entrada/Salida no encontrada.";
 $lang['error:conductor:validation'] ="Error Los Campos Marcados Con * deben ser llenados";
 
-$lang['success:salida:created'] ="Salida Con Exito";
+$lang['success:salida:created'] ="Salida creada exitosamente";
+$lang['success:salida:updated'] ="Salida editada exitosamente";
+$lang['success:salida:deleted'] ="Salida eliminada exitosamente";
 
 $lang['user:login:success'] ="Inicio de Sesi&oacute;n Exitoso";
 $lang['user:bad:login'] ="El Nombre de Usuario no existe en El Sistema";

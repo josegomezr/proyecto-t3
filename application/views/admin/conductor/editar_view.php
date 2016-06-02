@@ -11,13 +11,13 @@
 
         <div class="form-group <?php echo Form\has_error('nombre') ? 'has-error' :'' ?>">
             <label class="control-label" for="nombre">Nombre</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" required value="<?php echo Form\set_value('nombre', $conductor->nombre_conductor) ?>">
+            <input type="text" name="nombre" id="nombre" class="form-control" minlength="3" required value="<?php echo Form\set_value('nombre', $conductor->nombre_conductor) ?>">
             <p class="help-block"><?php echo lang(Form\get_error('nombre')) ?></p>
         </div>
 
         <div class="form-group <?php echo Form\has_error('apellido') ? 'has-error' :'' ?>">
             <label class="control-label" for="apellido">Apellido</label>
-            <input type="text" name="apellido" id="apellido" class="form-control" required value="<?php echo Form\set_value('apellido', $conductor->apellido_conductor) ?>">
+            <input type="text" name="apellido" id="apellido" class="form-control" minlength="3" required value="<?php echo Form\set_value('apellido', $conductor->apellido_conductor) ?>">
             <p class="help-block"><?php echo lang(Form\get_error('apellido')) ?></p>
         </div>
 
@@ -29,6 +29,9 @@
 </div> <!-- /#main_content -->
 </div> <!-- /.row -->
 <script>
+jQuery(function($) {
+    $("form").validate();
     $("#nombre").focus();
+});
 </script>
 <?php $this->load->view('admin/layout/footer') ?>

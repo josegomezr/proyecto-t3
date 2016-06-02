@@ -28,7 +28,7 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group <?php echo Form\has_error('nombre') ? 'has-error' :'' ?>">
                     <label class="control-label required-mark" for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="" class="form-control" minlength="4" required value="<?php echo Form\set_value('nombre') ?>">
+                    <input type="text" name="nombre" id="" class="form-control" minlength="3" required value="<?php echo Form\set_value('nombre') ?>">
                     <p class="help-block"><?php echo lang(Form\get_error('nombre')) ?></p>
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group <?php echo Form\has_error('apellido') ? 'has-error' :'' ?>">
                     <label class="control-label required-mark" for="apellido">Apellido</label>
-                    <input type="text" name="apellido" id="" class="form-control" minlength="4" required value="<?php echo Form\set_value('apellido') ?>">
+                    <input type="text" name="apellido" id="" class="form-control" minlength="3" required value="<?php echo Form\set_value('apellido') ?>">
                     <p class="help-block"><?php echo lang(Form\get_error('apellido')) ?></p>
                 </div>
             </div>

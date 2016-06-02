@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CodeIgniter Application Test Suite" tests="10" assertions="24" failures="0" errors="0" time="0.346272">
-    <testsuite name="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" tests="3" assertions="6" failures="0" errors="0" time="0.162470">
-      <testcase name="test_Login_con_malas_credenciales" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="28" assertions="2" time="0.118442"/>
-      <testcase name="test_Login_vacio" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="40" assertions="2" time="0.021998"/>
-      <testcase name="test_Login_con_usuario_bueno_pero_clave_mala" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="50" assertions="2" time="0.022030"/>
+  <testsuite name="CodeIgniter Application Test Suite" tests="11" assertions="26" failures="0" errors="0" time="0.356761">
+    <testsuite name="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" tests="4" assertions="8" failures="0" errors="0" time="0.184000">
+      <testcase name="test_Login_con_malas_credenciales" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="29" assertions="2" time="0.118222"/>
+      <testcase name="test_Login_vacio" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="41" assertions="2" time="0.021999"/>
+      <testcase name="test_Login_con_usuario_bueno_pero_clave_mala" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="51" assertions="2" time="0.021832"/>
+      <testcase name="test_Login_correcto" class="Home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/Home_test.php" line="63" assertions="2" time="0.021947"/>
     </testsuite>
-    <testsuite name="Admin_home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/admin/Admin_home_test.php" tests="1" assertions="1" failures="0" errors="0" time="0.020411">
-      <testcase name="test_Inicio_panel_administrador" class="Admin_home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/admin/Admin_home_test.php" line="29" assertions="1" time="0.020411"/>
+    <testsuite name="Admin_home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/admin/Admin_home_test.php" tests="1" assertions="1" failures="0" errors="0" time="0.008818">
+      <testcase name="test_Inicio_panel_administrador" class="Admin_home_test" file="/var/www/html/proyecto-t3/application/tests/controllers/admin/Admin_home_test.php" line="23" assertions="1" time="0.008818"/>
     </testsuite>
-    <testsuite name="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" tests="6" assertions="17" failures="0" errors="0" time="0.163391">
-      <testcase name="test_Listar_Funciona_Correctamente" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="19" assertions="5" time="0.020321"/>
-      <testcase name="test_Buscar_Funciona_Correctamente_con_2_parametros" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="64" assertions="2" time="0.021889"/>
-      <testcase name="test_Buscar_Funciona_Correctamente_con_1_parametro" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="82" assertions="2" time="0.021983"/>
-      <testcase name="test_Crear_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="101" assertions="6" time="0.033116"/>
-      <testcase name="test_Editar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="159" assertions="1" time="0.033109"/>
-      <testcase name="test_Eliminar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="179" assertions="1" time="0.032973"/>
+    <testsuite name="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" tests="6" assertions="17" failures="0" errors="0" time="0.163943">
+      <testcase name="test_Listar_Funciona_Correctamente" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="19" assertions="5" time="0.020833"/>
+      <testcase name="test_Buscar_Funciona_Correctamente_con_2_parametros" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="66" assertions="2" time="0.021976"/>
+      <testcase name="test_Buscar_Funciona_Correctamente_con_1_parametro" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="84" assertions="2" time="0.021947"/>
+      <testcase name="test_Crear_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="103" assertions="6" time="0.033225"/>
+      <testcase name="test_Editar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="161" assertions="1" time="0.032811"/>
+      <testcase name="test_Eliminar_Usuario" class="Usuario_model_testCase" file="/var/www/html/proyecto-t3/application/tests/models/Usuario_model_test.php" line="181" assertions="1" time="0.033151"/>
     </testsuite>
   </testsuite>
 </testsuites>

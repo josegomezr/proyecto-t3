@@ -1,12 +1,15 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (! defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 
-class Salida extends Admin_Controller {
+class Salida extends Admin_Controller
+{
 
     public $registros_per_pagina = 10;
 
-    public function __construct()
-    {
-		parent::__construct();
+    public function __construct() {
+    
+        parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('salida_model');
         $this->load->model('conductor_model');
@@ -20,10 +23,12 @@ class Salida extends Admin_Controller {
         $this->data['incidencias'] = $this->incidencia_model->listar()->result();
         
     }
-    public function get_index($page_incompletas = 1, $page_completas = 1)
-    {
+    public function get_index($page_incompletas = 1, $page_completas = 1) {
+    
         $this->data['salidas_incompletas'] = $this->salida_model->listar_en_proceso((int)$page_incompletas, $this->registros_per_pagina)->result();
+
         $total_salidas_incompletas = $this->salida_model->contar_en_proceso();
+        
         $this->data['total_salidas_incompletas'] = $total_salidas_incompletas;
         $this->data['pagina_salida_incompleta'] = $page_incompletas;
 
@@ -40,29 +45,29 @@ class Salida extends Admin_Controller {
         return $this->load->view("admin/salida/index_view", $this->data);
     }
 
-    public function get_test_map()
-    {
+    public function get_test_map() {
+    
         return $this->load->view("test-map", $this->data);
     }
 
-    public function get_crear()
-    {
+    public function get_crear() {
+    
         $this->data['conductores'] = $this->conductor_model->listar_disponibles()->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data['unidades'] = $this->unidad_model->listar_sin_salir()->result();
 
         
 
-        if(count($this->data['unidades']) == 0){
+        if (count($this->data['unidades']) == 0) {
             $this->flash('error', 'error:salida:no_unidades');
             return redirect(site_url('admin/salida/index'));
         }
-        if(count($this->data['conductores']) == 0){
+        if (count($this->data['conductores']) == 0) {
             $this->flash('error', 'error:salida:no_conductores');
             return redirect(site_url('admin/salida/index'));
         }
 
-        if(count($this->data['recorridos']) == 0){
+        if (count($this->data['recorridos']) == 0) {
             $this->flash('error', 'error:salida:no_recorridos');
             return redirect(site_url('admin/salida/index'));
         }
@@ -70,8 +75,8 @@ class Salida extends Admin_Controller {
         return $this->load->view("admin/salida/crear_view", $this->data);
     }
 
-    public function post_crear()
-    {
+    public function post_crear() {
+    
         $this->form_validation->set_rules('id_conductor', 'Conductor', 'trim|required');
         $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
@@ -79,8 +84,7 @@ class Salida extends Admin_Controller {
         $this->form_validation->set_rules('id_incidencia', 'Incidencia', 'trim');
         $this->form_validation->set_rules('id_tipo_incidencia', 'Tipo de Incidencia', 'trim');
 
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:salida:validation');
             redirect(site_url('admin/salida/crear'));
             exit;
@@ -104,25 +108,30 @@ class Salida extends Admin_Controller {
             throw $e;
             
             $this->flash('error', 'error:salida:not_unique');
-        }      
+        }
 
-        return redirect( site_url("admin/salida/index") );
+        return redirect(site_url("admin/salida/index"));
     
     }
     
-    public function get_eliminar ($id_salida)
-    {
+    public function get_eliminar($id_salida) {
+    
         $this->salida_model->eliminar('id_salida', $id_salida);
-        return redirect( site_url("admin/salida/index") );
+        $this->flash('success', 'success:salida:deleted');
+        return redirect(site_url("admin/salida/index"));
     }
-    public function get_editar ($id_salida)
-    {
-        $result = $this->salida_model->buscar('id_salida', $id_salida);
-        if($result->num_rows() == 0){
+    public function get_editar($id_salida) {
+    
+        $result = $this->salida_model->buscar(
+            array('salida.id_salida' => (int)$id_salida)
+        );
+
+        if ($result->num_rows() == 0) {
             $this->flash('error', 'error:salida:not_found');
             redirect(site_url('admin/salida/'));
         }
         $this->data["salida"] = $result->row();
+        print_r($this->data['salida']);
         $this->data['conductores'] = $this->conductor_model->listar()->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data['unidades'] = $this->unidad_model->listar()->result();
@@ -130,8 +139,8 @@ class Salida extends Admin_Controller {
         return $this->load->view("admin/salida/editar_view", $this->data);
     }
         
-    public function post_editar ($id_salida)
-    {
+    public function post_editar($id_salida) {
+    
         $this->form_validation->set_rules('id_conductor', 'Conductor', 'trim|required');
         $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
@@ -139,10 +148,9 @@ class Salida extends Admin_Controller {
         $this->form_validation->set_rules('id_incidencia', 'Incidencia', 'trim');
         $this->form_validation->set_rules('id_tipo_incidencia', 'Tipo de Incidencia', 'trim');
 
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:salida:validation');
-            redirect(site_url('admin/salida/editar/' . $id_salida) );
+            redirect(site_url('admin/salida/editar/' . $id_salida));
             exit;
         }
 
@@ -156,7 +164,10 @@ class Salida extends Admin_Controller {
         $registro["id_incidencia"] = $this->input->post("id_incidencia");
 
         $this->salida_model->editar('id_salida', $id_salida, $registro);
-        return redirect( site_url("admin/salida/index") );
+
+        $this->flash('success', 'success:salida:updated');
+
+        return redirect(site_url("admin/salida/index"));
 
     }
 }

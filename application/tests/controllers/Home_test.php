@@ -15,6 +15,7 @@ class Home_test extends TestCase
         $this->CI->load->database('test');
 
         $sqlPath = APPPATH."tests".DIRECTORY_SEPARATOR."sql".DIRECTORY_SEPARATOR."test_usuario.sql";
+
         $sqlData = $this->CI->load->file($sqlPath, true);
         $this->CI->db->simple_query($sqlData);
     }
@@ -34,7 +35,7 @@ class Home_test extends TestCase
         
         $ci = &get_instance();
         $this->assertResponseCode(302);
-        $this->assertEquals($ci->session->flashdata('error'), "user:bad:login");
+        $this->assertEquals("user:bad:login", $ci->session->flashdata('error'));
     }
 
     public function test_Login_vacio()
@@ -57,5 +58,17 @@ class Home_test extends TestCase
         $ci = &get_instance();
         $this->assertResponseCode(302);
         $this->assertEquals($ci->session->flashdata('error'), "user:bad:password");
+    }
+
+    public function test_Login_correcto()
+    {
+        $output = $this->request('POST', ['Home', 'login'], array(
+            'username' => 'administrador',
+            'password' => '1234'
+        ));
+        
+        $ci = &get_instance();
+        $this->assertResponseCode(302);
+        $this->assertEquals($ci->session->flashdata('info'), "user:login:success");
     }
 }

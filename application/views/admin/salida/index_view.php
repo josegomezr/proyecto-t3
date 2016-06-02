@@ -25,7 +25,7 @@
     <th>Recorrido</th>
     <th>Unidad</th>
     <th>Fecha Salida</th>
-    <th width="100"></th>
+    <th width="120"></th>
     </tr>
   </thead>
   <tbody>
@@ -111,7 +111,7 @@
     <th>Unidad</th>
     <th>Fecha Salida</th>
     <th>Fecha Llegada</th>
-    <th width="100"></th>
+    <th width="120"></th>
     </tr>
   </thead>
   <tbody>
@@ -204,7 +204,7 @@
           <strong>Observaciones o Incidencia de Entrada</strong>
           <div class="form-group">
               <label class="control-label" for="id_tipo_incidencia">Tipo</label>
-              <select name="id_tipo_incidencia" id="id_tipo_incidencia" class="form-control" required>
+              <select name="id_tipo_incidencia" id="id_tipo_incidencia" class="form-control">
                   <option value="">Seleccione</option>
                   <?php foreach ($tipos_incidencia as $tipo_incidencia): ?>
                       <option value="<?php echo $tipo_incidencia->id_tipo_incidencia ?>"><?php echo $tipo_incidencia->descripcion_tipo_incidencia ?></option>
@@ -213,7 +213,7 @@
           </div>
           <div class="form-group">
             <label class="control-label" for="id_incidencia">Incidencia</label>
-            <select name="id_incidencia" id="id_incidencia" disabled class="form-control" required>
+            <select name="id_incidencia" id="id_incidencia" disabled class="form-control">
               <option value="">Seleccione</option>
               <?php foreach ($incidencias as $incidencia): ?>
                 <option data-parent="<?php echo $incidencia->id_tipo_incidencia ?>" value="<?php echo $incidencia->id_incidencia ?>"><?php echo $incidencia->descripcion_incidencia ?></option>
@@ -237,7 +237,7 @@
   var id_salida = $("#id_salida");
 
   $("#salida-proceso").on('click', '.registrar-entrada', function (e) {
-    id_salida.val($(e.target).closest('a').data('pk'));
+    id_salida.val($(e.target).closest('a').attr('data-pk'));
     modal.modal('show');
     e.preventDefault();
   });

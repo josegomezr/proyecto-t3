@@ -69,7 +69,7 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         <label class="control-label" for="id_tipo_incidencia">Tipo</label>
-                        <select name="id_tipo_incidencia" id="id_tipo_incidencia" class="form-control" required>
+                        <select name="id_tipo_incidencia" id="id_tipo_incidencia" class="form-control">
                             <option value="">Seleccione</option>
                             <?php foreach ($tipos_incidencia as $tipo_incidencia): ?>
                                 <option value="<?php echo $tipo_incidencia->id_tipo_incidencia ?>"><?php echo $tipo_incidencia->descripcion_tipo_incidencia ?></option>
@@ -81,7 +81,7 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         <label class="control-label" for="id_incidencia">Incidencia</label>
-                        <select name="id_incidencia" id="id_incidencia" disabled class="form-control" required>
+                        <select name="id_incidencia" id="id_incidencia" disabled class="form-control">
                             <option value="">Seleccione</option>
                             <?php foreach ($incidencias as $incidencia): ?>
                                 <option data-parent="<?php echo $incidencia->id_tipo_incidencia ?>" value="<?php echo $incidencia->id_incidencia ?>"><?php echo $incidencia->descripcion_incidencia ?></option>

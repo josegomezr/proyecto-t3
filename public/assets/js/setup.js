@@ -49,6 +49,11 @@
             if(!confirm("¿Está seguro que desea eliminar el registro?"))
                 e.preventDefault();
         });
+        $('#logout').on('click', function (e) {
+            if(!confirm("¿Está seguro que desea salir?"))
+                e.preventDefault();
+            
+        })
     })
 
     window.GPS = {

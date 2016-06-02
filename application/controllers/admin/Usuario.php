@@ -3,8 +3,8 @@ class Usuario extends Admin_Controller
 {
     public $niveles = array();
     
-    public function __construct()
-    {
+    public function __construct() {
+    
         parent::__construct();
         $this->load->library('form_validation');
         $this->load->model('usuario_model');
@@ -19,26 +19,25 @@ class Usuario extends Admin_Controller
 
         $this->data['niveles_usuario'] = $this->niveles;
     }
-    public function get_index()
-    {
-    	$this->data['usuarios'] = $this->usuario_model->listar()->result();
+    public function get_index() {
+    
+        $this->data['usuarios'] = $this->usuario_model->listar()->result();
         return $this->load->view("admin/usuario/index_view", $this->data);
     }
-    public function get_crear()
-    {
+    public function get_crear() {
+    
         return $this->load->view("admin/usuario/crear_view", $this->data);
     }
 
-    public function post_crear()
-    {
+    public function post_crear() {
+    
 
         $this->form_validation->set_rules('login_usuario', 'Nombre de Usuario', 'trim|min_length[4]|required');
         $this->form_validation->set_rules('password', 'Contrase&ntilde;a', 'trim|min_length[4]|required');
         $this->form_validation->set_rules('password_repeat', 'Repita la Contrase&ntilde;a', 'trim|min_length[4]|matches[password]|required');
         $this->form_validation->set_rules('nivel_usuario', 'Nivel', 'trim|required');
 
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:usuario:validation');
             redirect(site_url('admin/usuario/crear'));
             exit;
@@ -55,25 +54,25 @@ class Usuario extends Admin_Controller
             redirect(site_url('admin/usuario/crear'));
             exit;
         }
-        return redirect( site_url("admin/usuario/index") );
+        return redirect(site_url("admin/usuario/index"));
     
     }
     
-    public function get_eliminar ($id_usuario)
-    {
+    public function get_eliminar($id_usuario) {
+    
         try {
             $this->usuario_model->eliminar('id_usuario', $id_usuario);
             $this->flash('success', 'success:usuario:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:usuario:using');
         }
-        return redirect( site_url("admin/usuario/index") );
+        return redirect(site_url("admin/usuario/index"));
     }
 
-    public function get_editar ($id_usuario)
-    {
+    public function get_editar($id_usuario) {
+    
         $result = $this->usuario_model->buscar('id_usuario', $id_usuario);
-        if($result->num_rows() == 0){
+        if ($result->num_rows() == 0) {
             $this->flash('error', 'error:usuario:not_found');
             redirect(site_url('admin/usuario/'));
         }
@@ -81,16 +80,15 @@ class Usuario extends Admin_Controller
         return $this->load->view("admin/usuario/editar_view", $this->data);
     }
         
-    public function post_editar ($id_usuario)
-    {
+    public function post_editar($id_usuario) {
+    
         $this->form_validation->set_rules('password', 'Contrase&ntilde;a', 'trim|min_length[4]|required');
         $this->form_validation->set_rules('password_repeat', 'Repita la Contrase&ntilde;a', 'trim|min_length[4]|matches[password]|required');
         $this->form_validation->set_rules('nivel_usuario', 'Nivel', 'trim|required');
 
-        if ($this->form_validation->run() == FALSE)
-        {
+        if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:usuario:validation');
-            redirect(site_url('admin/usuario/editar/' . $id_usuario) );
+            redirect(site_url('admin/usuario/editar/' . $id_usuario));
             exit;
         }
 
@@ -104,9 +102,7 @@ class Usuario extends Admin_Controller
         } catch (Exception $e) {
             $this->flash('error', 'error:usuario:duplicated');
         }
-        return redirect( site_url("admin/usuario/index") );
+        return redirect(site_url("admin/usuario/index"));
 
     }
-    
 }
-

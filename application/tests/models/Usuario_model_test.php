@@ -53,7 +53,9 @@ class Usuario_model_testCase extends TestCase {
         );
 
         $usuarios = $this->CI->Usuario_model->listar()->result();
-        $this->assertEquals(count($usuarios), 4, "Deben existir 4 registros del setup");
+        
+        $this->assertEquals(4, count($usuarios), "Deben existir 4 registros del setup");
+
         foreach ($usuarios as $usuario) {
             $this->assertEquals($expected[$usuario->id_usuario], $usuario, "Cada registro del setup debe ser igual al test");
         }

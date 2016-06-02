@@ -1,40 +1,44 @@
 <?php
-class Recorrido_model extends MY_Model {
+class Recorrido_model extends MY_Model
+{
 
-    function __construct()
-    {
+    function __construct() {
+    
         parent::__construct();
-	   $this->load->database();
+        $this->load->database();
     }
 
-    public function listar(){
+    public function listar() {
         return $this->db->order_by('id_recorrido', 'asc')->get('recorrido');
     }
 
-    public function buscar($criteria, $value){
-        if(is_array($criteria))
+    public function buscar($criteria) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->get('recorrido');
-        return $this->db->where($criteria, $value)->get('recorrido');
+        }
+        return $this->db->where($criteria)->get('recorrido');
     }
 
-    public function crear($data){
+    public function crear($data) {
         return $this->db->insert('recorrido', $data);
     }
 
-    public function editar($criteria, $value, $data){
-        if(is_array($criteria))
+    public function editar($criteria, $data) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->update('recorrido', $data);
-        return $this->db->where($criteria, $value)->update('recorrido', $data);
+        }
+        return $this->db->where($criteria)->update('recorrido', $data);
     }
 
-    public function eliminar($criteria, $value){
-        if(is_array($criteria))
+    public function eliminar($criteria) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->delete('recorrido');
-        return $this->db->where($criteria, $value)->delete('recorrido');
+        }
+        return $this->db->where($criteria)->delete('recorrido');
     }
 
-    public function guardar_trazado($id_recorrido, $puntos)
-    {
+    public function guardar_trazado($id_recorrido, $puntos) {
+    
         $pks = array();
         foreach ($puntos as $punto) {
             $registro = array(
@@ -54,10 +58,8 @@ class Recorrido_model extends MY_Model {
         $this->db->insert_batch('punto_recorrido', $pks);
     }
     
-    public function obtener_trazado($id_recorrido)
-    {
+    public function obtener_trazado($id_recorrido) {
+    
         return $this->db->query("SELECT * FROM punto_recorrido LEFT JOIN punto USING(id_punto) WHERE id_recorrido = ?", array($id_recorrido));
     }
-
-
 }

@@ -1,8 +1,9 @@
 <?php
 
 namespace Debug{
-    function show()
-    {
+
+    function show() {
+    
         if (!extension_loaded('xdebug')) {
             echo "<pre>";
         }
@@ -15,8 +16,8 @@ namespace Debug{
         }
     }
 
-    function dump()
-    {
+    function dump() {
+    
         if (!extension_loaded('xdebug')) {
             echo "<pre>";
         }
@@ -27,27 +28,27 @@ namespace Debug{
         }
     }
 
-    function s()
-    {
+    function s() {
+    
         $args = func_get_args();
         call_user_func_array('Debug\\show', $args);
     }
 
-    function sd()
-    {
+    function sd() {
+    
         $args = func_get_args();
         call_user_func_array('Debug\\show', $args);
         exit;
-    }    
+    }
 
-    function d()
-    {
+    function d() {
+    
         $args = func_get_args();
         call_user_func_array('Debug\\dump', $args);
     }
 
-    function dd()
-    {
+    function dd() {
+    
         $args = func_get_args();
         call_user_func_array('Debug\\dump', $args);
         exit;

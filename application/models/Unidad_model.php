@@ -1,17 +1,18 @@
 <?php
-class Unidad_model extends MY_Model {
+class Unidad_model extends MY_Model
+{
 
-    function __construct()
-    {
+    function __construct() {
+    
         parent::__construct();
         $this->load->database();
     }
 
-    public function listar(){
+    public function listar() {
         return $this->db->select('*, unidad.id_unidad')->join('dispositivo', 'dispositivo.id_unidad = unidad.id_unidad', 'left')->get('unidad');
     }
 
-    public function listar_sin_salir(){
+    public function listar_sin_salir() {
         return $this->db->query("SELECT * FROM unidad 
 WHERE id_unidad NOT IN 
 (SELECT salida.id_unidad FROM salida 
@@ -20,7 +21,7 @@ WHERE entrada.id_salida IS NULL) ");
 
     }
 
-    public function listar_sin_dispositivo($id_dispositivo = NULL){
+    public function listar_sin_dispositivo($id_dispositivo = null) {
         $sql = "SELECT * FROM unidad
         LEFT JOIN dispositivo USING(id_unidad)
         WHERE dispositivo.id_unidad IS NULL";
@@ -31,27 +32,28 @@ WHERE entrada.id_salida IS NULL) ");
 
     }
 
-    public function buscar($criteria, $value){
-        if(is_array($criteria))
+    public function buscar($criteria) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->get('unidad');
-        return $this->db->where($criteria, $value)->get('unidad');
+        }
+        return $this->db->where($criteria)->get('unidad');
     }
 
-    public function crear($data){
+    public function crear($data) {
         return $this->db->insert('unidad', $data);
     }
 
-    public function editar($criteria, $value, $data){
-        if(is_array($criteria))
+    public function editar($criteria, $data) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->update('unidad', $data);
-        return $this->db->where($criteria, $value)->update('unidad', $data);
+        }
+        return $this->db->where($criteria)->update('unidad', $data);
     }
 
-    public function eliminar($criteria, $value){
-        if(is_array($criteria))
+    public function eliminar($criteria) {
+        if (is_array($criteria)) {
             return $this->db->where($criteria)->delete('unidad');
-        return $this->db->where($criteria, $value)->delete('unidad');
+        }
+        return $this->db->where($criteria)->delete('unidad');
     }
-
-
 }
