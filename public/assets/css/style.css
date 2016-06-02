@@ -45,3 +45,7 @@ span.map-legend{
 #sidebar .panel ul li.active{
 	font-weight: bold;
 }
+
+input.datepicker{
+	padding: 10px 18px ;
+}

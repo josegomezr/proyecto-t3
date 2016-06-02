@@ -44,17 +44,6 @@
     if($.fn.datepicker)
         $.fn.datepicker.defaults.format = "dd/mm/yyyy";
 
-    $(function () {
-        $(".confirmar-eliminar").on('click', function (e) {
-            if(!confirm("¿Está seguro que desea eliminar el registro?"))
-                e.preventDefault();
-        });
-        $('#logout').on('click', function (e) {
-            if(!confirm("¿Está seguro que desea salir?"))
-                e.preventDefault();
-            
-        })
-    })
 
     window.GPS = {
         enable:{
@@ -72,10 +61,6 @@
     var mediaQueryList = window.matchMedia('print');
     var $width;
     
-    $(function () {
-        $width = $('body').trigger('resize').outerWidth(true);
-        console.log($width);
-    });
 
     mediaQueryList.addListener(function(mql) {
         if (mql.matches) {
@@ -106,4 +91,20 @@
         }
     });
 
+    $(function () {
+        $(".confirmar-eliminar").on('click', function (e) {
+            if(!confirm("¿Está seguro que desea eliminar el registro?"))
+                e.preventDefault();
+        });
+        $('#logout').on('click', function (e) {
+            if(!confirm("¿Está seguro que desea salir?"))
+                e.preventDefault();
+            
+        })
+        $width = $('body').trigger('resize').outerWidth(true);
+
+        $(".show-filters").on('click', function (e) {
+            $(this).closest('.filters-container').find('.filters').slideToggle(150);
+        })
+    })
 })(jQuery, window, undefined);
