@@ -24,6 +24,10 @@
     "footable": "~2.0.3",
     "jquery-validation": "~1.14.0",
     "jquery.maskedinput": "jquery-maskedinput#~1.4.1",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "pdfjs-dist": "^1.5.279",
+    "font-awesome": "^4.6.3",
+    "Chart": "https://github.com/chartjs/Chart.js",
+    "Chart.js": "git://github.com/chartjs/Chart.js#^2.1.4"
   }
 }

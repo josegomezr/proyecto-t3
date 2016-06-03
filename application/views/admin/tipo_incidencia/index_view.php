@@ -23,8 +23,8 @@
 	<table class="table table-bordered table-striped table-hover table-condensed">
 	<thead>
 	    <tr>
-		<th width="300">Descripcion</th>
-		<th></th>
+		<th>Descripcion</th>
+		<th width="80"></th>
     </tr>
 	</thead>
 	<tbody>

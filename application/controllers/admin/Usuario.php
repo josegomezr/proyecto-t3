@@ -61,7 +61,7 @@ class Usuario extends Admin_Controller
     public function get_eliminar($id_usuario) {
     
         try {
-            $this->usuario_model->eliminar('id_usuario', $id_usuario);
+            $this->usuario_model->eliminar(array('id_usuario' => $id_usuario));
             $this->flash('success', 'success:usuario:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:usuario:using');
@@ -71,7 +71,7 @@ class Usuario extends Admin_Controller
 
     public function get_editar($id_usuario) {
     
-        $result = $this->usuario_model->buscar('id_usuario', $id_usuario);
+        $result = $this->usuario_model->buscar(array('id_usuario' => $id_usuario));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:usuario:not_found');
             redirect(site_url('admin/usuario/'));
@@ -97,7 +97,7 @@ class Usuario extends Admin_Controller
         $registro["password_usuario"] = $this->input->post("password");
 
         try {
-            $this->usuario_model->editar('id_usuario', $id_usuario, $registro);
+            $this->usuario_model->editar(array('id_usuario' => $id_usuario), $registro);
             $this->flash('success', 'success:usuario:editado');
         } catch (Exception $e) {
             $this->flash('error', 'error:usuario:duplicated');

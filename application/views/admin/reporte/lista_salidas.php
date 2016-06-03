@@ -10,10 +10,10 @@
   </div>
   <?php endif ?>
   <div class="clearfix"></div>
-  <form action="<?php echo site_url('admin/reporte/listar_salidas') ?>">
+  <form>
     <div class="filters-container">
       <div class="pull-right">
-        <a href="<?php echo site_url('admin/reporte/pdf_lista_salida') . " ?{$_SERVER[ 'QUERY_STRING']} " ?>" class="btn btn-default" target="_blank">
+        <a href="<?php echo site_url('admin/reporte/visor_lista_salida') . "?{$_SERVER[ 'QUERY_STRING']}" ?>" class="btn btn-default">
           <i class="glyphicon glyphicon-print"></i>
         </a>
       </div>
@@ -23,7 +23,7 @@
         </button>
       </h3>
       <div class="clearfix"></div>
-      <div class="filters" style="display: none;">
+      <div class="filters" style="<?php echo $tiene_criteria ? '' : 'display: none;'; ?>">
         <div class="row clearfix">
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">

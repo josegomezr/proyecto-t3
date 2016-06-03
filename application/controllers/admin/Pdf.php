@@ -1,5 +1,5 @@
 <?php
-class Reporte extends Admin_Controller
+class Pdf extends Admin_Controller
 {
 
     public function __construct() {
@@ -11,29 +11,63 @@ class Reporte extends Admin_Controller
         $this->load->model('recorrido_model');
         $this->load->model('salida_model');
         $this->load->model('entrada_model');
-        $this->load->model('incidencia_model');
     }
 
     public function get_lista_conductores() {
-        $this->data['url'] = site_url('admin/pdf/lista_conductores');
-        $this->load->view('admin/reporte/visor', $this->data);
-    }
+    
+        $conductores = $this->conductor_model->listar()->result();
+        $this->data['conductores'] = $conductores;
 
+        if (count($conductores) == 0) {
+            $this->flash('error', 'error:conductor:empty');
+            redirect('admin/home');
+        }
+
+        $html = $this->load->view("admin/reporte/lista_conductores", $this->data, true);
+        $this->load->library('dom_pdf');
+
+        $this->dom_pdf->armar_pdf($html);
+        $this->dom_pdf->establecer_papel('Letter', 'Portrait');
+        $this->dom_pdf->mostrar();
+    }
+    
     public function get_lista_unidades() {
-        $this->data['url'] = site_url('admin/pdf/lista_unidades');
-        $this->load->view('admin/reporte/visor', $this->data);
+    
+        $unidades = $this->unidad_model->listar()->result();
+        $this->data['unidades'] = $unidades;
+
+        if (count($unidades) == 0) {
+            $this->flash('error', 'error:unidad:empty');
+            redirect('admin/home');
+        }
+
+        $html = $this->load->view("admin/reporte/lista_unidades", $this->data, true);
+        $this->load->library('dom_pdf');
+
+        $this->dom_pdf->armar_pdf($html);
+        $this->dom_pdf->establecer_papel('Letter', 'Portrait');
+        $this->dom_pdf->mostrar();
     }
     public function get_lista_recorridos() {
-        $this->data['url'] = site_url('admin/pdf/lista_recorridos');
-        $this->load->view('admin/reporte/visor', $this->data);
-    }
-    public function get_visor_lista_salida() {
-        $this->data['url'] = site_url('admin/pdf/lista_salida') . "?{$_SERVER['QUERY_STRING']}";
-        $this->load->view('admin/reporte/visor', $this->data);
+    
+        $recorridos = $this->recorrido_model->listar()->result();
+        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
+
+        if (count($recorridos) == 0) {
+            $this->flash('error', 'error:recorrido:empty');
+            redirect('admin/home');
+        }
+
+        $html = $this->load->view("admin/reporte/lista_recorridos", $this->data, true);
+        $this->load->library('dom_pdf');
+
+        $this->dom_pdf->armar_pdf($html);
+        $this->dom_pdf->establecer_papel('Letter', 'Portrait');
+        $this->dom_pdf->mostrar();
     }
 
-    public function get_filtro_listar_salidas() {
-      
+    public function get_lista_salida() {
+    
         $conductor = $this->input->get('id_conductor', true);
         $recorrido = $this->input->get('id_recorrido', true);
         $fecha_inicio = $this->input->get('fecha_inicio', true);
@@ -67,14 +101,10 @@ class Reporte extends Admin_Controller
 
         $salidas_incompletas = $this->salida_model->buscar_en_proceso($criteria)->result();
         $salidas_completas = $this->salida_model->buscar_completas($criteria)->result();
-
+        
         if (count($salidas_incompletas) == 0 && count($salidas_completas) == 0) {
-            if (count($criteria) > 0) {
-                $this->flash('error', 'error:salidas:no-match');
-            } else {
-                $this->flash('error', 'error:salidas:empty');
-            }
-            redirect('admin/home');
+            $this->flash('error', 'error:salidas:no-match');
+            redirect('admin/reporte/lista_salidas');
         }
 
         $this->data['salidas_incompletas'] = $salidas_incompletas;
@@ -82,15 +112,18 @@ class Reporte extends Admin_Controller
 
         $this->data['conductores'] = $this->conductor_model->listar()->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
-        
         $this->data['conductor_seleccionado'] = $conductor;
         $this->data['recorrido_seleccionado'] = $recorrido;
-        $this->data['fecha_inicio_seleccionado'] = $fecha_inicio;
-        $this->data['fecha_final_seleccionado'] = $fecha_final;
-        $this->data['tiene_criteria'] = count($criteria) > 0;
 
-        return $this->load->view("admin/reporte/lista_salidas", $this->data);
+        $html = $this->load->view("admin/reporte/pdf_lista_salidas", $this->data, true);
+
+        $this->load->library('dom_pdf');
+
+        $this->dom_pdf->armar_pdf($html);
+        $this->dom_pdf->establecer_papel('Letter', 'Landscape');
+        $this->dom_pdf->mostrar();
     }
+
     
     public function get_entrada($id_salida) {
     
@@ -169,78 +202,5 @@ class Reporte extends Admin_Controller
 
         $this->load->view("admin/reporte/entrada-js", $this->data);
         
-    }
-
-    public function get_incidencias()
-    {
-        return $this->load->view("admin/reporte/incidencias", $this->data);   
-    }
-
-    public function get_json_valores_para($criteria)
-    {
-        $dataset = array();
-        $pk_col = '';
-        $display_col = '';
-        
-        if ($criteria == 'unidad') {
-            $result = $this->unidad_model->listar()->result();
-            foreach ($result as $row) {
-                $dataset[] = array(
-                    'pk' => $row->id_unidad,
-                    'display' => sprintf("%s (%s)", $row->modelo_unidad, $row->placa_unidad)
-                );
-            }
-        }else if ($criteria == 'conductor') {
-            $result = $this->conductor_model->listar()->result();
-            foreach ($result as $row) {
-                $dataset[] = array(
-                    'pk' => $row->id_conductor,
-                    'display' => sprintf("%s %s", $row->nombre_conductor, $row->apellido_conductor)
-                );
-            }
-        }else if ($criteria == 'recorrido') {
-            $result = $this->recorrido_model->listar()->result();
-            foreach ($result as $row) {
-                $dataset[] = array(
-                    'pk' => $row->id_recorrido,
-                    'display' => $row->nombre_recorrido
-                );
-            }
-        }
-
-        $this->output->set_header('Content-type: application/json');
-        echo json_encode($dataset);
-    }
-
-    public function get_json_incidencias($entity){
-
-        if ($entity == 'unidad') {
-            $sql = "SELECT CONCAT(modelo_unidad, '(', placa_unidad,')') as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_unidad= unidad.id_unidad) as total
-                    FROM unidad;";
-        }else if ($entity == 'conductor') {
-            $sql = "SELECT CONCAT(nombre_conductor, ' ', apellido_conductor) as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_conductor = conductor.id_conductor) as total
-                    FROM conductor";
-        }else if ($entity == 'recorrido') {
-            $sql = "SELECT nombre_recorrido as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_recorrido = recorrido.id_recorrido) as total
-                    FROM recorrido";
-        }
-      
-        $result = $this->db->query($sql)->result();
-        $dataset = array();
-        foreach ($result as $row) {
-            if($row->total > 0)
-                $dataset[] = $row;
-        }
-        $this->output->set_header('Content-type: application/json');
-        echo json_encode($dataset);
     }
 }

@@ -6,23 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo isset($title) ? '- ' . $title : '' ?> UPTOS GPS</title>
 
-    <link href="<?php echo base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet">
+    <link href="<?php echo base_url('components/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
 
-    <link href="<?php echo base_url('assets/css/font-awesome.min.css') ?>" rel="stylesheet">
-
+    <link href="<?php echo base_url('components/font-awesome/css/font-awesome.min.css') ?>" rel="stylesheet">
     <link href="" rel="stylesheet" id="theme-switcher">
 
-    <link href="<?php echo base_url('assets/css/style.css') ?>" rel="stylesheet">
-    
-    <link href="<?php echo base_url('assets/css/datepicker.css') ?>" rel="stylesheet">
-
+    <link href="<?php echo base_url('components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') ?>" rel="stylesheet">
     <!-- por cuestiones de manejo de plantillas, los scripts irán en <head> -->
     <!-- en vez de lo usual, antes de </body> -->
-    <script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/js/jquery.validate.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/js/bootstrap.min.js') ?>"></script>
-    <script src="<?php echo base_url('assets/js/bootstrap-datepicker.js') ?>"></script>
-    <script src="<?php echo base_url('assets/js/bootstrap-datepicker.es.js') ?>"></script>
+    <script src="<?php echo base_url('components/jquery/dist/jquery.min.js') ?>"></script>
+    <script src="<?php echo base_url('components/jquery-validation/dist/jquery.validate.min.js') ?>"></script>
+    <script src="<?php echo base_url('components/bootstrap/dist/js/bootstrap.min.js') ?>"></script>
+    <script src="<?php echo base_url('components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js') ?>"></script>
+    <script src="<?php echo base_url('components/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js') ?>"></script>
+
+    <link href="<?php echo base_url('assets/css/style.css') ?>" rel="stylesheet">
     <script src="<?php echo base_url('assets/js/setup.js') ?>"></script>
 </head>
 <body>
@@ -71,16 +69,19 @@
                         <a href="#" data-toggle="dropdown">Reportes <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>" target="_blank">Imprimir Listado de Conductores</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>">Imprimir Listado de Conductores</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>" target="_blank">Imprimir Listado de Unidades</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>">Imprimir Listado de Unidades</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>" target="_blank">Imprimir Listado de Recorridos</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>">Imprimir Listado de Recorridos</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/listar_salidas') ?>">Listar Salidas</a>
+                                <a href="<?php echo site_url('admin/reporte/filtro_listar_salidas') ?>">Listar Salidas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('admin/reporte/incidencias') ?>">Incidencias</a>
                             </li>
                         </ul>
 

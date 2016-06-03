@@ -83,19 +83,22 @@
                     <div class="panel-body">
                         <ul class="list-unstyled">
                             <!-- <li>
-                                <a target="_blank" href="<?php echo site_url("admin/home/test_map");?>">DEMO MAPA RUTA</a>
+                                <a href="<?php echo site_url("admin/home/test_map");?>">DEMO MAPA RUTA</a>
                             </li> -->
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>" target="_blank">Imprimir Listado de Conductores</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>">Imprimir Listado de Conductores</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>" target="_blank">Imprimir Listado de Unidades</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>">Imprimir Listado de Unidades</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>" target="_blank">Imprimir Listado de Recorridos</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>">Imprimir Listado de Recorridos</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/listar_salidas') ?>">Listar Salidas</a>
+                                <a href="<?php echo site_url('admin/reporte/filtro_listar_salidas') ?>">Listar Salidas</a>
+                            </li>
+                            <li>
+                                <a href="<?php echo site_url('admin/reporte/Incidencias') ?>">Incidencias</a>
                             </li>
                         </ul>
                     </div>

@@ -30,11 +30,6 @@ class Tipo_incidencia_model extends MY_Model
     }
 
     public function editar($criteria, $data = null) {
-        if (is_array($criteria)) {
-            return $this->db
-                ->where($criteria)
-                ->update('tipo_incidencia');
-        }
         return $this->db
             ->where($criteria)
             ->update('tipo_incidencia', $data);

@@ -46,7 +46,7 @@ class Tipo_incidencia extends Admin_Controller
     public function get_eliminar($id_tipo_incidencia) {
     
         try {
-            $this->tipo_incidencia_model->eliminar('id_tipo_incidencia', $id_tipo_incidencia);
+            $this->tipo_incidencia_model->eliminar(array('id_tipo_incidencia' => $id_tipo_incidencia));
             $this->flash('success', 'success:tipo_incidencia:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:tipo_incidencia:using');
@@ -56,7 +56,7 @@ class Tipo_incidencia extends Admin_Controller
 
     public function get_editar($id_tipo_incidencia) {
     
-        $result = $this->tipo_incidencia_model->buscar('id_tipo_incidencia', $id_tipo_incidencia);
+        $result = $this->tipo_incidencia_model->buscar(array('id_tipo_incidencia' => $id_tipo_incidencia));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:tipo_incidencia:not_found');
             redirect(site_url('admin/tipo_incidencia/'));
@@ -79,7 +79,7 @@ class Tipo_incidencia extends Admin_Controller
         $registro["descripcion_tipo_incidencia"] = $this->input->post("descripcion_tipo_incidencia");
 
         try {
-            $this->tipo_incidencia_model->editar('id_tipo_incidencia', $id_tipo_incidencia, $registro);
+            $this->tipo_incidencia_model->editar(array('id_tipo_incidencia' => $id_tipo_incidencia), $registro);
             $this->flash('success', 'success:tipo_incidencia:editado');
         } catch (Exception $e) {
             $this->flash('error', 'error:tipo_incidencia:duplicated');

@@ -73,3 +73,24 @@ $lang['error:usuario:validation'] ="Error Los Campos Marcados Con * deben ser ll
 $lang['error:usuario:duplicated'] ="Error El nombre de usuario ya ha sido utilizado";
 
 $lang['success:recorrido:trazado:stored'] ="Trazado guardado exitosamente";
+
+
+$lang['success:incidencia:create'] = "success:incidencia:create";
+$lang['success:incidencia:deleted'] = "success:incidencia:deleted";
+$lang['error:incidencia:using'] = "error:incidencia:using";
+$lang['error:incidencia:not_found'] = "error:incidencia:not_found";
+$lang['success:incidencia:editado'] = "success:incidencia:editado";
+$lang['error:incidencia:duplicated'] = "error:incidencia:duplicated";
+$lang['error:incidencia:validation'] = "error:incidencia:validation";
+
+$lang['error:tipo_incidencia:validation'] = 'error:tipo_incidencia:validation';
+$lang['success:tipo_incidencia:create'] = 'success:tipo_incidencia:create';
+$lang['success:tipo_incidencia:deleted'] = 'success:tipo_incidencia:deleted';
+$lang['error:tipo_incidencia:using'] = 'error:tipo_incidencia:using';
+$lang['error:tipo_incidencia:not_found'] = 'error:tipo_incidencia:not_found';
+$lang['success:tipo_incidencia:editado'] = 'success:tipo_incidencia:editado';
+$lang['error:tipo_incidencia:duplicated'] = 'error:tipo_incidencia:duplicated';
+
+
+///
+// Rayones en la Carroceria que podrian ser muy malos para el vehiculo porque waao que malo seria eso verdad ? upps que cosas vale :c

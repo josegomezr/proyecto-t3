@@ -19,7 +19,7 @@
                 <div class="col-xs-12 col-sm-6">
                     <div class="form-group <?php echo Form\has_error('descripcion_incidencia') ? 'has-error' :'' ?>">
                         <label class="control-label required-mark" for="descripcion_incidencia">Descripcion Incidencia</label>
-                        <input type="text" name="descripcion_incidencia" id="descripcion_incidencia" maxlength="10" class="form-control" value="<?php echo Form\set_value('descripcion_incidencia', $incidencia->descripcion_incidencia) ?>" autofocus required data-rule-descripcion_incidencia="true">
+                        <textarea name="descripcion_incidencia" id="descripcion_incidencia" maxlength="140" class="form-control" autofocus required rows="3"><?php echo Form\set_value('descripcion_incidencia', $incidencia->descripcion_incidencia) ?></textarea>
                         <p class="help-block"><?php echo lang(Form\get_error('descripcion_incidencia')) ?></p>
                     </div>
                 </div>

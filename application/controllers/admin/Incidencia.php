@@ -24,7 +24,7 @@ class Incidencia extends Admin_Controller
     public function post_crear() {
     
 
-        $this->form_validation->set_rules('descripcion_incidencia', 'Descripcion Incidencia', 'trim|min_length[4]|required|max_length[45]');
+        $this->form_validation->set_rules('descripcion_incidencia', 'Descripcion Incidencia', 'trim|min_length[4]|required|max_length[140]');
         $this->form_validation->set_rules('id_tipo_incidencia', 'Descripcion Incidencia', 'trim|max_length[4]|required');
 
         if ($this->form_validation->run() == false) {
@@ -74,12 +74,12 @@ class Incidencia extends Admin_Controller
         
     public function post_editar($id_incidencia) {
     
-        $this->form_validation->set_rules('descripcion_incidencia', 'Descripcion Incidencia', 'trim|min_length[4]|required|max_length[45]');
+        $this->form_validation->set_rules('descripcion_incidencia', 'Descripcion Incidencia', 'trim|min_length[4]|required|max_length[140]');
         $this->form_validation->set_rules('id_tipo_incidencia', 'Descripcion Incidencia', 'trim|max_length[4]|required');
 
         if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:incidencia:validation');
-            redirect(site_url('admin/incidencia/crear'));
+            redirect(site_url('admin/incidencia/editar/'.$id_incidencia));
             exit;
         }
 
@@ -89,7 +89,7 @@ class Incidencia extends Admin_Controller
 
 
         try {
-            $this->incidencia_model->editar('id_incidencia', $id_incidencia, $registro);
+            $this->incidencia_model->editar(array('id_incidencia' => $id_incidencia), $registro);
             $this->flash('success', 'success:incidencia:editado');
         } catch (Exception $e) {
             $this->flash('error', 'error:incidencia:duplicated');

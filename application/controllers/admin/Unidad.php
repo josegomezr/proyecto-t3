@@ -47,7 +47,7 @@ class Unidad extends Admin_Controller
     public function get_eliminar($id_unidad) {
     
         try {
-            $this->unidad_model->eliminar('id_unidad', $id_unidad);
+            $this->unidad_model->eliminar(array('id_unidad' => $id_unidad));
             $this->flash('info', 'success:unidad:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:unidad:in_use');
@@ -57,7 +57,7 @@ class Unidad extends Admin_Controller
 
     public function get_editar($id_unidad) {
     
-        $result = $this->unidad_model->buscar('id_unidad', $id_unidad);
+        $result = $this->unidad_model->buscar(array('id_unidad' => $id_unidad));
 
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:unidad:not_found');
@@ -81,7 +81,7 @@ class Unidad extends Admin_Controller
         $registro = array();
         $registro["modelo_unidad"] = $this->input->post("modelo");
 
-        $this->unidad_model->editar('id_unidad', $id_unidad, $registro);
+        $this->unidad_model->editar(array('id_unidad' => $id_unidad), $registro);
         $this->flash('success', 'success:unidad:editado');
 
         return redirect(site_url("admin/unidad/index"));

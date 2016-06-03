@@ -45,7 +45,7 @@ class Recorrido extends Admin_Controller
     public function get_eliminar($id_recorrido) {
     
         try {
-            $this->recorrido_model->eliminar('id_recorrido', $id_recorrido);
+            $this->recorrido_model->eliminar(array('id_recorrido' => $id_recorrido));
             $this->flash('success', 'success:recorrido:delete');
         } catch (Exception $e) {
             $this->flash('error', 'error:recorrido:in_use');
@@ -56,7 +56,7 @@ class Recorrido extends Admin_Controller
 
     public function get_editar($id_recorrido) {
     
-        $result = $this->recorrido_model->buscar('id_recorrido', $id_recorrido);
+        $result = $this->recorrido_model->buscar(array('id_recorrido' => $id_recorrido));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:recorrido:not_found');
             redirect(site_url('admin/recorrido/'));
@@ -80,7 +80,7 @@ class Recorrido extends Admin_Controller
 
 
         try {
-            $this->recorrido_model->editar('id_recorrido', $id_recorrido, $registro);
+            $this->recorrido_model->editar(array('id_recorrido' => $id_recorrido), $registro);
             $this->flash('success', 'success:recorrido:editado');
         } catch (Exception $e) {
             $this->flash('error', 'error:unidad:duplicated');
