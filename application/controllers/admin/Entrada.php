@@ -19,7 +19,6 @@ class Entrada extends Admin_Controller
     public function post_registrar_entrada() {
     
         $id_salida = $this->input->post('id_salida', false);
-        $observacion = $this->input->post('observacion', null);
         
         if (!$id_salida) {
             redirect(site_url('admin/salida'));
@@ -39,7 +38,10 @@ class Entrada extends Admin_Controller
         $registro['id_salida'] = $result->row()->id_salida;
         $registro['fecha_entrada'] = date('Y-m-d');
         $registro['hora_entrada'] = date('H:i');
-        // $registro['observacion_entrada'] = $observacion;
+        
+        $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
+        $registro["comentario_entrada_incidencia"] = $this->input->post("comentario_entrada_incidencia");
+        $registro["id_incidencia"] = $this->input->post("id_incidencia");
 
         $this->entrada_model->crear($registro);
         $this->flash('success', 'success:entrada:created');

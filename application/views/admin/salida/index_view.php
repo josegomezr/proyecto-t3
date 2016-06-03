@@ -220,6 +220,10 @@
               <?php endforeach ?>
             </select>
           </div>
+          <div class="form-group">
+              <label class="control-label" for="comentario_entrada_incidencia">Detalles Adicionales</label>
+              <textarea name="comentario_entrada_incidencia" id="comentario_entrada_incidencia" rows="3" class="form-control"></textarea>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>

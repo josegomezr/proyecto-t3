@@ -26,14 +26,47 @@ WHERE id_entrada = '$id_entrada'");
     }
 
     public function crear($data) {
-        return $this->db->insert('entrada', $data);
+        
+        $tipo_incidencia = $data['id_tipo_incidencia'];
+        $incidencia = $data['id_incidencia'];
+        $comentario_entrada_incidencia = $data['comentario_entrada_incidencia'];
+        
+        unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_entrada_incidencia']);
+
+        $this->db->set($data)->insert('entrada');
+
+        $id_entrada = $this->db->insert_id();
+        if ($incidencia) {
+            $this->db->set(array(
+                'id_entrada' => $id_entrada,
+                'id_incidencia' => $incidencia,
+                'comentario_entrada_incidencia' => $comentario_entrada_incidencia
+            ))->insert('entrada_incidencia');
+        }
     }
 
     public function editar($criteria, $data) {
-        if (is_array($criteria)) {
-            return $this->db->where($criteria)->update('entrada', $data);
+
+        $tipo_incidencia = $data['id_tipo_incidencia'];
+        $incidencia = $data['id_incidencia'];
+        $comentario_salida_incidencia = $data['comentario_entrada_incidencia'];
+        
+        unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_entrada_incidencia']);
+
+        $this->db->set($data)->where($criteria)->update('entrada');
+
+        $this->db->where(
+            array('id_entrada' => $criteria['id_entrada']
+            )
+        )->delete('entrada_incidencia');
+
+        if ($incidencia) {
+            $this->db->set(array(
+                'id_entrada' => $id_entrada,
+                'id_incidencia' => $incidencia,
+                'comentario_entrada_incidencia' => $comentario_entrada_incidencia
+            ))->insert('entrada_incidencia');
         }
-        return $this->db->where($criteria)->update('entrada', $data);
     }
 
     public function eliminar($criteria) {
