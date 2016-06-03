@@ -72,7 +72,7 @@ class Dispositivo extends Admin_Controller
     public function get_eliminar($id_dispositivo) {
     
         try {
-            $this->dispositivo_model->eliminar('id_dispositivo', $id_dispositivo);
+            $this->dispositivo_model->eliminar(array('id_dispositivo' => $id_dispositivo));
             $this->flash('success', 'sucesss:dispositivo:deleted');
         } catch (Exception $e) {
             $this->flash_validation_error('error:dispositivo:using');
@@ -83,13 +83,13 @@ class Dispositivo extends Admin_Controller
 
     public function get_editar($id_dispositivo) {
     
-        $result = $this->dispositivo_model->buscar('id_dispositivo', $id_dispositivo);
+        $result = $this->dispositivo_model->buscar(array('id_dispositivo' => $id_dispositivo));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:dispositivo:not_found');
             redirect(site_url('admin/dispositivo/'));
         }
 
-        $this->data['unidades'] = $this->unidad_model->listar_sin_dispositivo($id_dispositivo);
+        $this->data['unidades'] = $this->unidad_model->listar_sin_dispositivo($id_dispositivo)->result();
         $this->data['recorridos'] = $this->recorrido_model->listar()->result();
         $this->data["dispositivo"] = $result->row();
         return $this->load->view("admin/dispositivo/editar_view", $this->data);
@@ -112,7 +112,7 @@ class Dispositivo extends Admin_Controller
             'id_recorrido' => $this->input->post('id_recorrido')
         );
         
-        $this->dispositivo_model->editar('id_dispositivo', $id_dispositivo, $registro);
+        $this->dispositivo_model->editar(array('id_dispositivo' => $id_dispositivo), $registro);
         $this->flash('info', 'success:dispositivo:crear');
         redirect(site_url('admin/dispositivo'));
     }

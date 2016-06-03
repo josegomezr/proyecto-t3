@@ -25,7 +25,9 @@ class Entrada extends Admin_Controller
             redirect(site_url('admin/salida'));
         }
 
-        $result = $this->salida_model->buscar('id_salida', $id_salida);
+        $result = $this->salida_model->buscar(array(
+            'id_salida' => $id_salida
+            ));
 
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:salida:not_found');
@@ -46,24 +48,36 @@ class Entrada extends Admin_Controller
 
     public function get_editar($id_entrada) {
     
-        $result = $this->entrada_model->buscar('id_entrada', $id_entrada);
+        $result = $this->entrada_model->buscar(array(
+            'id_entrada' => $id_entrada
+            ));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:entrada:not_found');
             redirect(site_url('admin/salida'));
         }
         $entrada = $result->row();
-        $salida = $this->salida_model->buscar('id_salida', $entrada->id_salida)->row();
+        $salida = $this->salida_model->buscar(array(
+            'id_salida' => $entrada->id_salida
+            ))->row();
 
         $this->data["entrada"] = $entrada;
 
-        $this->data['chofer'] = $this->conductor_model->buscar('cedula_chofer', $salida->cedula_chofer)->row();
+        $this->data['chofer'] = $this->conductor_model->buscar(array(
+            'cedula_chofer' => $salida->cedula_chofer
+            ))->row();
         
         if ($salida->cedula_acompaniante) {
-            $this->data['acompaniante'] = $this->conductor_model->buscar('cedula_chofer', $salida->cedula_acompaniante)->row();
+            $this->data['acompaniante'] = $this->conductor_model->buscar(array(
+                'cedula_chofer' => $salida->cedula_acompaniante
+                ))->row();
         }
 
-        $this->data['recorrido'] = $this->recorrido_model->buscar('id_recorrido', $salida->id_recorrido)->row();
-        $this->data['unidad'] = $this->unidad_model->buscar('placa_unidad', $salida->placa_unidad)->row();
+        $this->data['recorrido'] = $this->recorrido_model->buscar(array(
+            'id_recorrido' => $salida->id_recorrido
+            ))->row();
+        $this->data['unidad'] = $this->unidad_model->buscar(array(
+            'placa_unidad' => $salida->placa_unidad
+            ))->row();
 
         return $this->load->view("admin/entrada/editar_view", $this->data);
     }

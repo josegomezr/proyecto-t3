@@ -9,6 +9,7 @@ $lang['matches'] = "El campo no concuerda";
 //conductor
 $lang['success:conductor:create'] = "Conductor creado exitosamente.";
 $lang['success:conductor:editado'] ="Conductor editado exitosamente";
+$lang['error:conductor:not_found'] = "Error, el conductor no existe.";
 $lang['error:conductor:duplicated'] = "Error La Cedula ya ha sido usada para registrar un conductor.";
 $lang['error:conductor:empty'] = "No hay conductores registrados.";
 $lang['error:conductor:using'] = "Error este conductor ya ha participado en una salida por lo tanto no puede ser eliminado.";

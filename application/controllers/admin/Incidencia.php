@@ -51,7 +51,7 @@ class Incidencia extends Admin_Controller
     public function get_eliminar($id_incidencia) {
     
         try {
-            $this->incidencia_model->eliminar('id_incidencia', $id_incidencia);
+            $this->incidencia_model->eliminar(array('id_incidencia' => $id_incidencia));
             $this->flash('success', 'success:incidencia:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:incidencia:using');
@@ -61,7 +61,7 @@ class Incidencia extends Admin_Controller
 
     public function get_editar($id_incidencia) {
     
-        $result = $this->incidencia_model->buscar('id_incidencia', $id_incidencia);
+        $result = $this->incidencia_model->buscar(array('id_incidencia' => $id_incidencia));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:incidencia:not_found');
             redirect(site_url('admin/incidencia/'));

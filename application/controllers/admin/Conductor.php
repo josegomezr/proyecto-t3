@@ -50,7 +50,7 @@ class Conductor extends Admin_Controller
     public function get_eliminar($cedula) {
     
         try {
-            $this->conductor_model->eliminar('cedula_conductor', $cedula);
+            $this->conductor_model->eliminar(array('cedula_conductor' => $cedula));
             $this->flash('success', 'success:conductor:deleted');
         } catch (Exception $e) {
             $this->flash('error', 'error:conductor:using');
@@ -60,7 +60,7 @@ class Conductor extends Admin_Controller
 
     public function get_editar($cedula) {
     
-        $result = $this->conductor_model->buscar('cedula_conductor', $cedula);
+        $result = $this->conductor_model->buscar(array('cedula_conductor' => $cedula));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:conductor:not_found');
             redirect(site_url('admin/conductor/'));
@@ -85,11 +85,12 @@ class Conductor extends Admin_Controller
         $registro["apellido_conductor"] = $this->input->post("apellido");
 
         try {
-            $this->conductor_model->editar('cedula_conductor', $cedula, $registro);
+            $this->conductor_model->editar(array('cedula_conductor' => $cedula), $registro);
             $this->flash('success', 'success:conductor:editado');
         } catch (Exception $e) {
             $this->flash('error', 'error:conductor:duplicated');
         }
+        
         return redirect(site_url("admin/conductor/index"));
 
     }
