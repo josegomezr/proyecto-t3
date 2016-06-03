@@ -20,7 +20,9 @@ class Home extends Front_Controller
 
         $username = $this->input->post('username');
         $password = $this->input->post('password');
-        $result = $this->usuario_model->buscar('login_usuario', $username);
+        $result = $this->usuario_model->buscar(
+            array('login_usuario' => $username)
+        );
         
         if ($result->num_rows() == 0) {
             // esto es para que el formulario se vuelva a completar

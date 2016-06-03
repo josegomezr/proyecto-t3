@@ -130,7 +130,6 @@ class Salida_model extends MY_Model
     }
 
     public function editar($criteria, $data) {
-        print_r($data);
 
         $tipo_incidencia = $data['id_tipo_incidencia'];
         $incidencia = $data['id_incidencia'];
