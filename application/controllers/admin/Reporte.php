@@ -125,7 +125,7 @@ class Reporte extends Admin_Controller
 
         $puntos_result = $this->salida_model->obtener_recorrido($entrada->id_salida);
         $trazado_result = $this->recorrido_model->obtener_trazado($entrada->id_recorrido);
-
+        
         $puntos = $puntos_result->result();
         $trazado = $trazado_result->result();
         

@@ -13,9 +13,6 @@ class Recorrido_model extends MY_Model
     }
 
     public function buscar($criteria) {
-        if (is_array($criteria)) {
-            return $this->db->where($criteria)->get('recorrido');
-        }
         return $this->db->where($criteria)->get('recorrido');
     }
 
@@ -59,7 +56,9 @@ class Recorrido_model extends MY_Model
     }
     
     public function obtener_trazado($id_recorrido) {
-    
-        return $this->db->query("SELECT * FROM punto_recorrido LEFT JOIN punto USING(id_punto) WHERE id_recorrido = ?", array($id_recorrido));
+    	
+        return $this->db->join('punto', 'id_punto', 'left')
+        		->where('id_recorrido', $id_recorrido)
+        		->get('punto_recorrido');
     }
 }

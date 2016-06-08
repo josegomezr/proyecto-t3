@@ -90,13 +90,12 @@ class Recorrido extends Admin_Controller
     }
  
     public function get_ver_trazo_establecido($id_recorrido) {
-    
-        $this->load->library('gmap_lib');
-        $result = $this->recorrido_model->buscar('id_recorrido', $id_recorrido);
+        $result = $this->recorrido_model->buscar(array('id_recorrido' => $id_recorrido));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:recorrido:not_found');
             redirect(site_url('admin/recorrido/'));
         }
+        $this->load->library('gmap_lib');
         $this->data["recorrido"] = $result->row();
         $trazado = $this->recorrido_model->obtener_trazado($id_recorrido)->result();
         $this->data["trazado"] = $trazado;
@@ -105,14 +104,12 @@ class Recorrido extends Admin_Controller
     }
 
     public function post_ver_trazo_establecido($id_recorrido) {
-    
         $this->load->library('gmap_lib');
         $raw_points = $this->input->post('puntos');
         $points = array();
         foreach ($raw_points as $coords) {
             $points[] = explode(',', $coords);
         }
-        
         $this->recorrido_model->guardar_trazado($id_recorrido, $points);
         $this->flash('success', 'success:recorrido:trazado:stored');
         return redirect(site_url("admin/recorrido/index"));

@@ -167,12 +167,12 @@ class Salida_model extends MY_Model
     }
 
     public function guardar_trazado($id_salida, $puntos) {
-    
-        foreach ($puntos as &$punto) {
-            $punto['id_salida'] = $id_salida;
+        foreach ($puntos as $punto) {
+        	$this->db->set($punto)->insert('punto');
+        	$id_punto = $this->db->insert_id();
+        	$rel = array('id_salida' => $id_salida, 'id_punto' => $id_punto );
+        	$this->db->set($rel)->insert('punto_salida');
         }
-
-        $this->db->insert_batch('punto_salida', $puntos);
     }
 
     public function eliminar_recorrido($id_salida) {
@@ -180,6 +180,9 @@ class Salida_model extends MY_Model
     }
 
     public function obtener_recorrido($id_salida) {
-        return $this->db->where('id_salida', $id_salida)->get('punto_salida');
+        return $this->db
+        	->join('punto', 'id_punto', 'left')
+        	->where('id_salida', $id_salida)
+        	->get('punto_salida');
     }
 }

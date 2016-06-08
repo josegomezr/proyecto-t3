@@ -105,9 +105,9 @@ class Entrada extends Admin_Controller
     public function get_eliminar($id_entrada, $id_salida) {
     
         $this->salida_model->eliminar_recorrido($id_entrada);
-        $this->entrada_model->eliminar('id_entrada', $id_entrada);
+        $this->entrada_model->eliminar(array('id_entrada' => $id_entrada));
 
-        $this->salida_model->eliminar('id_salida', $id_salida);
+        $this->salida_model->eliminar(array('id_salida' => $id_salida));
 
         $this->flash('success', 'success:entrada:deleted');
         return redirect(site_url("admin/salida/index"));
