@@ -1,30 +1,18 @@
 <?php
-class MY_Model extends CI_Model
+abstract class MY_Model extends CI_Model
 {
-
     function __construct() {
-    
         parent::__construct();
         $this->load->database();
     }
 
-    public function listar() {
-        throw new Exception('Not Implemented Yet');
-    }
+    abstract public function listar();
 
-    public function buscar($criteria) {
-        throw new Exception('Not Implemented Yet');
-    }
+    abstract public function buscar($criteria);
 
-    public function crear($data) {
-        throw new Exception('Not Implemented Yet');
-    }
+    abstract public function crear($data);
 
-    public function editar($criteria, $data) {
-        throw new Exception('Not Implemented Yet');
-    }
+    abstract public function editar($criteria, $data);
 
-    public function eliminar($criteria) {
-        throw new Exception('Not Implemented Yet');
-    }
+    abstract public function eliminar($criteria);
 }

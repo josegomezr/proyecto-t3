@@ -4,11 +4,25 @@
 <!-- cuerpo -->
 <div class="col-xs-12 col-sm-8 col-md-9" id="main_content">
   <form>
-    <h4>Criterios</h4>
+    <h4>Estadist&iacute;cas de Incidencia</h4>
     <div class="row clearfix">
       <div class="col-xs-12 col-sm-6">
         <div class="form-group">
-          <label for="criteria">Agrupar por:</label>
+          <label for="fecha_inicio">Fecha Inicio</label>
+          <input type="text" id="fecha_inicio" class="datepicker form-control">
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="fecha_final">Fecha Final</label>
+          <input type="text" id="fecha_inicio" class="datepicker form-control">
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xs-12 col-sm-6">
+        <div class="form-group">
+          <label for="criteria">Criterio:</label>
           <select name="criteria" id="criteria" class="form-control">
             <option value="">Seleccione criterio</option>
             <option value="unidad">Unidad</option>
@@ -18,7 +32,7 @@
         </div>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <div class="form-group">
+        <div class="form-group hidden">
           <label for="value">Elementos:</label>
           <select name="value" id="value" multiple class="form-control">
             <option value="">Todos</option>
@@ -29,21 +43,54 @@
     <div class="clearfix"></div>
     <div class="form-group">
       <div class="pull-right">
-        <button class="btn btn-primary">Filtrar</button>
+        <button id="fetch_graficas" type="button" class="btn btn-primary">Filtrar</button>
       </div>
     </div>
     <div class="clearfix"></div>
   </form>
-  <div class="row clearfix" id="chart-area">
+  <div class="row clearfix hidden" id="graficas-generales">
     <div class="col-xs-12 col-sm-6">
-      <canvas id="grafica_salida" height="300"></canvas>
+      <h3>Salidas</h3>
+      <canvas id="grafica_salida" height="200"></canvas>
     </div>
     <div class="col-xs-12 col-sm-6">
-      <canvas id="grafica_entrada" height="300"></canvas>
+      <h3>Entradas</h3>
+      <canvas id="grafica_entrada" height="200"></canvas>
+    </div>
+  </div>
+
+  <div id="graficas-detalladas" class="hidden">
+    <div class="row clearfix">
+      <div class="col-xs-12">
+        <h3>Salidas</h3>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_salida_conductor" height="200"></canvas>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_salida_unidad" height="200"></canvas>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_salida_recorrido" height="200"></canvas>
+      </div>
+    </div>
+    <div class="row clearfix hidden">
+      <div class="col-xs-12">
+        <h3>Entradas</h3>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_entrada_conductor" height="200"></canvas>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_entrada_unidad" height="200"></canvas>
+      </div>
+      <div class="col-xs-12 col-sm-6 hidden">
+        <canvas id="grafica_entrada_recorrido" height="200"></canvas>
+      </div>
     </div>
   </div>
 </div>
-
+<p>&nbsp;</p>
 <script src="<?php echo base_url('components/Chart.js/dist/Chart.bundle.min.js') ?>"></script>
 
 <script>
@@ -51,20 +98,209 @@
 </script>
 
 <script>
-var $graficas = $('#chart-area');
+var $graficas_generales = $('#graficas-generales');
+var $graficas_detalladas = $('#graficas-detalladas');
 var $valueSelect = $("#value");
 var $criteria = $("#criteria");
+var $fecha_inicio = $("#fecha_inicio");
+var $fecha_final = $("#fecha_final");
 
 var $grafica_salida = $("#grafica_salida")
 var $grafica_entrada = $("#grafica_entrada")
 
+var $grafica_salida_conductor = $("#grafica_salida_conductor")
+var $grafica_salida_unidad = $("#grafica_salida_unidad")
+var $grafica_salida_recorrido = $("#grafica_salida_recorrido")
+
+var $grafica_entrada_conductor = $("#grafica_entrada_conductor")
+var $grafica_entrada_unidad = $("#grafica_entrada_unidad")
+var $grafica_entrada_recorrido = $("#grafica_entrada_recorrido")
+
+var chartSalidaGeneral = new Chart($grafica_salida, genChartConfig());
+var chartEntradaGeneral = new Chart($grafica_entrada, genChartConfig());
+
+var chart_detallados = {
+  salida: {
+    unidad: new Chart($grafica_salida_conductor, genChartConfig()),
+    conductor: new Chart($grafica_salida_unidad, genChartConfig()),
+    recorrido: new Chart($grafica_salida_recorrido, genChartConfig())
+  },
+  entrada: {
+    unidad: new Chart($grafica_entrada_conductor, genChartConfig()),
+    conductor: new Chart($grafica_entrada_unidad, genChartConfig()),
+    recorrido: new Chart($grafica_entrada_recorrido, genChartConfig())
+  },
+}
+
+
+function cargar_graficas_generales(criteria, data) {
+  $graficas_generales.removeClass('hidden');
+  $graficas_detalladas.addClass('hidden');
+  $.getJSON( base + '/admin/reporte/json_incidencias/' + criteria, data )
+    .success(function (json) {
+      var labelEntrada = [];
+      var labelSalida = [];
+
+      var datasetSalida = genBarChartDataset ( "Incidencias al Partir" );
+      var datasetEntrada = genBarChartDataset ( "Incidencias al Partir" );
+
+      var maxEntrada = 0, maxSalida = 0;
+
+      json.salida.forEach(function (item) {
+        labelSalida.push(item.label)
+        datasetSalida.data.push(item.total);
+        maxSalida = Math.max(maxSalida, item.total);
+      })
+
+      json.entrada.forEach(function (item) {
+        labelEntrada.push(item.label)
+        datasetEntrada.data.push(item.total);
+        maxEntrada = Math.max(maxEntrada, item.total);
+      })
+
+      chartSalidaGeneral.options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxSalida + 1;
+      chartEntradaGeneral.options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxEntrada + 1;
+
+      chartSalidaGeneral.data.datasets = [ datasetSalida ];
+      chartEntradaGeneral.data.datasets = [ datasetEntrada ];
+
+      chartSalidaGeneral.data.labels = labelSalida;
+      chartEntradaGeneral.data.labels = labelEntrada;
+      
+      chartSalidaGeneral.update();
+      chartEntradaGeneral.update();
+  })
+}
+
+function cargar_graficas_detalladas(criteria, values, data) {
+    $graficas_generales.addClass('hidden');
+    $graficas_detalladas.removeClass('hidden');
+
+    data.ids = values;
+    
+    for(var tipo in chart_detallados){
+      var group = chart_detallados[tipo];
+      for(var entidad in group){
+        var c = group[entidad];
+        $(c.chart.canvas).parent().addClass('hidden');
+      }
+    }
+
+    $.getJSON( base + '/admin/reporte/json_incidencias_detalladas/' + criteria, data )
+    .success(function (json) {  
+
+      for (entity in json.salida) {
+        var data = json.salida[entity];
+
+        var maxSalida = 0;
+        var dataset = genBarChartDataset(entity);
+        var labels = [];
+
+        dataset.data = data.map(function (e) {
+          labels.push(e.label);
+          maxSalida = Math.max(maxSalida, e.total);
+          return e.total;
+        })
+
+        chart_detallados.salida[entity].options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxSalida + 1;
+
+        chart_detallados.salida[entity].label = entity;
+
+        chart_detallados.salida[entity].data.datasets = [dataset];
+        
+        chart_detallados.salida[entity].data.labels = labels;
+        
+        chart_detallados.salida[entity].update();
+        var c = chart_detallados.salida[entity].chart.canvas
+        $(c).parent().removeClass('hidden');
+      }
+
+
+      for (entity in json.entrada) {
+        var data = json.entrada[entity];
+
+        var maxSalida = 0;
+        var dataset = genBarChartDataset(entity);
+        var labels = [];
+
+        dataset.data = data.map(function (e) {
+          labels.push(e.label);
+          maxSalida = Math.max(maxSalida, e.total);
+          return e.total;
+        })
+
+        chart_detallados.entrada[entity].options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxSalida + 1;
+
+        chart_detallados.entrada[entity].data.datasets = [dataset];
+        
+        chart_detallados.entrada[entity].data.labels = labels;
+        chart_detallados.entrada[entity].update();
+        var c = chart_detallados.entrada[entity].chart.canvas
+        $(c).parent().removeClass('hidden');
+      }
+
+      /*json.entrada.forEach(function (item) {
+        labelEntrada.push(item.label)
+        datasetEntrada.data.push(item.total);
+        maxEntrada = Math.max(maxEntrada, item.total);
+      })*/
+
+   /*   chartSalidaGeneral.options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxSalida + 1;
+      chartEntradaGeneral.options
+        .scales.yAxes[0]
+        .ticks.suggestedMax = maxEntrada + 1;
+
+      chartSalidaGeneral.data.datasets = [ datasetSalida ];
+      chartEntradaGeneral.data.datasets = [ datasetEntrada ];
+
+      chartSalidaGeneral.data.labels = labelSalida;
+      chartEntradaGeneral.data.labels = labelEntrada;
+      
+      chartSalidaGeneral.update();
+      chartEntradaGeneral.update();*/
+  })
+}
+
+function cargar_graficas(criteria, values) {  
+
+  var valid = values.filter(function(e){
+    return !!e;
+  }).length;
+  
+  var data = {
+    fecha_inicio: $fecha_inicio.val(),
+    fecha_final: $fecha_final.val(),
+  };
+
+  if (valid > 0) {
+    cargar_graficas_detalladas(criteria, values, data);
+  }else{
+    cargar_graficas_generales(criteria, data);
+  }
+}
+
 $criteria.on('change', function (e) {
-  if (!e.target.value) {
-    $graficas.addClass('hidden');
+  var value = e.target.value;
+  
+  if (!value) {
+    $valueSelect.parent().addClass('hidden');
+    $graficas_generales.addClass('hidden');
+    $graficas_detalladas.addClass('hidden');
     return;
   }
 
-  $.getJSON(base+'/admin/reporte/json_valores_para/'+e.target.value, function (values) {
+  $valueSelect.parent().removeClass('hidden');
+  $.getJSON(base+'/admin/reporte/json_valores_para/'+value, function (values) {
     $valueSelect.find('option').slice(1).remove();
     for(var i in values){
       var fila = values[i];
@@ -73,83 +309,18 @@ $criteria.on('change', function (e) {
     }
     $valueSelect.val('').trigger('change');
   })
-
 })
 
+$("#fetch_graficas").on('click', function () {
+  var criteria = $criteria.val();  
+  var values = $valueSelect.val();  
+  if (!criteria) {
+    return;
+  }
+  cargar_graficas(criteria, values);
+})
 
-function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
+$(".datepicker").datepicker();
 
-$valueSelect.on('change', function ( e ) {
-  var criteria = $criteria.val();
-  var choices = $valueSelect.val() || 'none';
-
-  
-  $.getJSON(base+'/admin/reporte/json_incidencias/'+criteria, function (json) {
-    var data = {
-      labels: []
-    };
-    var dset1 = {
-      data: [],
-      backgroundColor: []
-    };
-    json.forEach(function (item) {
-      data.labels.push(item.label);
-      dset1.data.push(item.total);
-      dset1.backgroundColor.push(getRandomColor());
-    })
-
-    data.datasets = [dset1];
-
-    var chart = new Chart(grafica_salida,{
-        type: 'pie',
-        data: data
-    });
-  })
-
-
-});
-
-/*
-var data = {
-    labels: ["January", "February", "March", "April", "May", "June", "July"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-        }
-    ]
-};
-
-  var chartInstance = new Chart(grafica_salida, {
-      type: 'line',
-      data: data,
-      options: {
-          responsive: false
-      }
-  });*/
 </script>
 <?php $this->load->view('admin/layout/footer'); ?>

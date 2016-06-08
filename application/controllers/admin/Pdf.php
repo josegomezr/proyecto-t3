@@ -156,7 +156,7 @@ class Pdf extends Admin_Controller
             )->row();
         }
 
-        $puntos_result = $this->salida_model->buscar_recorrido($entrada->id_salida, $entrada->id_recorrido);
+        $puntos_result = $this->salida_model->obtener_recorrido($entrada->id_salida);
         $trazado_result = $this->recorrido_model->obtener_trazado($entrada->id_recorrido);
 
         $puntos = $puntos_result->result();

@@ -48,4 +48,308 @@ class Incidencia_model extends MY_Model
             ->where($criteria)
             ->delete('incidencia');
     }
+
+    public function por_unidad($criteria = array())
+    {
+        $cuentaSalidaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->get_compiled_select();
+
+        $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->get_compiled_select();
+        
+        $result = array();
+
+        $salida_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("({$cuentaSalidaSQL}) as total", true)
+            ->from('unidad')
+            ->get()->result();
+        $entrada_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("({$cuentaEntradaSQL}) as total", true)
+            ->from('unidad')
+            ->get()->result();
+        $result['entrada'] = $entrada_r;
+        $result['salida'] = $salida_r;
+        return $result;
+    }
+
+    public function por_conductor($criteria = array())
+    {
+        $cuentaSalidaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->get_compiled_select();
+
+        $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->get_compiled_select();
+        
+        $result = array();
+
+        $salida_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("({$cuentaSalidaSQL}) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $entrada_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("({$cuentaEntradaSQL}) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $result['entrada'] = $entrada_r;
+        $result['salida'] = $salida_r;
+        return $result;
+    }
+
+    public function por_recorrido($criteria = array())
+    {
+        $cuentaSalidaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->get_compiled_select();
+        
+
+        $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->get_compiled_select();
+        
+        
+        $result = array();
+
+        $salida_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("({$cuentaSalidaSQL}) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $entrada_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("({$cuentaEntradaSQL}) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $result['entrada'] = $entrada_r;
+        $result['salida'] = $salida_r;
+        return $result;
+    }
+
+    public function detalle_por_unidad($criteria)
+    {
+        $ids = $criteria['id_unidad'];
+        unset($criteria['id_unidad']);
+        $cuentaSalidaConductorSQL = $this->db->select("id_conductor")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->where_in('id_conductor', $ids)
+                    ->group_by('id_conductor')
+                    ->get_compiled_select();
+
+        $cuentaSalidaRecorridoSQL = $this->db->select("id_recorrido")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->where_in('id_recorrido', $ids)
+                    ->group_by('id_recorrido')
+                    ->get_compiled_select();
+
+        $result = array();
+
+        $salida_conductor_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("COALESCE(({$cuentaSalidaConductorSQL}), 0) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $salida_recorrido_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("COALESCE(({$cuentaSalidaRecorridoSQL}), 0) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $result['salida'] = array(
+            'conductor' => $salida_conductor_r,
+            'recorrido' => $salida_recorrido_r
+        );
+
+        $cuentaSalidaConductorSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaConductorSQL);
+        
+        $cuentaSalidaRecorridoSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaRecorridoSQL);
+
+        $entrada_conductor_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("COALESCE(({$cuentaSalidaConductorSQL}), 0) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $entrada_recorrido_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("COALESCE(({$cuentaSalidaRecorridoSQL}), 0) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $result['entrada'] = array(
+            'conductor' => $entrada_conductor_r,
+            'recorrido' => $entrada_recorrido_r
+        );
+        return $result;
+    }
+
+    public function detalle_por_conductor($criteria)
+    {
+        $ids = $criteria['id_conductor'];
+        unset($criteria['id_conductor']);
+
+        $cuentaSalidaUnidadSQL = $this->db->select("id_unidad")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->where_in('id_unidad', $ids)
+                    ->group_by('id_unidad')
+                    ->get_compiled_select();
+
+        $cuentaSalidaRecorridoSQL = $this->db->select("id_recorrido")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->where_in('id_recorrido', $ids)
+                    ->group_by('id_recorrido')
+                    ->get_compiled_select();
+
+        $result = array();
+
+        $salida_unidad_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("COALESCE(({$cuentaSalidaUnidadSQL}), 0) as total", true)
+            ->from('unidad')
+            ->get()->result();
+
+        $salida_recorrido_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("COALESCE(({$cuentaSalidaRecorridoSQL}), 0) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $result['salida'] = array(
+            'unidad' => $salida_unidad_r,
+            'recorrido' => $salida_recorrido_r
+        );
+
+        $cuentaSalidaUnidadSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaUnidadSQL);
+        
+        $cuentaSalidaRecorridoSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaRecorridoSQL);
+
+        $entrada_unidad_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("COALESCE(({$cuentaSalidaUnidadSQL}), 0) as total", true)
+            ->from('unidad')
+            ->get()->result();
+
+        $entrada_recorrido_r = $this->db
+            ->select("nombre_recorrido as label", false)
+            ->select("COALESCE(({$cuentaSalidaRecorridoSQL}), 0) as total", true)
+            ->from('recorrido')
+            ->get()->result();
+
+        $result['entrada'] = array(
+            'unidad' => $entrada_unidad_r,
+            'recorrido' => $entrada_recorrido_r
+        );
+        return $result;
+    }
+
+    public function detalle_por_recorrido($criteria)
+    {
+        $ids = $criteria['id_recorrido'];
+        unset($criteria['id_recorrido']);
+        $cuentaSalidaUnidadSQL = $this->db->select("id_unidad")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->where_in('id_unidad', $ids)
+                    ->group_by('id_unidad')
+                    ->get_compiled_select();
+
+        $cuentaSalidaConductorSQL = $this->db->select("id_conductor")
+                    ->from("salida_incidencia")
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->where_in('id_conductor', $ids)
+                    ->group_by('id_conductor')
+                    ->get_compiled_select();
+
+        $result = array();
+
+        $salida_unidad_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("COALESCE(({$cuentaSalidaUnidadSQL}), 0) as total", true)
+            ->from('unidad')
+            ->get()->result();
+
+        $salida_conductor_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("COALESCE(({$cuentaSalidaConductorSQL}), 0) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $result['salida'] = array(
+            'conductor' => $salida_unidad_r,
+            'unidad' => $salida_unidad_r
+        );
+
+        $cuentaSalidaUnidadSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaUnidadSQL);
+        
+        $cuentaSalidaConductorSQL = str_replace('salida', 'entrada', 
+            $cuentaSalidaConductorSQL);
+
+        $entrada_conductor_r = $this->db
+            ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
+            ->select("COALESCE(({$cuentaSalidaUnidadSQL}), 0) as total", true)
+            ->from('unidad')
+            ->get()->result();
+
+        $entrada_unidad_r = $this->db
+            ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
+            ->select("COALESCE(({$cuentaSalidaConductorSQL}), 0) as total", true)
+            ->from('conductor')
+            ->get()->result();
+
+        $result['entrada'] = array(
+            'conductor' => $entrada_conductor_r,
+            'unidad' => $entrada_unidad_r
+        );
+        return $result;
+    }
 }

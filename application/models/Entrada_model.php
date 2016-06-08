@@ -7,6 +7,9 @@ class Entrada_model extends MY_Model
         parent::__construct();
         $this->load->database();
     }
+
+    public function listar(){}
+
     public function buscar($criteria) {
         if (is_array($criteria)) {
             return $this->db->where($criteria)->get('entrada');

@@ -176,11 +176,10 @@ class Salida_model extends MY_Model
     }
 
     public function eliminar_recorrido($id_salida) {
-    
         return $this->db->where('id_salida', $id_salida)->delete('punto_salida');
     }
 
-    public function buscar_recorrido($id_salida, $id_recorrido) {
+    public function obtener_recorrido($id_salida) {
         return $this->db->where('id_salida', $id_salida)->get('punto_salida');
     }
 }

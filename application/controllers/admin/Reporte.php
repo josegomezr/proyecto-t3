@@ -123,7 +123,7 @@ class Reporte extends Admin_Controller
             )->row();
         }
 
-        $puntos_result = $this->salida_model->buscar_recorrido($entrada->id_salida, $entrada->id_recorrido);
+        $puntos_result = $this->salida_model->obtener_recorrido($entrada->id_salida);
         $trazado_result = $this->recorrido_model->obtener_trazado($entrada->id_recorrido);
 
         $puntos = $puntos_result->result();
@@ -213,34 +213,74 @@ class Reporte extends Admin_Controller
     }
 
     public function get_json_incidencias($entity){
+        $fecha_inicio = $this->input->get('fecha_inicio', true);
+        $fecha_final = $this->input->get('fecha_final', true);
+        //// escribir entrada/salida respectivamente
+        $filter = array(
+            'entrada' => array(),
+            'salida' => array()
+        );
+        if ($fecha_inicio) {
+            $fecha_inicio = explode('/', $fecha_inicio);
+            $fecha_inicio = implode('-', array_reverse($fecha_inicio));
+            
+            $filter['salida']['fecha_salida >='] = $fecha_inicio;
+            $filter['entrada']['fecha_entrada >='] = $fecha_inicio;
+        }
+        if ($fecha_final) {
+            $fecha_final = explode('/', $fecha_final);
+            $fecha_final = implode('-', array_reverse($fecha_final));
+            $filter['salida']['fecha_salida <='] = $fecha_final;
+            $filter['entrada']['fecha_entrada <='] = $fecha_final;
+        }
 
         if ($entity == 'unidad') {
-            $sql = "SELECT CONCAT(modelo_unidad, '(', placa_unidad,')') as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_unidad= unidad.id_unidad) as total
-                    FROM unidad;";
+            $result = $this->incidencia_model->por_unidad($filter);
         }else if ($entity == 'conductor') {
-            $sql = "SELECT CONCAT(nombre_conductor, ' ', apellido_conductor) as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_conductor = conductor.id_conductor) as total
-                    FROM conductor";
+            $result = $this->incidencia_model->por_conductor($filter);
         }else if ($entity == 'recorrido') {
-            $sql = "SELECT nombre_recorrido as label, (SELECT COUNT(*)
-                    FROM salida_incidencia
-                    LEFT JOIN salida using (id_salida)
-                    WHERE id_recorrido = recorrido.id_recorrido) as total
-                    FROM recorrido";
-        }
-      
-        $result = $this->db->query($sql)->result();
-        $dataset = array();
-        foreach ($result as $row) {
-            if($row->total > 0)
-                $dataset[] = $row;
+            $result = $this->incidencia_model->por_recorrido($filter);
         }
         $this->output->set_header('Content-type: application/json');
-        echo json_encode($dataset);
+        echo json_encode($result);
+    }
+
+    public function get_json_incidencias_detalladas($entity){
+        $fecha_inicio = $this->input->get('fecha_inicio', true);
+        $fecha_final = $this->input->get('fecha_final', true);
+        $ids = $this->input->get('ids', true);
+        // $ids = implode(',', $ids);
+        $filter = array(
+            'entrada' => array(),
+            'salida' => array()
+        );
+
+        if ($fecha_inicio) {
+            $fecha_inicio = explode('/', $fecha_inicio);
+            $fecha_inicio = implode('-', array_reverse($fecha_inicio));
+            
+            $filter['salida']['fecha_salida >='] = $fecha_inicio;
+            $filter['entrada']['fecha_entrada >='] = $fecha_inicio;
+        }
+        if ($fecha_final) {
+            $fecha_final = explode('/', $fecha_final);
+            $fecha_final = implode('-', array_reverse($fecha_final));
+            $filter['salida']['fecha_salida <='] = $fecha_final;
+            $filter['entrada']['fecha_entrada <='] = $fecha_final;
+        }
+        $filter["id_{$entity}"] = $ids; 
+        $filter["id_{$entity}"] = $ids;
+
+
+        if ($entity == 'unidad') {
+            $result = $this->incidencia_model->detalle_por_unidad($filter);
+        }else if ($entity == 'conductor') {
+            $result = $this->incidencia_model->detalle_por_conductor($filter);
+        }else if ($entity == 'recorrido') {
+            $result = $this->incidencia_model->detalle_por_recorrido($filter);
+        }
+
+        $this->output->set_header('Content-type: application/json');
+        echo json_encode($result);
     }
 }

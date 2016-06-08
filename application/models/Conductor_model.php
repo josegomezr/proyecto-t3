@@ -10,10 +10,11 @@ class Conductor_model extends MY_Model
 
     public function listar() {
         return $this->db
+        	->select('*')
+        	->from('conductor')
             ->order_by('apellido_conductor', 'asc')
             ->order_by('nombre_conductor', 'asc')
-            ->get('conductor')
-            ;
+            ->get();
     }
 
     public function listar_disponibles() {
@@ -33,9 +34,6 @@ WHERE entrada.id_salida IS NULL)");
     }
 
     public function buscar($criteria) {
-        if (is_array($criteria)) {
-            return $this->db->where($criteria)->get('conductor');
-        }
         return $this->db->where($criteria)->get('conductor');
     }
 
