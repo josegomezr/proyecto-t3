@@ -12,7 +12,7 @@
 			<p><?php echo lang($this->session->flashdata('success')); ?></p>
 		</div>
 	<?php endif ?>
-	<?php if ($auth->nivel == 1): ?>
+	<?php if ($auth->nivel < 3): ?>
 	<div class="pull-right">
 		<a class="btn btn-xs btn-info" href="<?php echo site_url('admin/recorrido/crear') ?>"><i class="glyphicon glyphicon-new-window"></i> Registrar Recorrido</a>
 	</div>
@@ -24,7 +24,7 @@
 		<tr>
 			<th width="20">No.</th>
 			<th>Recorrido</th>
-			<?php if ($auth->nivel == 1): ?>
+			<?php if ($auth->nivel < 3): ?>
 			<th width="150"></th>
 			<?php endif; ?>
 		</tr>
@@ -34,8 +34,13 @@
 	<?php foreach($recorridos as $recorrido):?>
 	    <tr>
 		<td><?php echo $recorrido->id_recorrido;?></td>
-		<td><?php echo $recorrido->nombre_recorrido;?></td>
-		<?php if ($auth->nivel == 1): ?>
+		<td>
+			<?php echo $recorrido->nombre_recorrido;?>
+			<?php if($recorrido->temporal): ?>
+				<span class="label label-primary"><i class="fa fa-clock-o"></i> temporal</span>
+			<?php endif; ?>
+		</td>
+		<?php if ($auth->nivel < 3): ?>
 		<td>
 	        <a class="btn btn-xs btn-info" href="<?php echo site_url('admin/recorrido/ver_trazo_establecido/' . $recorrido->id_recorrido); ?>"><i class="fa fa-map-marker"></i></a> |
 	        <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/recorrido/editar/' . $recorrido->id_recorrido); ?>"><i class="glyphicon glyphicon-edit"></i></a>

@@ -13,7 +13,7 @@ class Recorrido_model extends MY_Model
     }
 
     public function buscar($criteria) {
-        return $this->db->where($criteria)->get('recorrido');
+        return $this->db->order_by('id_recorrido', 'asc')->where($criteria)->get('recorrido');
     }
 
     public function crear($data) {

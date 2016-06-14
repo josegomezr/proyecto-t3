@@ -43,6 +43,13 @@
             </div>
         </div>
 
+        <label class="checkbox">
+        	<label for="temporal">
+            	<input type="checkbox" name="temporal" id="temporal" <?php echo Form\set_value('temporal', $conductor->temporal) ? 'checked="checked"' : '' ?>>
+        		¿Es Temporal?
+        	</label>
+        </label>
+        
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Guardar</button>
 

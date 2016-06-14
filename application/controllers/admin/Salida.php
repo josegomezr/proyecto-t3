@@ -51,12 +51,16 @@ class Salida extends Admin_Controller
     }
 
     public function get_crear() {
-    
-        $this->data['conductores'] = $this->conductor_model->listar_disponibles()->result();
-        $this->data['recorridos'] = $this->recorrido_model->listar()->result();
-        $this->data['unidades'] = $this->unidad_model->listar_sin_salir()->result();
+    	$criteria = array();
+    	if ($this->auth->nivel > 2)
+    		$criteria['temporal'] = false;
 
-        
+        $this->data['conductores'] = $this->conductor_model
+        	->listar_disponibles($criteria)->result();
+        $this->data['recorridos'] = $this->recorrido_model
+        	->buscar($criteria)->result();
+        $this->data['unidades'] = $this->unidad_model
+        	->listar_sin_salir()->result();
 
         if (count($this->data['unidades']) == 0) {
             $this->flash('error', 'error:salida:no_unidades');

@@ -12,7 +12,7 @@
 			<p><?php echo lang($this->session->flashdata('success')); ?></p>
 		</div>
 	<?php endif ?>
-	<?php if ($auth->nivel == 1): ?>
+	<?php if ($auth->nivel < 3): ?>
 	<div class="pull-right">
 		<a class="btn btn-xs btn-info" href="<?php echo site_url('admin/unidad/crear') ?>"><i class="glyphicon glyphicon-new-window"></i> Registrar Unidad</a>
 	</div>
@@ -26,7 +26,7 @@
 			<th width="120">Placa</th>
 			<th>Modelo</th>
 			<th>Dispositivo</th>
-			<?php if ($auth->nivel == 1): ?>
+			<?php if ($auth->nivel < 3): ?>
 				<th width="80"></th>
 			<?php endif ?>
 	    </tr>
@@ -45,7 +45,7 @@
 				<span class="label label-default">N/I</span>
 			<?php endif; ?>
 		</td>
-		<?php if ($auth->nivel == 1): ?>
+		<?php if ($auth->nivel < 3): ?>
 		<td>
 	        <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/unidad/editar/' . $unidad->id_unidad); ?>"><i class="glyphicon glyphicon-edit"></i></a>
 	        <a class="btn btn-xs btn-danger" href="<?php echo site_url('admin/unidad/eliminar/' . $unidad->id_unidad); ?>"><i class="glyphicon glyphicon-remove"></i></a>

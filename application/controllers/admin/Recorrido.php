@@ -31,7 +31,8 @@ class Recorrido extends Admin_Controller
         }
         
         $registro["nombre_recorrido"] = $this->input->post("nombre_recorrido");
-
+        $registro["temporal"] = $this->input->post("temporal");
+        
         try {
             $this->recorrido_model->crear($registro);
             $this->flash('success', 'success:recorrido:create');
@@ -77,6 +78,7 @@ class Recorrido extends Admin_Controller
 
         $registro = array();
         $registro["nombre_recorrido"] = $this->input->post("nombre_recorrido");
+        $registro["temporal"] = $this->input->post("temporal");
 
 
         try {

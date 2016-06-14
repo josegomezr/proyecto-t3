@@ -38,30 +38,32 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class="<?php echo $_controller == "home" ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/home/') ?>">Inicio</a></li>
-                    <?php if ($auth->nivel == 1): ?>
-                    <?php endif ?>
                     <?php if ($auth->nivel < 4): ?>
                     <li class="<?php echo in_array($_controller, array('salida', 'entrada')) ? 'active' : '' ?>"><a href="<?php echo site_url('/admin/salida/') ?>">Salidas</a></li>
                     <?php endif ?>
-                    <?php if ($auth->nivel == 1): ?>
+                    <?php if ($auth->nivel < 3): ?>
                     <li class="<?php echo in_array($_controller, array('conductor','dispositivo','unidad','recorrido','usuario', 'tipo_incidencia', 'incidencia')) ? 'active' : '' ?>">
                         <a href="#" data-toggle="dropdown">Mantenimiento <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="<?php echo site_url('/admin/conductor/') ?>">Conductores</a>
                             </li>
+                            <?php if ($auth->nivel == 1): ?>
                             <li>
                                 <a href="<?php echo site_url('/admin/dispositivo/') ?>">Dispositivos</a>
                             </li>
+                            <?php endif ?>
                             <li>
                                 <a href="<?php echo site_url('/admin/recorrido/') ?>">Recorridos</a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('/admin/unidad/') ?>">Unidades</a>
                             </li>
+                            <?php if ($auth->nivel == 1): ?>
                             <li>
                                 <a href="<?php echo site_url('/admin/usuario/') ?>">Usuarios</a>
                             </li>
+                            <?php endif ?>
                         </ul>
                     </li>
                     <?php endif; ?>

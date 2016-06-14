@@ -30,7 +30,7 @@
                     </ul>
                 </div>
             </div> 
-            <?php if ($auth->nivel == 1): ?>
+            <?php if ($auth->nivel < 3): ?>
             <div class="panel <?php echo in_array($_controller, array('conductor','dispositivo','unidad','recorrido','usuario', 'tipo_incidencia', 'incidencia')) ? 'panel-primary' : 'panel-default' ?>">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -46,9 +46,13 @@
                         <a class="list-group-item <?php echo 
                             $_controller == 'conductor' ? 'active' : '' 
                         ?>" href="<?php echo site_url('admin/conductor') ?>">Conductores</a>
+                        	
+                        <?php if ($auth->nivel == 1): ?>
                         <a class="list-group-item <?php echo 
                             $_controller == 'dispositivo' ? 'active' : '' 
                         ?>" href="<?php echo site_url('admin/dispositivo') ?>">Dispositivos</a>
+                        <?php endif ?>
+                        
                         <a class="list-group-item <?php echo 
                             $_controller == 'incidencia' ? 'active' : '' 
                         ?>" href="<?php echo site_url('admin/incidencia') ?>">Incidencias</a>
@@ -64,9 +68,12 @@
                         <a class="list-group-item <?php echo 
                             $_controller == 'unidad' ? 'active' : '' 
                         ?>" href="<?php echo site_url('admin/unidad') ?>">Unidades</a>
+                        
+                        <?php if ($auth->nivel == 1): ?>
                         <a class="list-group-item <?php echo 
                             $_controller == 'usuario' ? 'active' : '' 
                         ?>" href="<?php echo site_url('admin/usuario') ?>">Usuarios</a>
+                        <?php endif ?>
                     </ul>
                 </div>
             </div>

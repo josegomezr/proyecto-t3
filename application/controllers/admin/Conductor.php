@@ -85,6 +85,7 @@ class Conductor extends Admin_Controller
         $registro["nombre_conductor"] = $this->input->post("nombre");
         $registro["apellido_conductor"] = $this->input->post("apellido");
         $registro["cedula_conductor"] = $this->input->post("cedula");
+        $registro["temporal"] = $this->input->post("temporal");
 
         try {
             // crea el registro
@@ -161,7 +162,8 @@ class Conductor extends Admin_Controller
         $registro = array();
         $registro["nombre_conductor"] = $this->input->post("nombre");
         $registro["apellido_conductor"] = $this->input->post("apellido");
-
+        $registro["temporal"] = $this->input->post("temporal");
+        
         try {
             $this->conductor_model->editar(array('cedula_conductor' => $cedula), $registro);
             $this->flash('success', 'success:conductor:editado');

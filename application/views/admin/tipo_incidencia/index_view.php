@@ -13,7 +13,7 @@
 			<p><?php echo lang($this->session->flashdata('success')); ?></p>
 		</div>
 	<?php endif ?>
-	<?php if ($auth->nivel == 1): ?>
+	<?php if ($auth->nivel < 3): ?>
 	<div class="pull-right">
 		<a class="btn btn-xs btn-info" href="<?php echo site_url('admin/tipo_incidencia/crear') ?>"><i class="glyphicon glyphicon-new-window"></i> Registrar Tipo Incidencia</a>
 	</div>
@@ -32,7 +32,7 @@
 	<?php foreach($tipo_incidencias as $tipo_incidencia):?>
 	    <tr>
 		<td><?php echo $tipo_incidencia->descripcion_tipo_incidencia;?></td>
-		<?php if ($auth->nivel == 1): ?>
+		<?php if ($auth->nivel < 3): ?>
 		<td>
 		        <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/tipo_incidencia/editar/' . $tipo_incidencia->id_tipo_incidencia); ?>" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
 		        <a class="btn btn-xs btn-danger" href="<?php echo site_url('admin/tipo_incidencia/eliminar/' . $tipo_incidencia->id_tipo_incidencia); ?>" title="Eliminar"><i class="glyphicon glyphicon-remove"></i></a>

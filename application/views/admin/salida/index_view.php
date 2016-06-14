@@ -48,7 +48,7 @@
     <td><?php echo $fecha_salida->format('d/m/Y') ?> - <?php echo $hora_salida->format('h:i a') ?></td>
     <td align="right">
       <a class="btn btn-xs btn-success registrar-entrada" title="Registrar Entrada" href="#" data-pk="<?php echo $salida->id_salida ?>"><i class="glyphicon glyphicon-log-in"></i></a>
-      <?php if ($auth->nivel == 1): ?>
+      <?php if ($auth->nivel < 3): ?>
         <span class="text-muted">|</span>
             <a class="btn btn-xs btn-warning" title="Editar" href="<?php echo site_url('admin/salida/editar/' . $salida->id_salida); ?>"><i class="glyphicon glyphicon-edit"></i></a>
             <a class="btn btn-xs btn-danger" title="Eliminar" href="<?php echo site_url('admin/salida/eliminar/' . $salida->id_salida); ?>"><i class="glyphicon glyphicon-remove"></i></a>
@@ -138,7 +138,7 @@
     <td><?php echo $fecha_entrada->format('d/m/Y') ?> - <?php echo $hora_entrada->format('h:i A') ?></td>
     <td>
       <a class="btn btn-primary btn-xs" title="Reporte" href="<?php echo site_url('admin/reporte/entrada/' . $salida->id_entrada); ?>"><i class="glyphicon glyphicon-list"></i></a>
-      <?php if ($auth->nivel == 1): ?>
+      <?php if ($auth->nivel < 3): ?>
         <span class="text-muted">|</span>
             <a class="btn btn-xs btn-warning" href="<?php echo site_url('admin/entrada/editar/' . $salida->id_entrada); ?>" title="Editar"><i class="glyphicon glyphicon-edit"></i></a>
             <a class="btn btn-xs btn-danger confirmar-eliminar" href="<?php echo site_url('admin/entrada/eliminar/' . $salida->id_entrada . '/' . $salida->id_salida); ?>" title="Eliminar"><i class="glyphicon glyphicon-remove"></i></a>

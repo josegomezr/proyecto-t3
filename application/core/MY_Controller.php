@@ -51,7 +51,8 @@ class Admin_Controller extends MY_Controller
         }
 
         $this->data = array();
-        $this->data['auth'] = (object) $this->session->all_userdata();
+        $this->auth = (object) $this->session->all_userdata();
+        $this->data['auth'] = $this->auth;
         $this->data['_controller'] = $this->uri->segment(2);
         $this->data['_method'] = $this->uri->segment(3);
 

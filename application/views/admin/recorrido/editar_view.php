@@ -10,6 +10,14 @@
             <input type="text" name="nombre_recorrido" id="nombre_recorrido" class="form-control" required value="<?php echo Form\set_value('nombre_recorrido', $recorrido->nombre_recorrido) ?>">
             <p class="help-block"><?php echo Form\get_error('nombre_recorrido') ?></p>
         </div>
+		
+
+        <label class="checkbox">
+            <label for="temporal">
+                <input type="checkbox" name="temporal" id="temporal" <?php echo Form\set_value('temporal', $recorrido->temporal) ? 'checked="checked"' : '' ?>>
+                ¿Es Temporal?
+            </label>
+        </label>
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Guardar</button>

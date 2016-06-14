@@ -63,14 +63,15 @@
           </div>
         </div>
         <div class="pull-right">
-          <button type="submit" class="btn btn-primary">Filtrar</button>
+          <button type="submit" name="filtrar" class="btn btn-primary">Filtrar</button>
         </div>
       </div>
     </div>
     <div class="clearfix"></div>
     <br>
   </form>
-  
+  <?php if ($tiene_criteria): ?>
+
   <h3>Salidas en proceso</h3>
   <table class="table table-bordered table-condensed">
     <thead>
@@ -183,6 +184,7 @@
     </tbody>
   </table>
   <div class="clearfix"></div>
+  <?php endif ?>
 </div>
 <!-- /#main_content -->
 </div>
