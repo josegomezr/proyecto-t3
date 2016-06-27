@@ -48,12 +48,18 @@ $entradaDate = DateTime::createFromFormat('Y-m-d H:i:s', $entrada->fecha_entrada
                     <p>
                         <strong>Incidencias al partir:</strong><br>
                         <?php echo $incidencia_salida->descripcion_tipo_incidencia ?> - <?php echo $incidencia_salida->descripcion_incidencia ?>
+                        <?php if ($entrada->comentario_salida_incidencia): ?>
+                        	<p><?php echo $entrada->comentario_salida_incidencia; ?></p>
+                        <?php endif ?>
                     </p>
                     <?php endif ?>
                     <?php if ($incidencia_entrada): ?>
                     <p>
                         <strong>Observaciones al llegar:</strong><br>
                         <?php echo $incidencia_entrada->descripcion_tipo_incidencia ?> - <?php echo $incidencia_entrada->descripcion_incidencia ?>
+                        <?php if ($entrada->comentario_entrada_incidencia): ?>
+                        	<p><?php echo $entrada->comentario_entrada_incidencia; ?></p>
+                        <?php endif ?>
                     </p>
                     <?php endif ?>
                 </td>

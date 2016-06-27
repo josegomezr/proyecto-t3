@@ -1,3 +1,7 @@
+body{
+	padding-bottom: 60px;
+}
+
 #membrete {
 	height: 110px;
 }
@@ -47,5 +51,18 @@ span.map-legend{
 }
 
 input.datepicker{
-	padding: 10px 18px ;
+	padding: 10px 18px;
+}
+
+#footer{
+	padding-top: 10px;
+	height: 60px;
+	position: fixed;
+	border-top: 1px solid #E0E0E0;
+	bottom: 0;
+	left:0;
+	width: 100%;
+	margin: auto;
+	background: white;
+	text-align: center;
 }

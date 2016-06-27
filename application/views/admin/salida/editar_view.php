@@ -80,7 +80,7 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <label class="control-label" for="comentario_salida_incidencia">Detalles Adicionales</label>
-                    <textarea name="comentario_salida_incidencia" id="comentario_salida_incidencia" rows="3" class="form-control"></textarea>
+                    <textarea name="comentario_salida_incidencia" id="comentario_salida_incidencia" rows="3" class="form-control"><?php echo $salida->comentario_salida_incidencia ?></textarea>
                 </div>
             </div>
         </div>

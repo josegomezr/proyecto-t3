@@ -17,21 +17,21 @@
 
             <div class="row clearfix">
                 <div class="col-xs-12 col-sm-6">
-                    <div class="form-group <?php echo Form\has_error('descripcion_incidencia') ? 'has-error' :'' ?>">
-                        <label class="control-label required-mark" for="descripcion_incidencia">Descripcion Incidencia</label>
-                        <input type="text" name="descripcion_incidencia" id="descripcion_incidencia" maxlength="10" class="form-control" value="<?php echo Form\set_value('descripcion_incidencia') ?>" autofocus required data-rule-descripcion_incidencia="true">
-                        <p class="help-block"><?php echo lang(Form\get_error('descripcion_incidencia')) ?></p>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6">
                     <div class="form-group">
                         <label class="control-label required-mark " for="id_tipo_incidencia">Tipo Incidencia</label>
-                        <select name="id_tipo_incidencia" required class="form-control" id="id_tipo_incidencia">
+                        <select name="id_tipo_incidencia" autofocus required class="form-control" id="id_tipo_incidencia">
                             <option value="">Seleccione Tipo Incidencia</option>
                             <?php foreach ($tipos_incidencias as $tipo_incidencia): ?>
                                 <option value="<?php echo $tipo_incidencia->id_tipo_incidencia ?>"><?php echo $tipo_incidencia->descripcion_tipo_incidencia ?></option>
                             <?php endforeach ?>
                         </select>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group <?php echo Form\has_error('descripcion_incidencia') ? 'has-error' :'' ?>">
+                        <label class="control-label required-mark" for="descripcion_incidencia">Descripcion Incidencia</label>
+                        <textarea name="descripcion_incidencia" id="descripcion_incidencia" maxlength="150" rows="3" class="form-control" required><?php echo Form\set_value('descripcion_incidencia') ?></textarea>
+                        <p class="help-block"><?php echo lang(Form\get_error('descripcion_incidencia')) ?></p>
                     </div>
                 </div>
             </div>            

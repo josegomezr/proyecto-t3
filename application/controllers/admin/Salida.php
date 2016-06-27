@@ -126,8 +126,8 @@ class Salida extends Admin_Controller
         $this->flash('success', 'success:salida:deleted');
         return redirect(site_url("admin/salida/index"));
     }
-    public function get_editar($id_salida) {
     
+    public function get_editar($id_salida) {
         $result = $this->salida_model->buscar(
             array('salida.id_salida' => (int)$id_salida)
         );
@@ -167,6 +167,7 @@ class Salida extends Admin_Controller
         $registro["id_unidad"] = $this->input->post("id_unidad");
         $registro["id_tipo_incidencia"] = $this->input->post("id_tipo_incidencia");
         $registro["id_incidencia"] = $this->input->post("id_incidencia");
+        $registro["comentario_salida_incidencia"] = $this->input->post("comentario_salida_incidencia");
 
         $this->salida_model->editar(array(
             'id_salida' => $id_salida

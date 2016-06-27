@@ -71,13 +71,13 @@
                         <a href="#" data-toggle="dropdown">Reportes <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>">Imprimir Listado de Conductores</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_conductores') ?>">Listado de Conductores</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>">Imprimir Listado de Unidades</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_unidades') ?>">Listado de Unidades</a>
                             </li>
                             <li>
-                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>">Imprimir Listado de Recorridos</a>
+                                <a href="<?php echo site_url('admin/reporte/lista_recorridos') ?>">Listado de Recorridos</a>
                             </li>
                             <li>
                                 <a href="<?php echo site_url('admin/reporte/filtro_listar_salidas') ?>">Listar Salidas</a>

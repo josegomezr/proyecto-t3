@@ -151,7 +151,7 @@ class Salida_model extends MY_Model
 
         if ($incidencia) {
             $this->db->set(array(
-                'id_salida' => $id_salida,
+                'id_salida' => $criteria['id_salida'],
                 'id_incidencia' => $incidencia,
                 'comentario_salida_incidencia' => $comentario_salida_incidencia
             ))->insert('salida_incidencia');

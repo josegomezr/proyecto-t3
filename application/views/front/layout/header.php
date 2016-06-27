@@ -5,7 +5,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title><?php echo isset($title) ? '- ' . $title : '' ?> UPTOS GPS</title>
-	<link href="<?php echo base_url('assets/css/cosmo.min.css') ?>" rel="stylesheet">
+	<!-- <link href="<?php echo base_url('assets/css/cosmo.min.css') ?>" rel="stylesheet"> -->
+    <link href="<?php echo base_url('components/bootstrap/dist/css/bootstrap.min.css') ?>" rel="stylesheet">
+	
 	<!-- por cuestiones de manejo de plantillas, los scripts irán en <head> -->
 	<!-- en vez de lo usual, antes de </body> -->
 	<script src="<?php echo base_url('assets/js/jquery.min.js') ?>"></script>

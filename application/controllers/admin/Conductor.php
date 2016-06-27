@@ -20,7 +20,9 @@ class Conductor extends Admin_Controller
         // controlador válido y no cargará.
         parent::__construct();
 
+        // carga la libreria 'form_validation'
         $this->load->library('form_validation');
+        // carga el modelo 'conductor_model'
         $this->load->model('conductor_model');
     }
     /**
@@ -132,7 +134,7 @@ class Conductor extends Admin_Controller
     * Muestra el formulario de editar conductor.
     */
     public function get_editar($cedula) {
-    
+    	
         $result = $this->conductor_model->buscar(array('cedula_conductor' => $cedula));
         if ($result->num_rows() == 0) {
             $this->flash('error', 'error:conductor:not_found');
@@ -149,29 +151,45 @@ class Conductor extends Admin_Controller
     * Procesa el formulario de edicion.
     */
     public function post_editar($cedula) {
-    
+    	// fijamos las reglas de validacion
+        // set_rules (<nombre campo>, <nombre visible>,<reglas separadas por |>)
+        // reglas:
+        // - trim = eliminar espacios sobrantes al inicio 
+        // - required = revisa si el campo tiene valor
+        // - min_length[n] = revisa si el campo tiene al menos `n` caracteres
+        // - max_length[n] = revisa si el campo tiene maximo `n` caracteres
+        // - xss_clean = limpia elcampo de valores malisciosos.
+        // - regex_match[RegExp] = Revisa si la expresion regular `RegExp` 
+        //   concuerda con el valor del campo.
+
         $this->form_validation->set_rules('nombre', 'Nombre', 'trim|min_length[3]|required');
         $this->form_validation->set_rules('apellido', 'apellido', 'trim|min_length[3]|required');
 
+        // si la validacion no tiene exito (hay campos que no pasaron las reglas
+        // de validacion)
         if ($this->form_validation->run() == false) {
+            // notificamos el error de validacion
             $this->flash_validation_error('error:conductor:validation');
+            // redireccionamos
             redirect(site_url('admin/conductor/editar/' . $cedula));
             exit;
         }
-
+        // armamos el registro con los datos nuevos
         $registro = array();
         $registro["nombre_conductor"] = $this->input->post("nombre");
         $registro["apellido_conductor"] = $this->input->post("apellido");
         $registro["temporal"] = $this->input->post("temporal");
         
         try {
+        	// mandamos el registro para que se escriba en la bd.
             $this->conductor_model->editar(array('cedula_conductor' => $cedula), $registro);
+            // notificamos el exito
             $this->flash('success', 'success:conductor:editado');
         } catch (Exception $e) {
+        	// notificamos el error
             $this->flash('error', 'error:conductor:duplicated');
         }
-        
+        // redireccionamos al listar
         return redirect(site_url("admin/conductor/index"));
-
     }
 }

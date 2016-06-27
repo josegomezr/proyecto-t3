@@ -23,7 +23,7 @@
         </button>
       </h3>
       <div class="clearfix"></div>
-      <div class="filters" style="<?php echo $tiene_criteria ? '' : 'display: none;'; ?>">
+      <div class="filters">
         <div class="row clearfix">
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
