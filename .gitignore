@@ -8,7 +8,7 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 
-/vendor/
+# /vendor/
 
 # IDE Files
 #-------------------------
@@ -22,7 +22,7 @@ application/logs/*
 *.sublime-workspace
 *.sublime-project
 
-public/components/
+# public/components/
 user_guide/
 composer.lock
 composer.phar
