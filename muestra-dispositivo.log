@@ -1,0 +1,3 @@
+# (lat, lon, speed, utc, satellites)
+# (deg, deg, m/s, datetime, int)
+10.448633333|-64.148205|0.427|2016-06-30T02:24:55.000Z|5

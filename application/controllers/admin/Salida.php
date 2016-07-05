@@ -82,7 +82,7 @@ class Salida extends Admin_Controller
     public function post_crear() {
     
         $this->form_validation->set_rules('id_conductor', 'Conductor', 'trim|required');
-        $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim');
+        $this->form_validation->set_rules('id_acompaniante', 'Conductor', 'trim|differs[id_conductor]');
         $this->form_validation->set_rules('id_recorrido', 'Recorrido', 'trim|required|xss_clean');
         $this->form_validation->set_rules('id_unidad', 'Unidad', 'trim|required');
         $this->form_validation->set_rules('id_incidencia', 'Incidencia', 'trim');
@@ -91,9 +91,7 @@ class Salida extends Admin_Controller
         if ($this->form_validation->run() == false) {
             $this->flash_validation_error('error:salida:validation');
             redirect(site_url('admin/salida/crear'));
-            exit;
         }
-
         
         $registro["id_conductor"] = $this->input->post("id_conductor");
         $registro["id_acompaniante"] = $this->input->post("id_acompaniante");
