@@ -21,7 +21,7 @@
             <div class="col-xs-12 col-sm-6">
                 <div class="form-group <?php echo Form\has_error('cedula') ? 'has-error' :'' ?>">
                     <label class="control-label required-mark" for="cedula">Cedula</label>
-                    <input type="text" name="cedula" id="cedula" maxlength="10"placeholder="Ejemplo: V-00000000 o E-00000000" class="form-control" value="<?php echo Form\set_value('cedula') ?>" autofocus required data-rule-cedula="true">
+                    <input type="text" name="cedula" id="cedula" maxlength="10" placeholder="Ejemplo: V-00000000 o E-00000000" class="form-control" value="<?php echo Form\set_value('cedula') ?>" autofocus required data-rule-cedula="true">
                     <p class="help-block"><?php echo lang(Form\get_error('cedula')) ?></p>
                 </div>
             </div>

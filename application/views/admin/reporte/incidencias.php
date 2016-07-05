@@ -74,7 +74,7 @@
         <canvas id="grafica_salida_recorrido" height="200"></canvas>
       </div>
     </div>
-    <div class="row clearfix hidden">
+    <div class="row clearfix">
       <div class="col-xs-12">
         <h3>Entradas</h3>
       </div>
@@ -121,13 +121,13 @@ var chartEntradaGeneral = new Chart($grafica_entrada, genChartConfig());
 
 var chart_detallados = {
   salida: {
-    unidad: new Chart($grafica_salida_conductor, genChartConfig()),
-    conductor: new Chart($grafica_salida_unidad, genChartConfig()),
+    unidad: new Chart($grafica_salida_unidad, genChartConfig()),
+    conductor: new Chart($grafica_salida_conductor, genChartConfig()),
     recorrido: new Chart($grafica_salida_recorrido, genChartConfig())
   },
   entrada: {
-    unidad: new Chart($grafica_entrada_conductor, genChartConfig()),
-    conductor: new Chart($grafica_entrada_unidad, genChartConfig()),
+    unidad: new Chart($grafica_entrada_unidad, genChartConfig()),
+    conductor: new Chart($grafica_entrada_conductor, genChartConfig()),
     recorrido: new Chart($grafica_entrada_recorrido, genChartConfig())
   },
 }
@@ -142,7 +142,7 @@ function cargar_graficas_generales(criteria, data) {
       var labelSalida = [];
 
       var datasetSalida = genBarChartDataset ( "Incidencias al Partir" );
-      var datasetEntrada = genBarChartDataset ( "Incidencias al Partir" );
+      var datasetEntrada = genBarChartDataset ( "Incidencias al Regresar" );
 
       var maxEntrada = 0, maxSalida = 0;
 
@@ -157,13 +157,6 @@ function cargar_graficas_generales(criteria, data) {
         datasetEntrada.data.push(item.total);
         maxEntrada = Math.max(maxEntrada, item.total);
       })
-
-      chartSalidaGeneral.options
-        .scales.yAxes[0]
-        .ticks.suggestedMax = maxSalida + 1;
-      chartEntradaGeneral.options
-        .scales.yAxes[0]
-        .ticks.suggestedMax = maxEntrada + 1;
 
       chartSalidaGeneral.data.datasets = [ datasetSalida ];
       chartEntradaGeneral.data.datasets = [ datasetEntrada ];
@@ -223,6 +216,7 @@ function cargar_graficas_detalladas(criteria, values, data) {
 
 
       for (entity in json.entrada) {
+
         var data = json.entrada[entity];
 
         var maxSalida = 0;
@@ -281,7 +275,7 @@ function cargar_graficas(criteria, values) {
     fecha_inicio: $fecha_inicio.val(),
     fecha_final: $fecha_final.val(),
   };
-
+  console.log(valid);
   if (valid > 0) {
     cargar_graficas_detalladas(criteria, values, data);
   }else{

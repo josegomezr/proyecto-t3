@@ -5,13 +5,21 @@
 
     <form method="post">
         <div class="row clearfix">
+            <?php if ($salida->id_conductor): ?>
             <div class="col-xs-12 col-md-6">
                 <div class="form-group">
                     <label class="control-label" for="cedula_conductor">Chofer</label>
                     <input class="form-control" type="text" disabled id="cedula_conductor" value="<?php echo $chofer->nombre_conductor ?> <?php echo $chofer->apellido_conductor ?>">
                 </div>
             </div>
-
+        	<?php else: ?>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group has-error">
+                    <label>Salida no Notificada</label>
+                    <span disabled class="form-control">Creada por dispositivo!</span>
+            	</div>
+            </div>
+			<?php endif ?>
             <?php if (isset($acompaniante)): ?>
                 <div class="col-xs-12 col-md-6">
                     <div class="form-group">

@@ -34,13 +34,13 @@ $entradaDate = DateTime::createFromFormat('Y-m-d H:i:s', $entrada->fecha_entrada
  ?>
 
                     <p>
-                        <strong>Partida: </strong> <span><?php echo $salidaDate->format('d/m/Y - H:i A') ?></span>
+                        <strong>Partida: </strong> <span><?php echo $salidaDate->format('d/m/Y - H:i:s A') ?></span>
                     </p>
                     <p>
-                        <strong>Llegada: </strong> <span><?php echo $entradaDate->format('d/m/Y - H:i A')  ?></span>
+                        <strong>Llegada: </strong> <span><?php echo $entradaDate->format('d/m/Y - H:i:s A')  ?></span>
                     </p>
                     <p>
-                        <strong>Duración del Recorrido: </strong> <span><?php echo $entradaDate->diff($salidaDate)->format('%D %H:%I');  ?></span>
+                        <strong>Duración del Recorrido: </strong> <span><?php echo time_elapsed_string($salidaDate, $entradaDate);  ?></span>
                     </p>
                 </td>
                 <td>

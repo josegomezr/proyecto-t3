@@ -1,5 +1,6 @@
 <?php
 
+
 namespace Debug{
 
     function show() {

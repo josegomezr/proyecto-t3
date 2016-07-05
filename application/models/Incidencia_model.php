@@ -61,8 +61,9 @@ class Incidencia_model extends MY_Model
         $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
                     ->from("entrada_incidencia")
                     ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
                     ->where($criteria['entrada'])
-                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->where('salida.id_unidad', 'unidad.id_unidad', false)
                     ->get_compiled_select();
         
         $result = array();
@@ -72,11 +73,13 @@ class Incidencia_model extends MY_Model
             ->select("({$cuentaSalidaSQL}) as total", true)
             ->from('unidad')
             ->get()->result();
+
         $entrada_r = $this->db
             ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
             ->select("({$cuentaEntradaSQL}) as total", true)
             ->from('unidad')
             ->get()->result();
+
         $result['entrada'] = $entrada_r;
         $result['salida'] = $salida_r;
         return $result;
@@ -94,8 +97,9 @@ class Incidencia_model extends MY_Model
         $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
                     ->from("entrada_incidencia")
                     ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
                     ->where($criteria['entrada'])
-                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->where('salida.id_conductor', 'conductor.id_conductor', false)
                     ->get_compiled_select();
         
         $result = array();
@@ -111,7 +115,6 @@ class Incidencia_model extends MY_Model
             ->select("({$cuentaEntradaSQL}) as total", true)
             ->from('conductor')
             ->get()->result();
-
         $result['entrada'] = $entrada_r;
         $result['salida'] = $salida_r;
         return $result;
@@ -130,8 +133,9 @@ class Incidencia_model extends MY_Model
         $cuentaEntradaSQL = $this->db->select("COUNT(*)", false)
                     ->from("entrada_incidencia")
                     ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
                     ->where($criteria['entrada'])
-                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->where('salida.id_recorrido', 'recorrido.id_recorrido', false)
                     ->get_compiled_select();
         
         
@@ -163,7 +167,7 @@ class Incidencia_model extends MY_Model
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
                     ->where('id_conductor', 'conductor.id_conductor', false)
-                    ->where_in('id_conductor', $ids)
+                    ->where_in('id_unidad', $ids)
                     ->group_by('id_conductor')
                     ->get_compiled_select();
 
@@ -172,7 +176,7 @@ class Incidencia_model extends MY_Model
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
                     ->where('id_recorrido', 'recorrido.id_recorrido', false)
-                    ->where_in('id_recorrido', $ids)
+                    ->where_in('id_unidad', $ids)
                     ->group_by('id_recorrido')
                     ->get_compiled_select();
 
@@ -195,11 +199,25 @@ class Incidencia_model extends MY_Model
             'recorrido' => $salida_recorrido_r
         );
 
-        $cuentaSalidaConductorSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaConductorSQL);
-        
-        $cuentaSalidaRecorridoSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaRecorridoSQL);
+        $cuentaSalidaConductorSQL = $this->db->select("COUNT(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_conductor', 'conductor.id_conductor', false)
+                    ->where_in('id_unidad', $ids)
+                    ->group_by('id_conductor')
+                    ->get_compiled_select();
+
+        $cuentaSalidaRecorridoSQL = $this->db->select("COUNT(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['salida'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->where_in('id_unidad', $ids)
+                    ->group_by('id_recorrido')
+                    ->get_compiled_select();
 
         $entrada_conductor_r = $this->db
             ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
@@ -225,21 +243,21 @@ class Incidencia_model extends MY_Model
         $ids = $criteria['id_conductor'];
         unset($criteria['id_conductor']);
 
-        $cuentaSalidaUnidadSQL = $this->db->select("id_unidad")
+        $cuentaSalidaUnidadSQL = $this->db->select("COUNT(*)")
                     ->from("salida_incidencia")
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
                     ->where('id_unidad', 'unidad.id_unidad', false)
-                    ->where_in('id_unidad', $ids)
+                    ->where_in('id_conductor', $ids)
                     ->group_by('id_unidad')
                     ->get_compiled_select();
 
-        $cuentaSalidaRecorridoSQL = $this->db->select("id_recorrido")
+        $cuentaSalidaRecorridoSQL = $this->db->select("COUNT(*)")
                     ->from("salida_incidencia")
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
                     ->where('id_recorrido', 'recorrido.id_recorrido', false)
-                    ->where_in('id_recorrido', $ids)
+                    ->where_in('id_conductor', $ids)
                     ->group_by('id_recorrido')
                     ->get_compiled_select();
 
@@ -262,11 +280,25 @@ class Incidencia_model extends MY_Model
             'recorrido' => $salida_recorrido_r
         );
 
-        $cuentaSalidaUnidadSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaUnidadSQL);
-        
-        $cuentaSalidaRecorridoSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaRecorridoSQL);
+        $cuentaSalidaUnidadSQL = $this->db->select("count(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('id_unidad', 'unidad.id_unidad', false)
+                    ->where_in('id_conductor', $ids)
+                    ->group_by('id_unidad')
+                    ->get_compiled_select();
+
+        $cuentaSalidaRecorridoSQL = $this->db->select("count(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('id_recorrido', 'recorrido.id_recorrido', false)
+                    ->where_in('id_conductor', $ids)
+                    ->group_by('id_recorrido')
+                    ->get_compiled_select();
 
         $entrada_unidad_r = $this->db
             ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
@@ -291,21 +323,21 @@ class Incidencia_model extends MY_Model
     {
         $ids = $criteria['id_recorrido'];
         unset($criteria['id_recorrido']);
-        $cuentaSalidaUnidadSQL = $this->db->select("id_unidad")
+        $cuentaSalidaUnidadSQL = $this->db->select("COUNT(*)")
                     ->from("salida_incidencia")
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
-                    ->where('id_unidad', 'unidad.id_unidad', false)
-                    ->where_in('id_unidad', $ids)
+                    ->where('salida.id_unidad', 'unidad.id_unidad', false)
+                    ->where_in('id_recorrido', $ids)
                     ->group_by('id_unidad')
                     ->get_compiled_select();
 
-        $cuentaSalidaConductorSQL = $this->db->select("id_conductor")
+        $cuentaSalidaConductorSQL = $this->db->select("COUNT(*)")
                     ->from("salida_incidencia")
                     ->join('salida', 'id_salida', 'left')
                     ->where($criteria['salida'])
-                    ->where('id_conductor', 'conductor.id_conductor', false)
-                    ->where_in('id_conductor', $ids)
+                    ->where('salida.id_conductor', 'conductor.id_conductor', false)
+                    ->where_in('id_recorrido', $ids)
                     ->group_by('id_conductor')
                     ->get_compiled_select();
 
@@ -328,19 +360,33 @@ class Incidencia_model extends MY_Model
             'unidad' => $salida_unidad_r
         );
 
-        $cuentaSalidaUnidadSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaUnidadSQL);
-        
-        $cuentaSalidaConductorSQL = str_replace('salida', 'entrada', 
-            $cuentaSalidaConductorSQL);
+        $cuentaSalidaUnidadSQL = $this->db->select("COUNT(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('salida.id_unidad', 'unidad.id_unidad', false)
+                    ->where_in('id_recorrido', $ids)
+                    ->group_by('id_unidad')
+                    ->get_compiled_select();
 
-        $entrada_conductor_r = $this->db
+        $cuentaSalidaConductorSQL = $this->db->select("COUNT(*)")
+                    ->from("entrada_incidencia")
+                    ->join('entrada', 'id_entrada', 'left')
+                    ->join('salida', 'id_salida', 'left')
+                    ->where($criteria['entrada'])
+                    ->where('salida.id_conductor', 'conductor.id_conductor', false)
+                    ->where_in('id_recorrido', $ids)
+                    ->group_by('id_conductor')
+                    ->get_compiled_select();
+
+        $entrada_unidad_r = $this->db
             ->select("CONCAT(modelo_unidad, '(', placa_unidad,')') as label", false)
             ->select("COALESCE(({$cuentaSalidaUnidadSQL}), 0) as total", true)
             ->from('unidad')
             ->get()->result();
 
-        $entrada_unidad_r = $this->db
+        $entrada_conductor_r = $this->db
             ->select("CONCAT(nombre_conductor, ' ', apellido_conductor) as label", false)
             ->select("COALESCE(({$cuentaSalidaConductorSQL}), 0) as total", true)
             ->from('conductor')

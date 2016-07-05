@@ -45,7 +45,7 @@ class Home extends Front_Controller
         // Cargamos el modelo usuario_model
         $this->load->model('usuario_model');
 
-        // Jalamos los datos del formulario.
+        // Halamos los datos del formulario.
         $username = $this->input->post('username');
         $password = $this->input->post('password');
         

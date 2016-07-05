@@ -74,7 +74,7 @@ class Reporte extends Admin_Controller
             } else {
                 $this->flash('error', 'error:salidas:empty');
             }
-            redirect('admin/home');
+            redirect('admin/reporte/filtro_listar_salidas');
         }
 
         $this->data['salidas_incompletas'] = $salidas_incompletas;

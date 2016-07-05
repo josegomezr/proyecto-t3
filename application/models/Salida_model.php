@@ -65,8 +65,6 @@ class Salida_model extends MY_Model
             ->join('entrada', 'id_salida', 'left')
             ->join('salida_incidencia', 'id_salida', 'left')
             ->join('incidencia', 'id_incidencia', 'left')
-            ->order_by('entrada.fecha_entrada', 'DESC')
-            ->order_by('salida.fecha_salida', 'DESC')
             ->where($criteria)
             ;
     }
@@ -89,11 +87,15 @@ class Salida_model extends MY_Model
 
         return $this->_buscar($criteria)
                 ->select("(${salioSQL}) as salio")
+                ->order_by('entrada.fecha_entrada', 'DESC')
+                ->order_by('entrada.hora_entrada', 'DESC')
                 ->where('id_salida IN', "($idSalidaSQL)", false);
     }
 
     private function _buscar_en_proceso($criteria = array()) {
         return $this->_buscar($criteria)
+        		->order_by('salida.fecha_salida', 'DESC')
+                ->order_by('salida.hora_salida', 'DESC')
                 ->where('id_entrada IS NULL', null, false);
     }
 
@@ -111,10 +113,20 @@ class Salida_model extends MY_Model
             $data['id_acompaniante'] = null;
         }
         
-        $tipo_incidencia = $data['id_tipo_incidencia'];
-        $incidencia = $data['id_incidencia'];
-        $comentario_salida_incidencia = $data['comentario_salida_incidencia'];
+        $tipo_incidencia = null;
+        if (isset($data['id_tipo_incidencia'])){
+            $tipo_incidencia = $data['id_tipo_incidencia'];
+        }
+        $incidencia = null;
+        if (isset($data['id_incidencia'])){
+            $incidencia = $data['id_incidencia'];
+        }
+        $comentario_salida_incidencia = null;
         
+        if (isset($data['comentario_salida_incidencia'])){
+            $comentario_salida_incidencia = $data['comentario_salida_incidencia'];
+        }
+
         unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_salida_incidencia']);
 
         $this->db->set($data)->insert('salida');
@@ -168,10 +180,10 @@ class Salida_model extends MY_Model
 
     public function guardar_trazado($id_salida, $puntos) {
         foreach ($puntos as $punto) {
-        	$this->db->set($punto)->insert('punto');
-        	$id_punto = $this->db->insert_id();
-        	$rel = array('id_salida' => $id_salida, 'id_punto' => $id_punto );
-        	$this->db->set($rel)->insert('punto_salida');
+            $this->db->set($punto)->insert('punto');
+            $id_punto = $this->db->insert_id();
+            $rel = array('id_salida' => $id_salida, 'id_punto' => $id_punto );
+            $this->db->set($rel)->insert('punto_salida');
         }
     }
 
@@ -181,8 +193,8 @@ class Salida_model extends MY_Model
 
     public function obtener_recorrido($id_salida) {
         return $this->db
-        	->join('punto', 'id_punto', 'left')
-        	->where('id_salida', $id_salida)
-        	->get('punto_salida');
+            ->join('punto', 'id_punto', 'left')
+            ->where('id_salida', $id_salida)
+            ->get('punto_salida');
     }
 }

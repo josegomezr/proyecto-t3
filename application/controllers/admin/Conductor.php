@@ -68,7 +68,7 @@ class Conductor extends Admin_Controller
         //   concuerda con el valor del campo.
 
         $this->form_validation->set_rules('cedula', 'Cedula', 
-            'trim|required|min_length[8]|max_length[12]|xss_clean|regex_match[/[VE]-[0-9]{8}/]');
+            'trim|required|min_length[8]|is_unique[conductor.cedula_conductor]|max_length[12]|xss_clean|regex_match[/[VE]-[0-9]{8}/]');
         $this->form_validation->set_rules('nombre', 'Nombre', 'trim|min_length[3]|required');
         $this->form_validation->set_rules('apellido', 'apellido', 'trim|min_length[3]|required');
 
@@ -80,6 +80,7 @@ class Conductor extends Admin_Controller
             // redireccionamos hacia el formulario de crear.
             return redirect(site_url('admin/conductor/crear'));
         }
+
 
         // llenamos el registro que guardaremos en la bd.
 

@@ -37,9 +37,18 @@ WHERE id_entrada = '$id_entrada'");
 
     public function crear($data) {
         
-        $tipo_incidencia = $data['id_tipo_incidencia'];
-        $incidencia = $data['id_incidencia'];
-        $comentario_entrada_incidencia = $data['comentario_entrada_incidencia'];
+        $tipo_incidencia = null;
+        if (isset($data['id_tipo_incidencia'])){
+            $tipo_incidencia = $data['id_tipo_incidencia'];
+        }
+        $incidencia = null;
+        if (isset($data['id_incidencia'])){
+            $incidencia = $data['id_incidencia'];
+        }
+        $comentario_salida_incidencia = null;
+        if (isset($data['comentario_salida_incidencia'])){
+            $comentario_salida_incidencia = $data['comentario_salida_incidencia'];
+        }
         
         unset($data['id_tipo_incidencia'], $data['id_incidencia'], $data['comentario_entrada_incidencia']);
 

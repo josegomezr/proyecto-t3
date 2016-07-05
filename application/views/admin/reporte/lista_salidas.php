@@ -71,7 +71,7 @@
     <br>
   </form>
   <?php if ($tiene_criteria): ?>
-
+<?php /* ?>
   <h3>Salidas en proceso</h3>
   <table class="table table-bordered table-condensed">
     <thead>
@@ -123,8 +123,9 @@
       <?php endif;?>
     </tbody>
   </table>
+<?php */ ?>
 
-  <h3>Salidas completadas</h3>
+  <h3>Salidas</h3>
   <table class="table table-bordered table-condensed">
     <thead>
       <tr>
